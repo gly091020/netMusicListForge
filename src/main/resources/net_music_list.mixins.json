@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.gly091020.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "net_music_list.refmap.json",
+  "mixins": [
+    "CanPlayListMixin",
+    "PlayListIsOKMixin",
+    "PlayModeMixin"
+  ],
+  "client": [
+    "CanBurnerCDListMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

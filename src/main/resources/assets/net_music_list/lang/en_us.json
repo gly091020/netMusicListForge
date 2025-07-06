@@ -1,0 +1,16 @@
+{
+  "_comment": "By deepseek",
+  "modmenu.nameTranslation.net_music_list": "Net Music:Play List",
+  "modmenu.descriptionTranslation.net_music_list": "A backpack of records = accidental weight training.",
+  "modmenu.summaryTranslation.net_music_list": "You can now use playlists! ",
+  "button.net_music_list.loop": "Repeat",
+  "button.net_music_list.sequential": "Play in Order",
+  "button.net_music_list.random": "Shuffle",
+  "tooltip.net_music_list.play_mode": "Playback Mode",
+  "item.net_music_list.info": "Playlist: %s",
+  "item.net_music_list.name": "Playlist [%s songs]",
+  "gui.net_music_list.title": "Playlist Settings",
+  "gui.net_music_list.add": "Add Songs",
+  "gui.net_music_list.close": "Close",
+  "gui.net_music_list.play_list": "Playlist:"
+}

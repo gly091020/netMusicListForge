@@ -1,0 +1,16 @@
+{
+  "_comment": "By 5112151111121",
+  "modmenu.nameTranslation.net_music_list": "网络音乐机：播放列表",
+  "modmenu.descriptionTranslation.net_music_list": "背着一背包的唱片可不是件好事",
+  "modmenu.summaryTranslation.net_music_list": "添加了播放列表功能",
+  "button.net_music_list.loop": "循环播放",
+  "button.net_music_list.sequential": "顺序播放",
+  "button.net_music_list.random": "随机播放",
+  "tooltip.net_music_list.play_mode": "播放模式",
+  "item.net_music_list.info": "播放列表：%s",
+  "item.net_music_list.name": "播放列表[%s首]",
+  "gui.net_music_list.title": "播放列表设置",
+  "gui.net_music_list.add": "添加歌曲",
+  "gui.net_music_list.close": "关闭",
+  "gui.net_music_list.play_list": "播放列表："
+}
