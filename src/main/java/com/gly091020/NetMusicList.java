@@ -62,7 +62,6 @@ public class NetMusicList {
             if (player != null) {
                 ItemStack stack = player.getMainHandItem();
                 if (stack.is(MUSIC_LIST_ITEM.get())) {
-                    LOGGER.info("get_data:" + packet.playMode());
                     NetMusicListItem.setSongIndex(stack, packet.index());
                     NetMusicListItem.setPlayMode(stack, packet.playMode());
                 }

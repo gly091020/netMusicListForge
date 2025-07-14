@@ -3,7 +3,7 @@
   "modmenu.nameTranslation.net_music_list": "网络音乐机：播放列表",
   "modmenu.descriptionTranslation.net_music_list": "背着一背包的唱片可不是件好事",
   "modmenu.summaryTranslation.net_music_list": "添加了播放列表功能",
-  "button.net_music_list.loop": "循环播放",
+  "button.net_music_list.loop": "单曲循环",
   "button.net_music_list.sequential": "顺序播放",
   "button.net_music_list.random": "随机播放",
   "tooltip.net_music_list.play_mode": "播放模式",

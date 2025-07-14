@@ -140,7 +140,10 @@ repositories {
         dir 'libs'
     }
     maven {
-        url "https://maven.su5ed.dev/releases"
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
     }
 }
 
@@ -168,8 +171,8 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    implementation fg.deobf("blank:netmusic-1.20.1:1.1.7")
-
+    implementation fg.deobf("curse.maven:touhou-little-maid-355044:6657436")
+    implementation fg.deobf("curse.maven:net-music-978569:6659790")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

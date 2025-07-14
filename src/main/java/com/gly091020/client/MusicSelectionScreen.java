@@ -204,7 +204,7 @@ public class MusicSelectionScreen extends Screen {
                 l.add(String.format("%s —— %s", a, info.songName));
             }
         }
-        if(index < 0 || index >= musicList.size()){
+        if(index < 0 || index > musicList.size()){
             NetMusicList.LOGGER.error("错误的索引：{}", index);
             return;
         }

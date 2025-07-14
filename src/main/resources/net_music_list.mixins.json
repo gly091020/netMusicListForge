@@ -5,9 +5,12 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "net_music_list.refmap.json",
   "mixins": [
+    "AbstractContainerMenuMixin",
     "CanPlayListMixin",
+    "MusicPlayerBackpackMixin",
     "PlayListIsOKMixin",
-    "PlayModeMixin"
+    "PlayModeMixin",
+    "PlayNextSongMixin"
   ],
   "client": [
     "CanBurnerCDListMixin"
