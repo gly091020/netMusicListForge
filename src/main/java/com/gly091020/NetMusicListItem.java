@@ -213,6 +213,7 @@ public class NetMusicListItem extends ItemMusicCD {
             return InteractionResult.PASS;
         }
         if(context.getLevel().getBlockState(context.getClickedPos()).is(InitBlocks.MUSIC_PLAYER.get())){
+            if(getSongInfoList(stack).isEmpty()){return InteractionResult.PASS;}
             if(getSongIndex(stack) >= getSongInfoList(stack).size()){
                 setSongIndex(stack, getSongInfoList(stack).size() - 1);
             }
