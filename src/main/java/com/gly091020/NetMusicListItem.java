@@ -101,6 +101,19 @@ public class NetMusicListItem extends ItemMusicCD {
         return -1;
     }
 
+    public static void deleteSong(ItemStack stack, int index){
+        if (stack.is(NetMusicList.MUSIC_LIST_ITEM.get())) {
+            var n = stack.getOrCreateTag();
+            if(n.contains(listKey)){
+                var l = n.getList(listKey, Tag.TAG_COMPOUND);
+                l.remove(index);
+                n.put(listKey, l);
+                n.putInt("index", 0);
+                stack.setTag(n);
+            }
+        }
+    }
+
     public static void setSongIndex(ItemStack stack, Integer index){
         if (stack.is(NetMusicList.MUSIC_LIST_ITEM.get())) {
             var n = stack.getOrCreateTag();

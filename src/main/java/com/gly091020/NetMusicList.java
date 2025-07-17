@@ -1,6 +1,8 @@
 package com.gly091020;
 
 import com.github.tartaricacid.netmusic.init.InitItems;
+import com.gly091020.packet.DeleteMusicDataPacket;
+import com.gly091020.packet.MusicListDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.CreativeModeTab;
@@ -48,7 +50,14 @@ public class NetMusicList {
                 MusicListDataPacket.class,
                 MusicListDataPacket::encode,
                 MusicListDataPacket::decode,
-                this::handleServerPacket  // 服务端处理逻辑
+                this::handleServerMusicListDataPacket  // 服务端处理逻辑
+        );
+        CHANNEL.registerMessage(
+                1,
+                DeleteMusicDataPacket.class,
+                DeleteMusicDataPacket::encode,
+                DeleteMusicDataPacket::decode,
+                this::handleServerDeleteMusicDataPacket
         );
     }
 
@@ -56,7 +65,7 @@ public class NetMusicList {
         this(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
-    private void handleServerPacket(MusicListDataPacket packet, Supplier<NetworkEvent.Context> ctx) {
+    private void handleServerMusicListDataPacket(MusicListDataPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
             if (player != null) {
@@ -68,6 +77,18 @@ public class NetMusicList {
             }
         });
         ctx.get().setPacketHandled(true);
+    }
+
+    private void handleServerDeleteMusicDataPacket(DeleteMusicDataPacket packet, Supplier<NetworkEvent.Context> ctx){
+        ctx.get().enqueueWork(() -> {
+            ServerPlayer player = ctx.get().getSender();
+            if(player != null){
+                ItemStack stack = player.getMainHandItem();
+                if (stack.is(MUSIC_LIST_ITEM.get())) {
+                    NetMusicListItem.deleteSong(stack, packet.index());
+                }
+            }
+        });
     }
 
     private void addItemsToCreativeTab(BuildCreativeModeTabContentsEvent event) {

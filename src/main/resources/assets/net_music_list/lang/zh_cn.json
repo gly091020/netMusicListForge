@@ -12,5 +12,6 @@
   "gui.net_music_list.title": "播放列表设置",
   "gui.net_music_list.add": "添加歌曲",
   "gui.net_music_list.close": "关闭",
-  "gui.net_music_list.play_list": "播放列表："
+  "gui.net_music_list.play_list": "播放列表：",
+  "gui.net_music_list.delete": "删除"
 }

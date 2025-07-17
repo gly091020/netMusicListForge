@@ -1,7 +1,8 @@
 package com.gly091020.client;
 
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
-import com.gly091020.MusicListDataPacket;
+import com.gly091020.packet.DeleteMusicDataPacket;
+import com.gly091020.packet.MusicListDataPacket;
 import com.gly091020.NetMusicList;
 import com.gly091020.PlayMode;
 import net.minecraft.client.Minecraft;
@@ -13,6 +14,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,7 @@ public class MusicSelectionScreen extends Screen {
     private MusicListWidget listWidget;
     private Integer index;
     private final PlayMode mode;
+    private Button deleteButton;
 
     public MusicSelectionScreen(List<String> musicList, PlayMode mode, Integer index) {
         super(Component.translatable("gui.net_music_list.title"));
@@ -72,6 +75,12 @@ public class MusicSelectionScreen extends Screen {
             sendPackage();
         }, mode);
         this.addRenderableWidget(playModeButton);
+        deleteButton = Button.builder(Component.translatable("gui.net_music_list.delete"),
+                        button -> deleteMusic())
+                .pos(left + backgroundWidth - 90, top + backgroundHeight - 90)
+                .size(80, 22).build();
+        deleteButton.active = canDelete();
+        this.addRenderableWidget(deleteButton);
     }
 
     @Override
@@ -108,6 +117,45 @@ public class MusicSelectionScreen extends Screen {
         super.render(context, mouseX, mouseY, delta);
     }
 
+    @Override
+    public boolean keyPressed(int p_96552_, int p_96553_, int p_96554_) {
+        if (p_96552_ == GLFW.GLFW_KEY_DELETE) {
+            deleteMusic();
+            return true;
+        }
+        if(p_96552_ == GLFW.GLFW_KEY_ESCAPE && super.keyPressed(p_96552_, p_96553_, p_96554_)){
+            sendPackage();
+            return true;
+        }
+        return super.keyPressed(p_96552_, p_96553_, p_96554_);
+    }
+
+    public void deleteMusic(){
+        if (this.listWidget.getSelectedIndex() != musicList.size()) {
+            var o = this.listWidget.getSelectedIndex();
+            var o1 = o;
+            this.musicList.remove(o);
+            if (o == this.musicList.size()) {
+                o--;
+            }
+            if (o < 0) {
+                o = 0;
+            }
+            index = o;
+            this.clearWidgets();
+            this.init();
+            listWidget.setSelectedIndex(o);
+            this.index = listWidget.getSelectedIndex();
+            CHANNEL.sendToServer(new DeleteMusicDataPacket(o1));
+            deleteButton.active = canDelete();
+            sendPackage();
+        }
+    }
+
+    public boolean canDelete(){
+        return this.listWidget.getSelectedIndex() != musicList.size();
+    }
+
     private class MusicListEntry extends ObjectSelectionList.Entry<MusicListEntry> {
         private final String musicName;
 
@@ -141,6 +189,7 @@ public class MusicSelectionScreen extends Screen {
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             MusicSelectionScreen.this.index = MusicSelectionScreen.this.listWidget.getSelectedIndex();
             sendPackage();
+            deleteButton.active = canDelete();
             return true;
         }
     }
@@ -185,8 +234,12 @@ public class MusicSelectionScreen extends Screen {
             context.fill(left, top, left + width, top + height, 0x000000);
         }
 
-        public Integer getSelectedIndex(){
+        public int getSelectedIndex(){
             return this.children().indexOf(this.getSelected());
+        }
+
+        public void setSelectedIndex(int index){
+            this.setSelected(this.children().get(index));
         }
     }
 
