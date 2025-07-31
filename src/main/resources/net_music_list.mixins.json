@@ -6,6 +6,7 @@
   "refmap": "net_music_list.refmap.json",
   "mixins": [
     "AbstractContainerMenuMixin",
+    "CanBurnerCDListComputerMixin",
     "CanPlayListMixin",
     "MusicPlayerBackpackMixin",
     "PlayListIsOKMixin",
