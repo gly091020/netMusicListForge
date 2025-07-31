@@ -1,7 +1,6 @@
 package com.gly091020.mixin;
 
 import com.github.tartaricacid.netmusic.init.InitItems;
-import com.github.tartaricacid.netmusic.inventory.CDBurnerMenu;
 import com.github.tartaricacid.netmusic.inventory.ComputerMenu;
 import com.gly091020.NetMusicList;
 import net.minecraft.world.item.ItemStack;
