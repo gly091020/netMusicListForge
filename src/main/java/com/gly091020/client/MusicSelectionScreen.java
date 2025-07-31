@@ -2,12 +2,14 @@ package com.gly091020.client;
 
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.packet.DeleteMusicDataPacket;
+import com.gly091020.packet.MoveMusicDataPacket;
 import com.gly091020.packet.MusicListDataPacket;
 import com.gly091020.NetMusicList;
 import com.gly091020.PlayMode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.ImageWidget;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
@@ -33,6 +35,8 @@ public class MusicSelectionScreen extends Screen {
     private Integer index;
     private final PlayMode mode;
     private Button deleteButton;
+    private Button upButton;
+    private Button downButton;
 
     public MusicSelectionScreen(List<String> musicList, PlayMode mode, Integer index) {
         super(Component.translatable("gui.net_music_list.title"));
@@ -77,10 +81,21 @@ public class MusicSelectionScreen extends Screen {
         this.addRenderableWidget(playModeButton);
         deleteButton = Button.builder(Component.translatable("gui.net_music_list.delete"),
                         button -> deleteMusic())
-                .pos(left + backgroundWidth - 90, top + backgroundHeight - 90)
+                .pos(left + backgroundWidth - 90 - 23, top + backgroundHeight - 90)
                 .size(80, 22).build();
+
+        upButton = new MoveButton(left + backgroundWidth - 27,
+                top + backgroundHeight - 90, button -> moveMusic(true), true);
+        downButton = new MoveButton(left + backgroundWidth - 27,
+                top + backgroundHeight - 90 + 22, button -> moveMusic(false), false);
+
         deleteButton.active = canDelete();
+        upButton.active = canMove(true);
+        downButton.active = canMove(false);
+
         this.addRenderableWidget(deleteButton);
+        this.addRenderableWidget(upButton);
+        this.addRenderableWidget(downButton);
     }
 
     @Override
@@ -119,8 +134,16 @@ public class MusicSelectionScreen extends Screen {
 
     @Override
     public boolean keyPressed(int p_96552_, int p_96553_, int p_96554_) {
-        if (p_96552_ == GLFW.GLFW_KEY_DELETE) {
+        if (p_96552_ == GLFW.GLFW_KEY_DELETE && canDelete()) {
             deleteMusic();
+            return true;
+        }
+        if(p_96552_ == GLFW.GLFW_KEY_UP && canMove(true)){
+            moveMusic(true);
+            return true;
+        }
+        if(p_96552_ == GLFW.GLFW_KEY_DOWN && canMove(false)){
+            moveMusic(false);
             return true;
         }
         if(p_96552_ == GLFW.GLFW_KEY_ESCAPE && super.keyPressed(p_96552_, p_96553_, p_96554_)){
@@ -147,13 +170,43 @@ public class MusicSelectionScreen extends Screen {
             listWidget.setSelectedIndex(o);
             this.index = listWidget.getSelectedIndex();
             CHANNEL.sendToServer(new DeleteMusicDataPacket(o1));
-            deleteButton.active = canDelete();
+            updateButton();
             sendPackage();
         }
     }
 
+    public void moveMusic(boolean isUp){
+        if (this.listWidget.getSelectedIndex() != musicList.size()) {
+            var i1 = listWidget.getSelectedIndex() - (isUp ? 1 : -1);
+            CHANNEL.sendToServer(new MoveMusicDataPacket(listWidget.getSelectedIndex(), i1));
+            var l = listWidget.getSelected();
+            listWidget.setEntry(listWidget.getSelectedIndex(), listWidget.children().get(i1));
+            listWidget.setEntry(i1, l);
+            this.index = i1;
+            listWidget.setSelectedIndex(i1);
+            updateButton();
+            sendPackage();
+        }
+    }
+
+    public void updateButton(){
+        deleteButton.active = canDelete();
+        upButton.active = canMove(true);
+        downButton.active = canMove(false);
+    }
+
     public boolean canDelete(){
-        return this.listWidget.getSelectedIndex() != musicList.size();
+        return this.index != musicList.size();
+    }
+
+    public boolean canMove(boolean isUp){
+        if(isUp){
+            if(!canDelete()){return false;}
+            return this.index > 0;
+        }else{
+            if(!canDelete()){return false;}
+            return this.index < musicList.size() - 1;
+        }
     }
 
     private class MusicListEntry extends ObjectSelectionList.Entry<MusicListEntry> {
@@ -187,9 +240,11 @@ public class MusicSelectionScreen extends Screen {
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            MusicSelectionScreen.this.index = MusicSelectionScreen.this.listWidget.getSelectedIndex();
+            super.mouseClicked(mouseX, mouseY, button);
+            MusicSelectionScreen.this.index = listWidget.children().indexOf(this);
+            listWidget.setSelectedIndex(index);
             sendPackage();
-            deleteButton.active = canDelete();
+            updateButton();
             return true;
         }
     }
@@ -241,6 +296,11 @@ public class MusicSelectionScreen extends Screen {
         public void setSelectedIndex(int index){
             this.setSelected(this.children().get(index));
         }
+
+        public void setEntry(int index, MusicListEntry entry){
+            var l = children();
+            l.set(index, entry);
+        }
     }
 
     public static void open(List<ItemMusicCD.SongInfo> musicList, PlayMode mode, Integer index) {
@@ -274,8 +334,7 @@ public class MusicSelectionScreen extends Screen {
 
         @Override
         protected void renderWidget(GuiGraphics context, int p_282682_, int p_281714_, float p_282542_) {
-            context.blit(BACKGROUND_TEXTURE, this.getX(), this.getY(),
-                    this.isHovered() ? 22 : 0, 230, this.width, this.height);
+            super.renderWidget(context, p_282682_, p_281714_, p_282542_);
             var x = 0;
             switch (this.playMode){
                 case SEQUENTIAL -> x = 44;
@@ -284,6 +343,21 @@ public class MusicSelectionScreen extends Screen {
             }
             context.blit(BACKGROUND_TEXTURE, this.getX(), this.getY(),
                     x, 230, this.width, this.height);
+        }
+    }
+
+    public static class MoveButton extends Button{
+        boolean isUp;
+        protected MoveButton(int x, int y, OnPress onPress, boolean isUP) {
+            super(x, y, 22, 22, Component.empty(), onPress, Button.DEFAULT_NARRATION);
+            isUp = isUP;
+        }
+
+        @Override
+        protected void renderWidget(GuiGraphics context, int p_282682_, int p_281714_, float p_282542_) {
+            super.renderWidget(context, p_282682_, p_281714_, p_282542_);
+            context.blit(BACKGROUND_TEXTURE, this.getX(), this.getY(),
+                    isUp ? 110 : 132, 230, this.width, this.height);
         }
     }
 }

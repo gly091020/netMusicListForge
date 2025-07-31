@@ -2,6 +2,7 @@ package com.gly091020;
 
 import com.github.tartaricacid.netmusic.init.InitItems;
 import com.gly091020.packet.DeleteMusicDataPacket;
+import com.gly091020.packet.MoveMusicDataPacket;
 import com.gly091020.packet.MusicListDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -59,6 +60,13 @@ public class NetMusicList {
                 DeleteMusicDataPacket::decode,
                 this::handleServerDeleteMusicDataPacket
         );
+        CHANNEL.registerMessage(
+                2,
+                MoveMusicDataPacket.class,
+                MoveMusicDataPacket::encode,
+                MoveMusicDataPacket::decode,
+                this::handleServerMoveMusicDataPacket
+        );
     }
 
     public NetMusicList() {
@@ -86,6 +94,18 @@ public class NetMusicList {
                 ItemStack stack = player.getMainHandItem();
                 if (stack.is(MUSIC_LIST_ITEM.get())) {
                     NetMusicListItem.deleteSong(stack, packet.index());
+                }
+            }
+        });
+    }
+
+    private void handleServerMoveMusicDataPacket(MoveMusicDataPacket packet, Supplier<NetworkEvent.Context> ctx){
+        ctx.get().enqueueWork(() -> {
+            ServerPlayer player = ctx.get().getSender();
+            if(player != null){
+                ItemStack stack = player.getMainHandItem();
+                if (stack.is(MUSIC_LIST_ITEM.get())) {
+                    NetMusicListItem.moveSong(stack, packet.fromIndex(), packet.toIndex());
                 }
             }
         });
