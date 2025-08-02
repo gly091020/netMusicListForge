@@ -6,7 +6,7 @@ import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.github.tartaricacid.netmusic.network.NetworkHandler;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.gly091020.NetMusicList;
-import com.gly091020.NetMusicListItem;
+import com.gly091020.item.NetMusicListItem;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

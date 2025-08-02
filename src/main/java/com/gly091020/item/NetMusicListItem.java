@@ -1,7 +1,9 @@
-package com.gly091020;
+package com.gly091020.item;
 
 import com.github.tartaricacid.netmusic.init.InitBlocks;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
+import com.gly091020.NetMusicList;
+import com.gly091020.PlayMode;
 import com.gly091020.client.MusicSelectionScreen;
 import net.minecraft.ChatFormatting;
 import net.minecraft.locale.Language;

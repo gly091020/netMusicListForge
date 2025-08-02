@@ -3,7 +3,7 @@ package com.gly091020.mixin;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.github.tartaricacid.netmusic.tileentity.TileEntityMusicPlayer;
 import com.gly091020.NetMusicList;
-import com.gly091020.NetMusicListItem;
+import com.gly091020.item.NetMusicListItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;

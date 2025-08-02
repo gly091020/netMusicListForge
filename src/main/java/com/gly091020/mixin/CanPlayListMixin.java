@@ -2,7 +2,7 @@ package com.gly091020.mixin;
 
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
-import com.gly091020.NetMusicListItem;
+import com.gly091020.item.NetMusicListItem;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
