@@ -1,10 +1,11 @@
 // 部分参考MaidNetMusicSound，以保持与女仆行为一致
-package com.gly091020;
+package com.gly091020.sounds;
 
 import com.github.tartaricacid.netmusic.client.audio.NetMusicAudioStream;
 import com.github.tartaricacid.netmusic.init.InitItems;
 import com.github.tartaricacid.netmusic.init.InitSounds;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
+import com.gly091020.NetMusicList;
 import com.gly091020.item.NetMusicListItem;
 import com.gly091020.item.NetMusicPlayerItem;
 import net.minecraft.Util;

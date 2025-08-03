@@ -1,13 +1,18 @@
 package com.gly091020.packet;
 
 import com.github.tartaricacid.netmusic.client.audio.MusicPlayManager;
-import com.gly091020.PlayerNetMusicSound;
+import com.gly091020.sounds.BackpackNetMusicSound;
+import com.gly091020.sounds.PlayerNetMusicSound;
 import com.gly091020.item.NetMusicListItem;
+import com.tiviacz.travelersbackpack.items.TravelersBackpackItem;
+import com.tiviacz.travelersbackpack.util.NbtHelper;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.NonNullList;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.PacketDistributor;
 
@@ -46,6 +51,11 @@ public class PacketRegistry {
                 PlayerPlayMusicPacket::decode,
                 PacketRegistry::handleClientPlayerPlayPacket
         );
+        CHANNEL.registerMessage(4,
+                BackpackPlayMusicPacket.class,
+                BackpackPlayMusicPacket::encode,
+                BackpackPlayMusicPacket::decode,
+                PacketRegistry::handleClientBackpackPlayPacket);
     }
 
     private static void handleServerMusicListDataPacket(MusicListDataPacket packet, Supplier<NetworkEvent.Context> ctx) {
@@ -99,6 +109,33 @@ public class PacketRegistry {
                 }
             }, Util.backgroundExecutor()));
         }else{
+            CHANNEL.send(PacketDistributor.ALL.noArg(), packet);
+        }
+        c.setPacketHandled(true);
+    }
+
+    private static void handleClientBackpackPlayPacket(BackpackPlayMusicPacket packet, Supplier<NetworkEvent.Context> ctx){
+        var c = ctx.get();
+        if(c.getDirection().getReceptionSide().isClient()) {
+            c.enqueueWork(() -> CompletableFuture.runAsync(() -> {
+                if (Minecraft.getInstance().level != null) {
+                    var p = Minecraft.getInstance().level.getEntity(packet.playerID());
+                    if(p instanceof Player player){
+                        MusicPlayManager.play(packet.url(), packet.songName(), url ->
+                                new BackpackNetMusicSound(player, url, packet.timeSecond(), packet.slot(),
+                                        packet.upgradeSlot()));
+                    }
+                }
+            }, Util.backgroundExecutor()));
+        }else{
+            var p = c.getSender();
+            if (p == null) {return;}
+            var s = p.getInventory().getItem(packet.slot());
+            if(s.getItem() instanceof TravelersBackpackItem){
+                var l = NbtHelper.getOrDefault(s, "Upgrades", NonNullList.withSize(10, ItemStack.EMPTY));
+                s.getOrCreateTag().putInt("tick", packet.timeSecond() * 20);
+                NbtHelper.set(s, "Upgrades", new ItemStackHandler(l));
+            }
             CHANNEL.send(PacketDistributor.ALL.noArg(), packet);
         }
         c.setPacketHandled(true);

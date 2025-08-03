@@ -1,6 +1,7 @@
 package com.gly091020;
 
 import com.github.tartaricacid.netmusic.init.InitItems;
+import com.gly091020.TBackpack.RegistryUpgrade;
 import com.gly091020.item.NetMusicListItem;
 import com.gly091020.item.NetMusicPlayerItem;
 import com.gly091020.packet.PacketRegistry;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkRegistry;
@@ -26,7 +28,7 @@ public class NetMusicList {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ModID);
 
-    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ModID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ModID);
 
     public static final RegistryObject<NetMusicListItem> MUSIC_LIST_ITEM = ITEMS.register("music_list",
             NetMusicListItem::new);
@@ -46,6 +48,10 @@ public class NetMusicList {
         ITEMS.register(modEventBus);
         modEventBus.addListener(this::addItemsToCreativeTab);
         PacketRegistry.registry();
+
+        if(ModList.get().isLoaded("travelersbackpack")){
+            RegistryUpgrade.registry();
+        }
     }
 
     public NetMusicList() {
