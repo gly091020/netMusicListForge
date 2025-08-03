@@ -93,8 +93,8 @@ public class NetMusicUpgrade extends UpgradeBase<NetMusicUpgrade> implements ITi
 
     @Override
     public void tick(@Nullable Player player, Level level, BlockPos blockPos, int i) {
-        // 为 什 么 不 调 用 ？
-        // 我甚至无法烧矿
+        // 模组作者小时候用电脑要把电脑放到背上才能用
+        // 我可能要选择精妙背包了
         // todo:由于一些问题，暂未实现播放列表切歌
         var s = this.getUpgradeManager().getUpgradesHandler().getStackInSlot(dataHolderSlot).copy();
         if(s.isEmpty()){return;}
