@@ -1,0 +1,32 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "SSS",
+        "IPI",
+        "   "
+    ],
+    "key": {
+        "I": [
+            {
+                "item": "minecraft:iron_ingot"
+            },
+            {
+                "tag": "c:ingots/iron"
+            }
+        ],
+        "S":[
+            {
+                "item": "minecraft:string"
+            }
+        ],
+        "P": [
+            {
+                "item": "/netmusic:music_player"
+            }
+        ]
+    },
+    "result": {
+        "item": "net_music_list:music_player",
+        "count": 1
+    }
+}
