@@ -13,5 +13,8 @@
   "gui.net_music_list.add": "添加歌曲",
   "gui.net_music_list.close": "关闭",
   "gui.net_music_list.play_list": "播放列表：",
-  "gui.net_music_list.delete": "删除"
+  "gui.net_music_list.delete": "删除",
+  "item.net_music_player.name": "随身播放器",
+  "item.net_music_player.tip": "§a▍ §7内容: §6%s",
+  "item.net_music_player.empty": "空"
 }

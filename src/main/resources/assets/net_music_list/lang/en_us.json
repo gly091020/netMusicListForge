@@ -14,7 +14,7 @@
   "gui.net_music_list.close": "Close",
   "gui.net_music_list.play_list": "Playlist:",
   "gui.net_music_list.delete": "Delete",
-  "item.net_music_player.name": "随身播放器",
-  "item.net_music_player.tip": "§a▍ §7内容: §6%s",
-  "item.net_music_player.empty": "空"
+  "item.net_music_player.name": "Portable Music Player",
+  "item.net_music_player.tip": "§a▍ §7Content: §6%s",
+  "item.net_music_player.empty": "Empty"
 }
