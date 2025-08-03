@@ -100,6 +100,7 @@ public class NetMusicPlayerItem extends Item{
     public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slot, boolean b) {
         super.inventoryTick(stack, level, entity, slot, b);
         var t = stack.getOrCreateTag().getInt("tick") - 1;
+        if(t < 0){return;}
         if(entity instanceof Player player && 0 < t && t < 16 && t % 5 == 0){
             stack.getOrCreateTag().putInt("tick", -1);
             nextMusic(stack, player, slot);

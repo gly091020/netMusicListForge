@@ -16,6 +16,7 @@ import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.AudioStream;
 import net.minecraft.client.sounds.SoundBufferLibrary;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
@@ -50,18 +51,18 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
             stop();
         }
 
-        var i = player.getInventory().getItem(slot);
-        if(!i.is(NetMusicList.MUSIC_PLAYER_ITEM.get())){
+        var itemStack = player.getInventory().getItem(slot);
+        if(!itemStack.is(NetMusicList.MUSIC_PLAYER_ITEM.get())){
             stop();
         }
-        i = NetMusicPlayerItem.getContainer(i).getItem(0);
+        itemStack = NetMusicPlayerItem.getContainer(itemStack).getItem(0);
 
-        if(i.is(InitItems.MUSIC_CD.get())){
-            if(ItemMusicCD.getSongInfo(i) == null) {
+        if(itemStack.is(InitItems.MUSIC_CD.get())){
+            if(ItemMusicCD.getSongInfo(itemStack) == null) {
                 stop();
             }
-        }else if(i.is(NetMusicList.MUSIC_LIST_ITEM.get())){
-            var info = NetMusicListItem.getSongInfo(i);
+        }else if(itemStack.is(NetMusicList.MUSIC_LIST_ITEM.get())){
+            var info = NetMusicListItem.getSongInfo(itemStack);
             if(info == null) {
                 stop();
             }
@@ -80,6 +81,11 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
                 this.x = player.getX();
                 this.y = player.getY();
                 this.z = player.getZ();
+                if (level.getGameTime() % 8L == 0L) {
+                    for(int i = 0; i < 2; ++i) {
+                        level.addParticle(ParticleTypes.NOTE, this.x - (double)0.5F + level.random.nextDouble(), this.y + (double)1.5F + level.random.nextDouble(), this.z - (double)0.5F + level.random.nextDouble(), level.random.nextGaussian(), level.random.nextGaussian(), level.random.nextInt(3));
+                    }
+                }
             }
         }
     }
