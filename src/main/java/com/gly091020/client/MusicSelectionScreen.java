@@ -179,6 +179,9 @@ public class MusicSelectionScreen extends Screen {
             var i1 = listWidget.getSelectedIndex() - (isUp ? 1 : -1);
             CHANNEL.sendToServer(new MoveMusicDataPacket(listWidget.getSelectedIndex(), i1));
             var l = listWidget.getSelected();
+            var l1 = musicList.get(listWidget.getSelectedIndex());
+            musicList.set(listWidget.getSelectedIndex(), musicList.get(i1));
+            musicList.set(i1, l1);
             listWidget.setEntry(listWidget.getSelectedIndex(), listWidget.children().get(i1));
             listWidget.setEntry(i1, l);
             this.index = i1;

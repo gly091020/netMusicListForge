@@ -49,6 +49,11 @@ public class NetMusicPlayerItem extends Item{
             return;
         }
         var info = ItemMusicCD.getSongInfo(i);
+        if(info.vip && player.level().isClientSide){
+            player.sendSystemMessage(Component.translatable("message.netmusic.music_player.need_vip")
+                    .withStyle(ChatFormatting.RED));
+            return;
+        }
         stack.getOrCreateTag().putInt("tick", info.songTime * 20);
         if(!player.level().isClientSide){return;}
         NetMusicList.CHANNEL.sendToServer(new PlayerPlayMusicPacket(player.getId(), info.songUrl, info.songTime, info.songName, slot));
