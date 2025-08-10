@@ -11,9 +11,7 @@
     "MusicPlayerBackpackMixin",
     "PlayListIsOKMixin",
     "PlayModeMixin",
-    "PlayNextSongMixin"
-  ],
-  "client": [
+    "PlayNextSongMixin",
     "CanBurnerCDListMixin"
   ],
   "injectors": {

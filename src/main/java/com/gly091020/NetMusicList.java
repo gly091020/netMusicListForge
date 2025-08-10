@@ -8,10 +8,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.minecraftforge.registries.DeferredRegister;
@@ -45,7 +47,11 @@ public class NetMusicList {
     public NetMusicList(IEventBus modEventBus) {
         ITEMS.register(modEventBus);
         modEventBus.addListener(this::addItemsToCreativeTab);
-        PacketRegistry.registry();
+        if(FMLEnvironment.dist == Dist.CLIENT){
+            PacketRegistry.registryClient();
+        }else{
+            PacketRegistry.registryServer();
+        }
     }
 
     public NetMusicList() {
