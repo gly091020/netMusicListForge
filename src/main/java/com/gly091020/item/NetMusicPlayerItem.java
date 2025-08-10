@@ -34,7 +34,7 @@ public class NetMusicPlayerItem extends Item{
             access.set(getContainer(stack).removeItem(0, 1));
             return true;
         }
-        if(action == ClickAction.PRIMARY && ItemMusicCD.getSongInfo(stack1) != null){
+        if(action == ClickAction.PRIMARY && ItemMusicCD.getSongInfo(stack1) != null & getContainer(stack).isEmpty()){
             getContainer(stack).setItem(0, stack1);
             access.set(ItemStack.EMPTY);
             playSound(stack, player, slot.getSlotIndex());
