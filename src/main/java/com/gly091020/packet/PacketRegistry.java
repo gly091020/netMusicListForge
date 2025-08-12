@@ -11,32 +11,27 @@ public class PacketRegistry {
                 PlayerPlayMusicPacket::decode,
                 ClientHandler::handleClientPlayerPlayPacket
         );
-        CHANNEL.registerMessage(4,
-                BackpackPlayMusicPacket.class,
-                BackpackPlayMusicPacket::encode,
-                BackpackPlayMusicPacket::decode,
-                ClientHandler::handleClientBackpackPlayPacket);
 
         CHANNEL.registerMessage(
                 0,
                 MusicListDataPacket.class,
                 MusicListDataPacket::encode,
                 MusicListDataPacket::decode,
-                (packet, contextSupplier) -> {}
+                ServerHandler::handleServerMusicListDataPacket
         );
         CHANNEL.registerMessage(
                 1,
                 DeleteMusicDataPacket.class,
                 DeleteMusicDataPacket::encode,
                 DeleteMusicDataPacket::decode,
-                (packet, contextSupplier) -> {}
+                ServerHandler::handleServerDeleteMusicDataPacket
         );
         CHANNEL.registerMessage(
                 2,
                 MoveMusicDataPacket.class,
                 MoveMusicDataPacket::encode,
                 MoveMusicDataPacket::decode,
-                (packet, contextSupplier) -> {}
+                ServerHandler::handleServerMoveMusicDataPacket
         );
     }
 
@@ -69,12 +64,6 @@ public class PacketRegistry {
                 PlayerPlayMusicPacket::encode,
                 PlayerPlayMusicPacket::decode,
                 ServerHandler::handleServerPlayerPlayPacket
-        );
-        CHANNEL.registerMessage(4,
-                BackpackPlayMusicPacket.class,
-                BackpackPlayMusicPacket::encode,
-                BackpackPlayMusicPacket::decode,
-                (packet, contextSupplier) -> {}
         );
     }
 }

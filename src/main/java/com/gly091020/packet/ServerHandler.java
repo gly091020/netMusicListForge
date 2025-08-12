@@ -13,6 +13,7 @@ import static com.gly091020.NetMusicList.MUSIC_LIST_ITEM;
 
 public class ServerHandler {
     public static void handleServerMusicListDataPacket(MusicListDataPacket packet, Supplier<NetworkEvent.Context> ctx) {
+        if(ctx.get().getDirection().getReceptionSide().isClient()){return;}
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
             if (player != null) {
@@ -27,6 +28,7 @@ public class ServerHandler {
     }
 
     public static void handleServerDeleteMusicDataPacket(DeleteMusicDataPacket packet, Supplier<NetworkEvent.Context> ctx){
+        if(ctx.get().getDirection().getReceptionSide().isClient()){return;}
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
             if(player != null){
@@ -39,6 +41,7 @@ public class ServerHandler {
     }
 
     public static void handleServerMoveMusicDataPacket(MoveMusicDataPacket packet, Supplier<NetworkEvent.Context> ctx){
+        if(ctx.get().getDirection().getReceptionSide().isClient()){return;}
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
             if(player != null){
@@ -51,6 +54,7 @@ public class ServerHandler {
     }
 
     public static void handleServerPlayerPlayPacket(PlayerPlayMusicPacket packet, Supplier<NetworkEvent.Context> ctx){
+        if(ctx.get().getDirection().getReceptionSide().isClient()){return;}
         CHANNEL.send(PacketDistributor.ALL.noArg(), packet);
     }
 }

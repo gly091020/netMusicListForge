@@ -39,9 +39,9 @@ public class NetMusicList {
             new ResourceLocation(ModID, "send_data"),
             // todo:别信它 ↑ MD没有问题硬是给我整个错误照着它的改完反倒是跑不起来
             // 【【重音テト/MV/中译版】气到原地爆炸！/イライラしている（BY：じん OFFICIAL YOUTUBE CHANNEL）-哔哩哔哩】 https://b23.tv/Bo8I5ri
-            () -> "1",  // 协议版本
-            "1"::equals,
-            "1"::equals
+            () -> "1.1",  // 协议版本
+            "1.1"::equals,
+            "1.1"::equals
     );
 
     public NetMusicList(IEventBus modEventBus) {
