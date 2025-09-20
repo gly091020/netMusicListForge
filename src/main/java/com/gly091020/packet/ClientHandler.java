@@ -1,6 +1,10 @@
 package com.gly091020.packet;
 
 import com.github.tartaricacid.netmusic.client.audio.MusicPlayManager;
+import com.github.tartaricacid.netmusic.item.ItemMusicCD;
+import com.gly091020.NetMusicList;
+import com.gly091020.hud.MusicInfoHud;
+import com.gly091020.item.NetMusicPlayerItem;
 import com.gly091020.sounds.BackpackNetMusicSound;
 import com.gly091020.sounds.PlayerNetMusicSound;
 import com.tiviacz.travelersbackpack.items.TravelersBackpackItem;
@@ -29,6 +33,15 @@ public class ClientHandler {
                     if(p instanceof Player player){
                         MusicPlayManager.play(packet.url(), packet.songName(), url ->
                                 new PlayerNetMusicSound(player, url, packet.timeSecond(), packet.slot()));
+                        if(player == Minecraft.getInstance().player){
+                            var stack = player.getInventory().getItem(packet.slot());
+                            if(stack.is(NetMusicList.MUSIC_PLAYER_ITEM.get())){
+                                var stack1 = NetMusicPlayerItem.getContainer(stack).getItem(0);
+                                if(stack1.getItem() instanceof ItemMusicCD){
+                                    MusicInfoHud.setInfo(packet.info(), stack, packet.slot());
+                                }
+                            }
+                        }
                     }
                 }
             }, Util.backgroundExecutor()));

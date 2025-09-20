@@ -4,9 +4,15 @@ package com.gly091020.item;
 import com.github.tartaricacid.netmusic.init.InitItems;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
+import com.gly091020.NetMusicListUtil;
+import com.gly091020.hud.MusicListLayer;
 import com.gly091020.packet.PlayerPlayMusicPacket;
+import com.gly091020.packet.UpdatePlayerMusicPacket;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
@@ -43,7 +49,7 @@ public class NetMusicPlayerItem extends Item{
         return super.overrideOtherStackedOnMe(stack, stack1, slot, action, player, access);
     }
 
-    private static void playSound(ItemStack stack, Player player, int slot){
+    public static void playSound(ItemStack stack, Player player, int slot){
         var i = getContainer(stack).getItem(0);
         if(!i.is(InitItems.MUSIC_CD.get()) && !i.is(NetMusicList.MUSIC_LIST_ITEM.get())){
             return;
@@ -56,7 +62,7 @@ public class NetMusicPlayerItem extends Item{
         }
         stack.getOrCreateTag().putInt("tick", info.songTime * 20);
         if(!player.level().isClientSide){return;}
-        NetMusicList.CHANNEL.sendToServer(new PlayerPlayMusicPacket(player.getId(), info.songUrl, info.songTime, info.songName, slot));
+        NetMusicList.CHANNEL.sendToServer(new PlayerPlayMusicPacket(player.getId(), info.songUrl, info.songTime, info.songName, slot, info));
     }
 
     public static MusicPlayerContainer getContainer(ItemStack stack){
@@ -112,5 +118,30 @@ public class NetMusicPlayerItem extends Item{
             return;
         }
         stack.getOrCreateTag().putInt("tick", t);
+    }
+
+    @Override
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
+        if(!level.isClientSide){
+            return super.use(level, player, usedHand);
+        }
+        if(MusicListLayer.isRender){
+            NetMusicListUtil.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP);
+            var container = getContainer(player.getItemInHand(usedHand));
+            var item = container.getItem(0);
+            var index = NetMusicListItem.getSongIndex(item);
+            if(MusicListLayer.index != index){
+                NetMusicListItem.setSongIndex(item, MusicListLayer.index);
+                container.setItem(0, item);
+                var slot = player.getInventory().findSlotMatchingItem(player.getItemInHand(usedHand));
+                playSound(player.getItemInHand(usedHand), player, slot);
+                NetMusicList.CHANNEL.sendToServer(new UpdatePlayerMusicPacket(MusicListLayer.index,
+                        slot));
+            }
+            MusicListLayer.isRender = false;
+            return InteractionResultHolder.success(player.getMainHandItem());
+        }
+        MusicListLayer.isRender = true;
+        return InteractionResultHolder.success(player.getMainHandItem());
     }
 }

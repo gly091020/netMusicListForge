@@ -5,6 +5,7 @@ import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
 import com.gly091020.PlayMode;
 import com.gly091020.client.MusicSelectionScreen;
+import com.gly091020.client.OldMusicSelectionScreen;
 import net.minecraft.ChatFormatting;
 import net.minecraft.locale.Language;
 import net.minecraft.nbt.CompoundTag;
@@ -76,7 +77,7 @@ public class NetMusicListItem extends ItemMusicCD {
             return null;
         }
         var i = getSongIndex(stack);
-        if(i >= l.size()){return null;}
+        if(i >= 0 && i >= l.size()){return null;}
         return l.get(i);
     }
 
@@ -248,7 +249,8 @@ public class NetMusicListItem extends ItemMusicCD {
         }
         if(context.getLevel().isClientSide){
             var l = getSongInfoList(stack);
-            MusicSelectionScreen.open(l, getPlayMode(stack), getSongIndex(stack));
+            // 在我搞懂blitNineSliced的十几个参数是什么意思前我不会换新ui的
+            OldMusicSelectionScreen.open(l, getPlayMode(stack), getSongIndex(stack));
         }
         return InteractionResult.SUCCESS;
     }

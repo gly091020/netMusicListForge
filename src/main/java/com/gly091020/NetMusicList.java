@@ -9,6 +9,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -35,13 +36,14 @@ public class NetMusicList {
     public static final RegistryObject<NetMusicPlayerItem> MUSIC_PLAYER_ITEM = ITEMS.register("music_player",
             NetMusicPlayerItem::new);
 
+    @SuppressWarnings("all")
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(ModID, "send_data"),
             // todo:别信它 ↑ MD没有问题硬是给我整个错误照着它的改完反倒是跑不起来
             // 【【重音テト/MV/中译版】气到原地爆炸！/イライラしている（BY：じん OFFICIAL YOUTUBE CHANNEL）-哔哩哔哩】 https://b23.tv/Bo8I5ri
-            () -> "1.1",  // 协议版本
-            "1.1"::equals,
-            "1.1"::equals
+            () -> "1.2",  // 协议版本
+            "1.2"::equals,
+            "1.2"::equals
     );
 
     public NetMusicList(IEventBus modEventBus) {
@@ -52,6 +54,7 @@ public class NetMusicList {
         }else{
             PacketRegistry.registryServer();
         }
+        modEventBus.addListener(this::addPack);
     }
 
     public NetMusicList() {
@@ -71,5 +74,9 @@ public class NetMusicList {
                     CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
             );
         }
+    }
+
+    private void addPack(AddPackFindersEvent event) {
+        event.addRepositorySource(new MP3Pack());
     }
 }

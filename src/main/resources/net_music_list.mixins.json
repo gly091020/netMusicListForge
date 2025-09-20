@@ -7,12 +7,13 @@
   "mixins": [
     "AbstractContainerMenuMixin",
     "CanBurnerCDListComputerMixin",
+    "CanBurnerCDListMixin",
     "CanPlayListMixin",
+    "CommandMixin",
     "MusicPlayerBackpackMixin",
     "PlayListIsOKMixin",
     "PlayModeMixin",
-    "PlayNextSongMixin",
-    "CanBurnerCDListMixin"
+    "PlayNextSongMixin"
   ],
   "injectors": {
     "defaultRequire": 1

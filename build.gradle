@@ -145,6 +145,9 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven {
+        url = "https://maven.parchmentmc.org"
+    }
 }
 
 dependencies {

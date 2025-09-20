@@ -14,7 +14,13 @@
   "gui.net_music_list.close": "关闭",
   "gui.net_music_list.play_list": "播放列表：",
   "gui.net_music_list.delete": "删除",
+  "gui.net_music_list.read_only": "(只读)",
+  "gui.net_music_list.vip": "(VIP)",
   "item.net_music_player.name": "随身播放器",
   "item.net_music_player.tip": "§a▍ §7内容: §6%s",
-  "item.net_music_player.empty": "空"
+  "item.net_music_player.empty": "空",
+  "title.net_music_list.mp3": "播放列表：MP3资源包",
+  "description.net_music_list.mp3": "由N44提供，将模型换成MP3",
+  "command.net_music_list.success": "导入 %s 成功",
+  "command.net_music_list.fail": "导入失败，请检查网络"
 }

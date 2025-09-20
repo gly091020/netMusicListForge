@@ -17,3 +17,5 @@
 而且runClient根本跑不起来
 
 但是打包后倒是可以运行
+
+感谢[耕云钓月](https://www.mcmod.cn/modpack/1017.html)让我想起来了我还有个模组

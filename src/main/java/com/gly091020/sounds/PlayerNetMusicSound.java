@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
@@ -32,6 +33,8 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
     final int countTick;
     int tick = 0;
     final int slot;
+
+    String clientUrl;
 
     public PlayerNetMusicSound(Player player, URL songUrl, int second, int slot) {
         super(InitSounds.NET_MUSIC.get(), SoundSource.RECORDS, SoundInstance.createUnseededRandom());
@@ -65,6 +68,9 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
             var info = NetMusicListItem.getSongInfo(itemStack);
             if(info == null) {
                 stop();
+            }else {
+                if (clientUrl == null) clientUrl = info.songUrl;
+                if(!Objects.equals(clientUrl, info.songUrl)){stop();}
             }
         }else{
             stop();
