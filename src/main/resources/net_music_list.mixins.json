@@ -20,5 +20,9 @@
   },
   "overwrites": {
     "requireAnnotations": true
-  }
+  },
+  "client": [
+    "TickableSoundGetterMixins$SoundEngineMixin",
+    "TickableSoundGetterMixins$SoundManagerMixin"
+  ]
 }

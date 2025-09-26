@@ -5,9 +5,11 @@ import com.github.tartaricacid.netmusic.client.audio.NetMusicAudioStream;
 import com.github.tartaricacid.netmusic.init.InitItems;
 import com.github.tartaricacid.netmusic.init.InitSounds;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
+import com.github.tartaricacid.touhoulittlemaid.geckolib3.core.molang.builtin.math.Min;
 import com.gly091020.NetMusicList;
 import com.gly091020.item.NetMusicListItem;
 import com.gly091020.item.NetMusicPlayerItem;
+import com.gly091020.packet.UpdateMusicTickCTSPacket;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -94,6 +96,14 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
                 }
             }
         }
+
+        if(tick % 20 == 0){
+            NetMusicList.CHANNEL.sendToServer(new UpdateMusicTickCTSPacket(slot, countTick - tick));
+        }
+
+        if(isStopped()){
+            NetMusicList.CHANNEL.sendToServer(new UpdateMusicTickCTSPacket(slot, -1));
+        }
     }
 
     @Override
@@ -107,4 +117,13 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
             }
         }, Util.backgroundExecutor());
     }
+
+    public boolean isClientPlayer(){
+        if (Minecraft.getInstance().player != null) {
+            return player.getUUID() == Minecraft.getInstance().player.getUUID();
+        }
+        return false;
+    }
+
+
 }

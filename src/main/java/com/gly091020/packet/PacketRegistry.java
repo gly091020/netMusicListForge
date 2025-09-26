@@ -40,6 +40,13 @@ public class PacketRegistry {
                 UpdatePlayerMusicPacket::decode,
                 ServerHandler::handleServerUpdateMusicPacket
         );
+        CHANNEL.registerMessage(
+                5,
+                UpdateMusicTickCTSPacket.class,
+                UpdateMusicTickCTSPacket::encode,
+                UpdateMusicTickCTSPacket::decode,
+                ServerHandler::handlePlayerUpdateTickPacket
+        );
     }
 
     public static void registryServer(){
@@ -79,6 +86,14 @@ public class PacketRegistry {
                 UpdatePlayerMusicPacket::encode,
                 UpdatePlayerMusicPacket::decode,
                 ServerHandler::handleServerUpdateMusicPacket
+        );
+
+        CHANNEL.registerMessage(
+                5,
+                UpdateMusicTickCTSPacket.class,
+                UpdateMusicTickCTSPacket::encode,
+                UpdateMusicTickCTSPacket::decode,
+                ServerHandler::handlePlayerUpdateTickPacket
         );
     }
 }

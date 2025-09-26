@@ -1,6 +1,7 @@
 package com.gly091020;
 
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
+import com.gly091020.mixin.TickableSoundGetterMixins;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mojang.blaze3d.platform.NativeImage;
@@ -8,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.resources.sounds.TickableSoundInstance;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -176,8 +178,7 @@ public class NetMusicListUtil {
         return Objects.equals(Minecraft.getInstance().getUser().getProfileId(), N44);
     }
 
-    public static boolean hasEtchedExtension(){
-        //喜报：你的模组功能又撞车了
-        return ModList.get().isLoaded("etched_extension");
+    public static List<TickableSoundInstance> getTickableSounds(){
+        return ((TickableSoundGetterMixins.SoundEngineMixin)((TickableSoundGetterMixins.SoundManagerMixin) Minecraft.getInstance().getSoundManager()).getSoundEngine()).getTickableSoundInstances();
     }
 }

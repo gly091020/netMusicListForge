@@ -71,4 +71,13 @@ public class ServerHandler {
             NetMusicPlayerItem.playSound(stack, player, packet.slot());
         }
     }
+
+    public static void handlePlayerUpdateTickPacket(UpdateMusicTickCTSPacket packet, Supplier<NetworkEvent.Context> ctx){
+        var player = ctx.get().getSender();
+        if(player == null){return;}
+        var stack = player.getInventory().getItem(packet.slot());
+        if(stack.is(MUSIC_PLAYER_ITEM.get())){
+            stack.getOrCreateTag().putInt("tick", packet.tick());
+        }
+    }
 }
