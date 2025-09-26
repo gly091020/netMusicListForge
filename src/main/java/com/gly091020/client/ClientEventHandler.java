@@ -4,6 +4,7 @@ import com.gly091020.NetMusicList;
 import com.gly091020.NetMusicListUtil;
 import com.gly091020.hud.MusicInfoHud;
 import com.gly091020.hud.MusicListLayer;
+import com.gly091020.item.NetMusicPlayerItem;
 import com.gly091020.sounds.PlayerNetMusicSound;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.PauseScreen;
@@ -11,11 +12,16 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.TickableSoundInstance;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import static com.gly091020.NetMusicList.MUSIC_PLAYER_ITEM;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = NetMusicList.ModID)
 public class ClientEventHandler {

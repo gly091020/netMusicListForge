@@ -5,7 +5,6 @@ import com.github.tartaricacid.netmusic.client.audio.NetMusicAudioStream;
 import com.github.tartaricacid.netmusic.init.InitItems;
 import com.github.tartaricacid.netmusic.init.InitSounds;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
-import com.github.tartaricacid.touhoulittlemaid.geckolib3.core.molang.builtin.math.Min;
 import com.gly091020.NetMusicList;
 import com.gly091020.item.NetMusicListItem;
 import com.gly091020.item.NetMusicPlayerItem;
@@ -97,11 +96,11 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
             }
         }
 
-        if(tick % 20 == 0){
+        if(tick % 20 == 0 && isClientPlayer()){
             NetMusicList.CHANNEL.sendToServer(new UpdateMusicTickCTSPacket(slot, countTick - tick));
         }
 
-        if(isStopped()){
+        if(isStopped() && isClientPlayer()){
             NetMusicList.CHANNEL.sendToServer(new UpdateMusicTickCTSPacket(slot, -1));
         }
     }
@@ -124,6 +123,4 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
         }
         return false;
     }
-
-
 }
