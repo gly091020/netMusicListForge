@@ -176,7 +176,6 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     implementation fg.deobf("curse.maven:touhou-little-maid-355044:6657436")
     implementation fg.deobf("curse.maven:net-music-978569:6659790")
-    implementation fg.deobf("curse.maven:travelers-backpack-321117:6650344")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
