@@ -22,7 +22,6 @@
     "requireAnnotations": true
   },
   "client": [
-    "TickableSoundGetterMixins$ChannelMixin",
     "TickableSoundGetterMixins$SoundEngineMixin",
     "TickableSoundGetterMixins$SoundManagerMixin"
   ]
