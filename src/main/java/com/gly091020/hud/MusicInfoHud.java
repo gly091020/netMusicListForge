@@ -32,6 +32,7 @@ public class MusicInfoHud{
     private static Thread thread;
 
     public static void render(@NotNull GuiGraphics guiGraphics) {
+        if(!NetMusicList.CONFIG.musicHUD)return;
         if(Minecraft.getInstance().options.hideGui){return;}
         if(info == null){return;}
 

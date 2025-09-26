@@ -1,5 +1,6 @@
 package com.gly091020.hud;
 
+import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
 import com.gly091020.item.NetMusicListItem;
 import com.gly091020.item.NetMusicPlayerItem;
@@ -44,32 +45,40 @@ public class MusicListLayer{
         var height = Minecraft.getInstance().getWindow().getGuiScaledHeight();
         var max_width = 0;
         var songList = NetMusicListItem.getSongInfoList(disc);
+        var pose = guiGraphics.pose();
+        var length = NetMusicList.CONFIG.selectHudCount;
+        pose.pushPose();
+
+        var scale = NetMusicList.CONFIG.selectHudSize;
+        pose.translate(width * (1 - scale), height / 2f * (1 - scale), 0);
+        pose.scale(scale, scale, 1);
+
         count = songList.size();
         if(m == songList.size()){
             isRender = false;
             return;
         }
 
-        if(index - 5 < 0){
-            for(int l = 0; l < 10; l++){
+        if(index - length / 2 < 0){
+            for(int l = 0; l < length; l++){
                 if(l >= songList.size()){continue;}
-                var name = songList.get(l).songName;
+                var name = getMusicText(songList.get(l));
                 if(font.width(name) > max_width){
                     max_width = font.width(name);
                 }
             }
-        } else if (index + 5 >= songList.size()) {
-            for (int l = songList.size() - 10; l < songList.size(); l++) {
+        } else if (index + length / 2 >= songList.size()) {
+            for (int l = songList.size() - length; l < songList.size(); l++) {
                 if(l < 0){continue;}
-                var name = songList.get(l).songName;
+                var name = getMusicText(songList.get(l));
                 if (font.width(name) > max_width) {
                     max_width = font.width(name);
                 }
             }
         }else{
-            for(int l = index - 5; l < index + 5; l++){
+            for(int l = index - length / 2; l < index + length / 2; l++){
                 if(l >= songList.size() || l < 0){continue;}
-                var name = songList.get(l).songName;
+                var name = getMusicText(songList.get(l));
                 if(font.width(name) > max_width){
                     max_width = font.width(name);
                 }
@@ -81,41 +90,59 @@ public class MusicListLayer{
             return;
         }
 
-        RenderSystem.enableBlend();
-        guiGraphics.fill(width - max_width - 9, (int) (height * 0.3) - 4, width - 5, (int) (height * 0.3 + 10 * (font.lineHeight + 2)), 0x80000000);
+        var yPos = height / 2 - (length * (font.lineHeight + 2)) / 2;
 
-        if(index - 5 < 0){
-            for(int l = 0; l < 10; l++){
+        RenderSystem.enableBlend();
+        guiGraphics.fill(width - max_width - 9, yPos - 4, width - 5, yPos + length * (font.lineHeight + 2), 0x80000000);
+
+        if(index - length < 0){
+            for(int l = 0; l < length; l++){
                 if(l >= songList.size()){continue;}
-                guiGraphics.drawString(font, songList.get(l).songName, width - max_width - 7, (int) (height * 0.3 + j * (font.lineHeight + 2)), 0xFFFFFF);
+                guiGraphics.drawString(font, getMusicText(songList.get(l)), width - max_width - 7, (yPos + j * (font.lineHeight + 2)), 0xFFFFFF);
                 if(l == index){
-                    guiGraphics.fill(width - max_width - 7, (int) (height * 0.3 + j * (font.lineHeight + 2)) - 2,
-                            width - 7, (int) (height * 0.3 + (j + 1) * (font.lineHeight + 2)) - 2, 0x80FFFFFF);
+                    guiGraphics.fill(width - max_width - 7, (yPos + j * (font.lineHeight + 2)) - 2,
+                            width - 7, (yPos + (j + 1) * (font.lineHeight + 2)) - 2, 0x80FFFFFF);
                 }
                 j++;
             }
-        } else if (index + 5 >= songList.size()) {
-            for(int l = songList.size() - 10; l < songList.size(); l++){
+        } else if (index + length >= songList.size()) {
+            for(int l = songList.size() - length; l < songList.size(); l++){
                 if(l < 0){continue;}
-                guiGraphics.drawString(font, songList.get(l).songName, width - max_width - 7, (int) (height * 0.3 + j * (font.lineHeight + 2)), 0xFFFFFF);
+                guiGraphics.drawString(font, getMusicText(songList.get(l)), width - max_width - 7, (yPos + j * (font.lineHeight + 2)), 0xFFFFFF);
                 if(l == index){
-                    guiGraphics.fill(width - max_width - 7, (int) (height * 0.3 + j * (font.lineHeight + 2)) - 2,
-                            width - 7, (int) (height * 0.3 + (j + 1) * (font.lineHeight + 2)) - 2, 0x80FFFFFF);
+                    guiGraphics.fill(width - max_width - 7, (yPos + j * (font.lineHeight + 2)) - 2,
+                            width - 7, (yPos + (j + 1) * (font.lineHeight + 2)) - 2, 0x80FFFFFF);
                 }
                 j++;
             }
         }else{
-            for(int l = index - 5; l < index + 5; l++){
+            for(int l = index - length / 2; l < index + length / 2; l++){
                 if(l >= songList.size() || l < 0){continue;}
-                guiGraphics.drawString(font, songList.get(l).songName, width - max_width - 7, (int) (height * 0.3 + j * (font.lineHeight + 2)), 0xFFFFFF);
+                guiGraphics.drawString(font, getMusicText(songList.get(l)), width - max_width - 7, (yPos + j * (font.lineHeight + 2)), 0xFFFFFF);
                 if(l == index){
-                    guiGraphics.fill(width - max_width - 7, (int) (height * 0.3 + j * (font.lineHeight + 2)) - 2,
-                            width - 7, (int) (height * 0.3 + (j + 1) * (font.lineHeight + 2)) - 2, 0x80FFFFFF);
+                    guiGraphics.fill(width - max_width - 7, (yPos + j * (font.lineHeight + 2)) - 2,
+                            width - 7, (yPos + (j + 1) * (font.lineHeight + 2)) - 2, 0x80FFFFFF);
                 }
                 j++;
             }
         }
 
         RenderSystem.disableBlend();
+        pose.popPose();
+    }
+
+    private static String getMusicText(ItemMusicCD.SongInfo info){
+        if(!NetMusicList.CONFIG.selectHudShowArtist){
+            return info.songName;
+        }
+        var artists = new StringBuilder();
+        if(info.artists != null && !info.artists.isEmpty()) {
+            artists.append("——");
+            for(String a: info.artists){
+                artists.append(a);
+                artists.append(", ");
+            }
+        }
+        return info.songName + artists.substring(0, artists.length() - 2);
     }
 }

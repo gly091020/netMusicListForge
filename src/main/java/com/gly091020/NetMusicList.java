@@ -1,17 +1,25 @@
 package com.gly091020;
 
 import com.github.tartaricacid.netmusic.init.InitItems;
+import com.gly091020.config.ConfigScreenGetter;
+import com.gly091020.config.NetMusicListConfig;
 import com.gly091020.item.NetMusicListItem;
 import com.gly091020.item.NetMusicPlayerItem;
 import com.gly091020.packet.PacketRegistry;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
+import me.shedaniel.clothconfig2.api.ConfigBuilder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
@@ -36,6 +44,8 @@ public class NetMusicList {
     public static final RegistryObject<NetMusicPlayerItem> MUSIC_PLAYER_ITEM = ITEMS.register("music_player",
             NetMusicPlayerItem::new);
 
+    public static NetMusicListConfig CONFIG;
+
     @SuppressWarnings("all")
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(ModID, "send_data"),
@@ -47,6 +57,10 @@ public class NetMusicList {
     );
 
     public NetMusicList(IEventBus modEventBus) {
+        AutoConfig.register(NetMusicListConfig.class, Toml4jConfigSerializer::new);
+        CONFIG = AutoConfig.getConfigHolder(NetMusicListConfig.class).get();
+        NetMusicListUtil.reloadConfig();
+
         ITEMS.register(modEventBus);
         modEventBus.addListener(this::addItemsToCreativeTab);
         if(FMLEnvironment.dist == Dist.CLIENT){
@@ -55,6 +69,14 @@ public class NetMusicList {
             PacketRegistry.registryServer();
         }
         modEventBus.addListener(this::addPack);
+
+        ModLoadingContext.get().registerExtensionPoint(
+                ConfigScreenHandler.ConfigScreenFactory.class,
+                () -> new ConfigScreenHandler.ConfigScreenFactory(
+                        (mc, screen) ->
+                                ConfigScreenGetter.getConfigScreen(screen)
+                )
+        );
     }
 
     public NetMusicList() {

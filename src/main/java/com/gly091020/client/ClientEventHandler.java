@@ -4,7 +4,6 @@ import com.gly091020.NetMusicList;
 import com.gly091020.NetMusicListUtil;
 import com.gly091020.hud.MusicInfoHud;
 import com.gly091020.hud.MusicListLayer;
-import com.gly091020.mixin.TickableSoundGetterMixins;
 import com.gly091020.sounds.PlayerNetMusicSound;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.PauseScreen;
@@ -46,6 +45,9 @@ public class ClientEventHandler {
         if(event.phase != TickEvent.Phase.END){return;}
         var sounds = NetMusicListUtil.getTickableSounds();
         var screen = Minecraft.getInstance().screen;
+        // 只能保证在PauseScreen正常运行
+        // 我也不知道如何检测音乐是否暂停
+        // SB MOJANG
         if(screen != null && !(screen instanceof PauseScreen) && screen.isPauseScreen()){
             for(TickableSoundInstance instance: sounds){
                 if(instance instanceof PlayerNetMusicSound playerNetMusicSound){
