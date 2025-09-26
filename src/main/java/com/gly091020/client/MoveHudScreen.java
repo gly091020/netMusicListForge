@@ -2,12 +2,15 @@ package com.gly091020.client;
 
 import com.gly091020.NetMusicList;
 import com.gly091020.NetMusicListUtil;
+import com.gly091020.hud.MusicInfoHud;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
+
+import static com.gly091020.NetMusicList.CONFIG;
 
 public class MoveHudScreen extends Screen {
     public int x;
@@ -63,6 +66,7 @@ public class MoveHudScreen extends Screen {
         NetMusicList.CONFIG.y = y;
         NetMusicListUtil.reloadConfig();
         Minecraft.getInstance().setScreen(parent);
+        MusicInfoHud.setPos(CONFIG.x, CONFIG.y);
     }
 
     public static void open(){

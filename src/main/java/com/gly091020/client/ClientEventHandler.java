@@ -49,6 +49,8 @@ public class ClientEventHandler {
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event){
         if(event.phase != TickEvent.Phase.END){return;}
+        var server = Minecraft.getInstance().getSingleplayerServer();
+        if(!Minecraft.getInstance().isLocalServer() || (server != null && server.isPublished())){return;}
         var sounds = NetMusicListUtil.getTickableSounds();
         var screen = Minecraft.getInstance().screen;
         // 只能保证在PauseScreen正常运行
