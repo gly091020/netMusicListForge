@@ -4,24 +4,17 @@ import com.gly091020.NetMusicList;
 import com.gly091020.NetMusicListUtil;
 import com.gly091020.hud.MusicInfoHud;
 import com.gly091020.hud.MusicListLayer;
-import com.gly091020.item.NetMusicPlayerItem;
 import com.gly091020.sounds.PlayerNetMusicSound;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.TickableSoundInstance;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import static com.gly091020.NetMusicList.MUSIC_PLAYER_ITEM;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = NetMusicList.ModID)
 public class ClientEventHandler {
@@ -39,8 +32,7 @@ public class ClientEventHandler {
         if(Math.abs(d) >= 1){
             Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1));
         }
-        MusicListLayer.index -= (int)(d * (Minecraft.getInstance().player != null &&
-                Minecraft.getInstance().player.isShiftKeyDown() ? 5 : 1));
+        MusicListLayer.index -= (int)(d * (NetMusicList.TOGGLE_MUSIC_SPEED_UP.isDown() ? 5 : 1));
         if(MusicListLayer.index < 0){ MusicListLayer.index = 0;}
         if(MusicListLayer.index >= MusicListLayer.count){MusicListLayer.index = MusicListLayer.count - 1;}
         event.setCanceled(true);
@@ -53,13 +45,12 @@ public class ClientEventHandler {
         if(!Minecraft.getInstance().isLocalServer() || (server != null && server.isPublished())){return;}
         var sounds = NetMusicListUtil.getTickableSounds();
         var screen = Minecraft.getInstance().screen;
-        // 只能保证在PauseScreen正常运行
-        // 我也不知道如何检测音乐是否暂停
+        // 猜猜我用了几个Mixin？
         // SB MOJANG
-        if(screen != null && !(screen instanceof PauseScreen) && screen.isPauseScreen()){
+        if(screen != null && !NetMusicListUtil.isPaused() && screen.isPauseScreen()){
             for(TickableSoundInstance instance: sounds){
                 if(instance instanceof PlayerNetMusicSound playerNetMusicSound){
-                    playerNetMusicSound.tick();
+                    playerNetMusicSound.onlyTickUpdate();
                 }
             }
         }

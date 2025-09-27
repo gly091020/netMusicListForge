@@ -33,7 +33,7 @@ public class MoveHudScreen extends Screen {
         this.addRenderableWidget(Button.builder(Component.translatable("config.net_music_list.hud.close"), button -> onClose()).pos(width - 60, height - 30)
                 .size(50, 20)
                 .build());
-        this.addRenderableWidget(Button.builder(Component.translatable("config.net_music_list.hud.net_save"), button -> Minecraft.getInstance().setScreen(parent)).pos(width - 115, height - 30)
+        this.addRenderableWidget(Button.builder(Component.translatable("config.net_music_list.hud.not_save"), button -> Minecraft.getInstance().setScreen(parent)).pos(width - 115, height - 30)
                 .size(50, 20)
                 .build());
         x = NetMusicList.CONFIG.x;

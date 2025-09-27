@@ -105,6 +105,17 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
         }
     }
 
+    public void onlyTickUpdate(){
+        tick++;
+        if(tick % 20 == 0 && isClientPlayer()){
+            NetMusicList.CHANNEL.sendToServer(new UpdateMusicTickCTSPacket(slot, countTick - tick));
+        }
+
+        if(isStopped() && isClientPlayer()){
+            NetMusicList.CHANNEL.sendToServer(new UpdateMusicTickCTSPacket(slot, -1));
+        }
+    }
+
     @Override
     public @NotNull CompletableFuture<AudioStream> getStream(@NotNull SoundBufferLibrary soundBuffers, @NotNull Sound sound, boolean looping) {
         return CompletableFuture.supplyAsync(() -> {

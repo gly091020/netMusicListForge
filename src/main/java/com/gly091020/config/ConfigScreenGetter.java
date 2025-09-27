@@ -23,7 +23,7 @@ public class ConfigScreenGetter {
                 CONFIG.selectHudShowArtist)
                 .setDefaultValue(true).setSaveConsumer(b -> CONFIG.selectHudShowArtist = b).build());
         category.addEntry(entryBuilder.startIntSlider(Component.translatable("config.net_music_list.select_hud_length"),
-                        CONFIG.selectHudCount, 10, 30)
+                        CONFIG.selectHudCount, 10, 50)
                         .setDefaultValue(20)
                         .setSaveConsumer(i -> CONFIG.selectHudCount = i)
                 .build());

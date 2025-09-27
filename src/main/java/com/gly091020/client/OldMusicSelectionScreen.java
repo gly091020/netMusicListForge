@@ -25,7 +25,7 @@ import static com.gly091020.NetMusicList.CHANNEL;
 @Deprecated
 public class OldMusicSelectionScreen extends Screen {
     private final List<String> musicList;
-    private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(NetMusicList.ModID,
+    private static final ResourceLocation BACKGROUND_TEXTURE = ResourceLocation.fromNamespaceAndPath(NetMusicList.ModID,
             "textures/gui/old_bg.png");
     private final int backgroundWidth = 256;
     private final int backgroundHeight = 230;
@@ -303,6 +303,11 @@ public class OldMusicSelectionScreen extends Screen {
         public void setEntry(int index, MusicListEntry entry){
             var l = children();
             l.set(index, entry);
+        }
+
+        @Override
+        public boolean mouseScrolled(double p_93416_, double p_93417_, double p_93418_) {
+            return super.mouseScrolled(p_93416_, p_93417_, p_93418_ * (NetMusicList.TOGGLE_MUSIC_SPEED_UP.isDown() ? 5 : 1));
         }
     }
 

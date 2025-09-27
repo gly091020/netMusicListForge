@@ -95,7 +95,7 @@ public class MusicListLayer{
         RenderSystem.enableBlend();
         guiGraphics.fill(width - max_width - 9, yPos - 4, width - 5, yPos + length * (font.lineHeight + 2), 0x80000000);
 
-        if(index - length < 0){
+        if(index - length / 2 < 0){
             for(int l = 0; l < length; l++){
                 if(l >= songList.size()){continue;}
                 guiGraphics.drawString(font, getMusicText(songList.get(l)), width - max_width - 7, (yPos + j * (font.lineHeight + 2)), 0xFFFFFF);
@@ -103,15 +103,23 @@ public class MusicListLayer{
                     guiGraphics.fill(width - max_width - 7, (yPos + j * (font.lineHeight + 2)) - 2,
                             width - 7, (yPos + (j + 1) * (font.lineHeight + 2)) - 2, 0x80FFFFFF);
                 }
+                if(songList.get(l).vip){
+                    guiGraphics.fill(width - max_width - 7, (yPos + j * (font.lineHeight + 2)) - 2,
+                            width - 7, (yPos + (j + 1) * (font.lineHeight + 2)) - 2, 0x50FF0000);
+                }
                 j++;
             }
-        } else if (index + length >= songList.size()) {
+        } else if (index + length / 2 >= songList.size()) {
             for(int l = songList.size() - length; l < songList.size(); l++){
                 if(l < 0){continue;}
                 guiGraphics.drawString(font, getMusicText(songList.get(l)), width - max_width - 7, (yPos + j * (font.lineHeight + 2)), 0xFFFFFF);
                 if(l == index){
                     guiGraphics.fill(width - max_width - 7, (yPos + j * (font.lineHeight + 2)) - 2,
                             width - 7, (yPos + (j + 1) * (font.lineHeight + 2)) - 2, 0x80FFFFFF);
+                }
+                if(songList.get(l).vip){
+                    guiGraphics.fill(width - max_width - 7, (yPos + j * (font.lineHeight + 2)) - 2,
+                            width - 7, (yPos + (j + 1) * (font.lineHeight + 2)) - 2, 0x50FF0000);
                 }
                 j++;
             }
@@ -123,6 +131,10 @@ public class MusicListLayer{
                     guiGraphics.fill(width - max_width - 7, (yPos + j * (font.lineHeight + 2)) - 2,
                             width - 7, (yPos + (j + 1) * (font.lineHeight + 2)) - 2, 0x80FFFFFF);
                 }
+                if(songList.get(l).vip){
+                    guiGraphics.fill(width - max_width - 7, (yPos + j * (font.lineHeight + 2)) - 2,
+                            width - 7, (yPos + (j + 1) * (font.lineHeight + 2)) - 2, 0x50FF0000);
+                }
                 j++;
             }
         }
@@ -133,7 +145,7 @@ public class MusicListLayer{
 
     private static String getMusicText(ItemMusicCD.SongInfo info){
         if(!NetMusicList.CONFIG.selectHudShowArtist){
-            return info.songName;
+            return NetMusicList.TOGGLE_MUSIC_TRANSFORM.isDown() ? getTransName(info) : info.songName;
         }
         var artists = new StringBuilder();
         if(info.artists != null && !info.artists.isEmpty()) {
@@ -143,6 +155,11 @@ public class MusicListLayer{
                 artists.append(", ");
             }
         }
-        return info.songName + artists.substring(0, artists.length() - 2);
+        return (NetMusicList.TOGGLE_MUSIC_TRANSFORM.isDown() ? getTransName(info) : info.songName) + artists.substring(0, artists.length() - 2);
+    }
+
+    private static String getTransName(ItemMusicCD.SongInfo info){
+        if(info.transName.isEmpty())return info.songName;
+        return info.transName;
     }
 }

@@ -6,26 +6,26 @@ import com.gly091020.config.NetMusicListConfig;
 import com.gly091020.item.NetMusicListItem;
 import com.gly091020.item.NetMusicPlayerItem;
 import com.gly091020.packet.PacketRegistry;
-import com.gly091020.packet.PlayerPlayMusicPacket;
+import com.mojang.blaze3d.platform.InputConstants;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -48,14 +48,27 @@ public class NetMusicList {
 
     public static NetMusicListConfig CONFIG;
 
+    public static final KeyMapping TOGGLE_MUSIC_SPEED_UP = new KeyMapping(
+            "key.net_music_list.toggle_music_speed_up",
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            InputConstants.KEY_LSHIFT,
+            "modmenu.nameTranslation.net_music_list"
+    );
+    public static final KeyMapping TOGGLE_MUSIC_TRANSFORM = new KeyMapping(
+            "key.net_music_list.toggle_music_transform",
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            InputConstants.KEY_LALT,
+            "modmenu.nameTranslation.net_music_list"
+    );
+
     @SuppressWarnings("all")
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation(ModID, "send_data"),
-            // todo:别信它 ↑ MD没有问题硬是给我整个错误照着它的改完反倒是跑不起来
-            // 【【重音テト/MV/中译版】气到原地爆炸！/イライラしている（BY：じん OFFICIAL YOUTUBE CHANNEL）-哔哩哔哩】 https://b23.tv/Bo8I5ri
-            () -> "1.2",  // 协议版本
-            "1.2"::equals,
-            "1.2"::equals
+            ResourceLocation.fromNamespaceAndPath(ModID, "send_data"),
+            () -> "1.3",  // 协议版本
+            "1.3"::equals,
+            "1.3"::equals
     );
 
     public NetMusicList(IEventBus modEventBus) {
@@ -71,6 +84,7 @@ public class NetMusicList {
             PacketRegistry.registryServer();
         }
         modEventBus.addListener(this::addPack);
+        modEventBus.addListener(this::registerKeyBindings);
 
         ModLoadingContext.get().registerExtensionPoint(
                 ConfigScreenHandler.ConfigScreenFactory.class,
@@ -83,6 +97,11 @@ public class NetMusicList {
 
     public NetMusicList() {
         this(FMLJavaModLoadingContext.get().getModEventBus());
+    }
+
+    private void registerKeyBindings(final RegisterKeyMappingsEvent event) {
+        event.register(TOGGLE_MUSIC_SPEED_UP);
+        event.register(TOGGLE_MUSIC_TRANSFORM);
     }
 
     private void addItemsToCreativeTab(BuildCreativeModeTabContentsEvent event) {

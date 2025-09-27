@@ -2,6 +2,7 @@ package com.gly091020;
 
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.config.NetMusicListConfig;
+import com.gly091020.client.PauseSoundManager;
 import com.gly091020.mixin.TickableSoundGetterMixins;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -189,5 +190,10 @@ public class NetMusicListUtil {
         var holder = AutoConfig.getConfigHolder(NetMusicListConfig.class);
         holder.setConfig(CONFIG);
         holder.save();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static boolean isPaused(){
+        return ((PauseSoundManager)Minecraft.getInstance().getSoundManager()).isPaused();
     }
 }
