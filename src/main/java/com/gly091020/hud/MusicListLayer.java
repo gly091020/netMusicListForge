@@ -2,6 +2,7 @@ package com.gly091020.hud;
 
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
+import com.gly091020.NetMusicListKeyMapping;
 import com.gly091020.item.NetMusicListItem;
 import com.gly091020.item.NetMusicPlayerItem;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -145,7 +146,7 @@ public class MusicListLayer{
 
     private static String getMusicText(ItemMusicCD.SongInfo info){
         if(!NetMusicList.CONFIG.selectHudShowArtist){
-            return NetMusicList.TOGGLE_MUSIC_TRANSFORM.isDown() ? getTransName(info) : info.songName;
+            return NetMusicListKeyMapping.TOGGLE_MUSIC_TRANSFORM.isDown() ? getTransName(info) : info.songName;
         }
         var artists = new StringBuilder();
         if(info.artists != null && !info.artists.isEmpty()) {
@@ -155,7 +156,7 @@ public class MusicListLayer{
                 artists.append(", ");
             }
         }
-        return (NetMusicList.TOGGLE_MUSIC_TRANSFORM.isDown() ? getTransName(info) : info.songName) + artists.substring(0, artists.length() - 2);
+        return (NetMusicListKeyMapping.TOGGLE_MUSIC_TRANSFORM.isDown() ? getTransName(info) : info.songName) + artists.substring(0, artists.length() - 2);
     }
 
     private static String getTransName(ItemMusicCD.SongInfo info){

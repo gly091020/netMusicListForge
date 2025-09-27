@@ -1,6 +1,7 @@
 package com.gly091020.client;
 
 import com.gly091020.NetMusicList;
+import com.gly091020.NetMusicListKeyMapping;
 import com.gly091020.NetMusicListUtil;
 import com.gly091020.hud.MusicInfoHud;
 import com.gly091020.hud.MusicListLayer;
@@ -32,7 +33,7 @@ public class ClientEventHandler {
         if(Math.abs(d) >= 1){
             Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1));
         }
-        MusicListLayer.index -= (int)(d * (NetMusicList.TOGGLE_MUSIC_SPEED_UP.isDown() ? 5 : 1));
+        MusicListLayer.index -= (int)(d * (NetMusicListKeyMapping.TOGGLE_MUSIC_SPEED_UP.isDown() ? 5 : 1));
         if(MusicListLayer.index < 0){ MusicListLayer.index = 0;}
         if(MusicListLayer.index >= MusicListLayer.count){MusicListLayer.index = MusicListLayer.count - 1;}
         event.setCanceled(true);

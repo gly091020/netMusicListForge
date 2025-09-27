@@ -48,21 +48,6 @@ public class NetMusicList {
 
     public static NetMusicListConfig CONFIG;
 
-    public static final KeyMapping TOGGLE_MUSIC_SPEED_UP = new KeyMapping(
-            "key.net_music_list.toggle_music_speed_up",
-            KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM,
-            InputConstants.KEY_LSHIFT,
-            "modmenu.nameTranslation.net_music_list"
-    );
-    public static final KeyMapping TOGGLE_MUSIC_TRANSFORM = new KeyMapping(
-            "key.net_music_list.toggle_music_transform",
-            KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM,
-            InputConstants.KEY_LALT,
-            "modmenu.nameTranslation.net_music_list"
-    );
-
     @SuppressWarnings("all")
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             ResourceLocation.fromNamespaceAndPath(ModID, "send_data"),
@@ -84,7 +69,6 @@ public class NetMusicList {
             PacketRegistry.registryServer();
         }
         modEventBus.addListener(this::addPack);
-        modEventBus.addListener(this::registerKeyBindings);
 
         ModLoadingContext.get().registerExtensionPoint(
                 ConfigScreenHandler.ConfigScreenFactory.class,
@@ -93,15 +77,14 @@ public class NetMusicList {
                                 ConfigScreenGetter.getConfigScreen(screen)
                 )
         );
+
+        if(FMLEnvironment.dist.isClient()){
+            modEventBus.addListener(NetMusicListKeyMapping::registerKeyBindings);
+        }
     }
 
     public NetMusicList() {
         this(FMLJavaModLoadingContext.get().getModEventBus());
-    }
-
-    private void registerKeyBindings(final RegisterKeyMappingsEvent event) {
-        event.register(TOGGLE_MUSIC_SPEED_UP);
-        event.register(TOGGLE_MUSIC_TRANSFORM);
     }
 
     private void addItemsToCreativeTab(BuildCreativeModeTabContentsEvent event) {

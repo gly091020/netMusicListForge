@@ -2,6 +2,7 @@ package com.gly091020.client;
 
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
+import com.gly091020.NetMusicListKeyMapping;
 import com.gly091020.PlayMode;
 import com.gly091020.packet.DeleteMusicDataPacket;
 import com.gly091020.packet.MoveMusicDataPacket;
@@ -307,7 +308,7 @@ public class OldMusicSelectionScreen extends Screen {
 
         @Override
         public boolean mouseScrolled(double p_93416_, double p_93417_, double p_93418_) {
-            return super.mouseScrolled(p_93416_, p_93417_, p_93418_ * (NetMusicList.TOGGLE_MUSIC_SPEED_UP.isDown() ? 5 : 1));
+            return super.mouseScrolled(p_93416_, p_93417_, p_93418_ * (NetMusicListKeyMapping.TOGGLE_MUSIC_SPEED_UP.isDown() ? 5 : 1));
         }
     }
 
