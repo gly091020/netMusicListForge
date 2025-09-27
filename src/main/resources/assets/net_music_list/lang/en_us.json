@@ -22,5 +22,18 @@
   "title.net_music_list.mp3": "Playlist: MP3 Resource Pack",
   "description.net_music_list.mp3": "Provided by N44, models replaced with MP3",
   "command.net_music_list.success": "Successfully imported %s",
-  "command.net_music_list.fail": "Import failed, please check your network connection"
+  "command.net_music_list.fail": "Import failed, please check your network connection",
+  "config.net_music_list.title": "Net Music: Playlist Settings",
+  "config.net_music_list.select_hud_artist": "Quick Song Selection - Artist Display",
+  "config.net_music_list.select_hud_length": "Quick Song Selection - Maximum Songs",
+  "config.net_music_list.select_hud_size": "Quick Song Selection - HUD Size",
+  "config.net_music_list.music_hud": "Enable Song Info HUD",
+  "config.net_music_list.set_hud_pos": "Song Info HUD Position Adjustment",
+  "key.net_music_list.toggle_music_speed_up": "Accelerate Scrolling",
+  "key.net_music_list.toggle_music_transform": "(Song Selection) Show Translation",
+  "config.net_music_list.hud.text": "I am HUD",
+  "config.net_music_list.hud.title": "HUD Position Settings",
+  "config.net_music_list.hud.reset": "Reset",
+  "config.net_music_list.hud.close": "Save and Exit",
+  "config.net_music_list.hud.not_save": "Exit Without Saving"
 }
