@@ -4,9 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
-import net.minecraftforge.fml.common.Mod;
 
-@Mod(value = NetMusicList.ModID)
 public class NetMusicListKeyMapping {
     // 不要使用@OnlyIn(Dist.CLIENT)！会导致正式服务器环境加载失败
     public static KeyMapping TOGGLE_MUSIC_SPEED_UP;
