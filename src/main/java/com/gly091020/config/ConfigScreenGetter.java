@@ -22,6 +22,10 @@ public class ConfigScreenGetter {
         category.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.net_music_list.select_hud_artist"),
                 CONFIG.selectHudShowArtist)
                 .setDefaultValue(true).setSaveConsumer(b -> CONFIG.selectHudShowArtist = b).build());
+        category.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.net_music_list.not_pause_sound"),
+                        CONFIG.notPauseSoundOnGamePause)
+                        .setTooltip(Component.translatable("config.net_music_list.not_pause_sound.tip"))
+                .setDefaultValue(false).setSaveConsumer(b -> CONFIG.notPauseSoundOnGamePause = b).build());
         category.addEntry(entryBuilder.startIntSlider(Component.translatable("config.net_music_list.select_hud_length"),
                         CONFIG.selectHudCount, 10, 50)
                         .setDefaultValue(20)

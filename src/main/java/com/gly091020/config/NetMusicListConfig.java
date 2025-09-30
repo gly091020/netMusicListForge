@@ -7,6 +7,7 @@ import me.shedaniel.autoconfig.annotation.Config;
 @Config(name = NetMusicList.ModID)
 public class NetMusicListConfig implements ConfigData {
     public boolean musicHUD = true;
+    public boolean notPauseSoundOnGamePause = false;
     public int x = 10;
     public int y = 10;
 
