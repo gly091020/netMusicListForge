@@ -1,0 +1,12 @@
+{
+  "sortnum": 2,
+  "name": "patchouli.net_music_list.music_player.hud.title",
+  "icon": "netmusic:music_cd",
+  "category": "net_music_list:music_player",
+  "pages": [
+      {
+          "type": "patchouli:text",
+          "text": "patchouli.net_music_list.music_player.hud.text1"
+      }
+  ]
+}

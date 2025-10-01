@@ -1,0 +1,12 @@
+{
+  "sortnum": 1,
+  "name": "patchouli.net_music_list.music_player.fast_select.title",
+  "icon": "minecraft:powered_rail",
+  "category": "net_music_list:music_player",
+  "pages": [
+      {
+          "type": "patchouli:text",
+          "text": "patchouli.net_music_list.music_player.fast_select.text1"
+      }
+  ]
+}

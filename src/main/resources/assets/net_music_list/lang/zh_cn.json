@@ -37,5 +37,24 @@
   "config.net_music_list.hud.close": "保存并退出",
   "config.net_music_list.hud.not_save": "直接退出",
   "config.net_music_list.not_pause_sound": "游戏暂停时声音不暂停",
-  "config.net_music_list.not_pause_sound.tip": "使游戏暂停时正在播放的声音继续播放"
+  "config.net_music_list.not_pause_sound.tip": "使游戏暂停时正在播放的声音继续播放",
+
+  "patchouli.net_music_list.title": "网络音乐机：播放列表手册",
+  "patchouli.net_music_list.description": "网络音乐机：播放列表的基本使用方法介绍$(br)非常容易理解！",
+  "patchouli.net_music_list.play_list.title": "播放列表",
+  "patchouli.net_music_list.play_list.description": "整个模组的核心",
+  "patchouli.net_music_list.play_list.add_music.title": "刻录",
+  "patchouli.net_music_list.play_list.add_music.text1": "将播放列表物品放入唱片刻录机/电脑中，模组经过适配可直接进行刻录。$(br)（如果出现歌曲覆盖的情况，请看下一章节）",
+  "patchouli.net_music_list.play_list_ui.title": "界面",
+  "patchouli.net_music_list.play_list_ui.text1": "手持播放列表物品点击可打开一个界面，点击列表中的选项即可选择歌曲。$(br)如果选中的是“添加歌曲”，则刻录的歌曲会追加到到播放列表尾部，否则覆盖当前歌曲。$(br)在此界面可切换播放模式，删除和移动歌曲。",
+  "patchouli.net_music_list.play_list_use.title": "使用",
+  "patchouli.net_music_list.play_list_use.text1": "直接塞进唱片机里就行。（注意不是原版的的唱片机）",
+  "patchouli.net_music_list.music_player.title": "随身播放器",
+  "patchouli.net_music_list.music_player.description": "用网络音乐机：播放列表不用随身播放器，就像只用PS扣绿幕",
+  "patchouli.net_music_list.music_player.use.title": "使用",
+  "patchouli.net_music_list.music_player.use.text1": "准备一张有内容的唱片或播放列表（播放列表不能为追加模式），在背包中将其拿起，对着播放器鼠标左键放入即可播放，鼠标右键播放器取出内部唱片/播放列表。$(br)在内含物品时播放器会在物品信息中显示当前歌曲信息。",
+  "patchouli.net_music_list.music_player.fast_select.title": "快速切歌",
+  "patchouli.net_music_list.music_player.fast_select.text1": "在随身播放器播放歌曲时，右键打开快速选歌菜单（在屏幕右侧），使用滚轮选择歌曲，再次使用即可切换歌曲。$(br)按住加速键（默认左Shift）即可加速滚动，按住显示翻译键（默认左Alt）即可显示歌曲译名。$(br2)标红的歌曲为VIP歌曲，目前暂时无法播放。",
+  "patchouli.net_music_list.music_player.hud.title": "歌曲信息HUD",
+  "patchouli.net_music_list.music_player.hud.text1": "随身播放器在播放音乐时会在左上角显示歌曲信息，包括歌曲封面，名称，译名，播放进度和歌词。"
 }
