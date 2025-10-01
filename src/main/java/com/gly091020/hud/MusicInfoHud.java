@@ -13,7 +13,13 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
 public class MusicInfoHud{
@@ -112,6 +118,7 @@ public class MusicInfoHud{
     public static void getData(){
         if(info != null){
             try {
+                getTextureFromLocal(info);
                 id = NetMusicListUtil.getIdFromInfo(info);
                 thread = new Thread(() -> getDataByThread(id));
                 thread.start();
@@ -134,6 +141,48 @@ public class MusicInfoHud{
             lyric = l;
         } catch (Exception e) {
             NetMusicList.LOGGER.error("解析出现错误", e);
+        }
+    }
+
+    private static void getTextureFromLocal(ItemMusicCD.SongInfo info){
+        var musicPath = convertFileURLToPath(info.songUrl);
+        if(musicPath != null){
+            var imagePath = getPicturePath(musicPath);
+            if(imagePath == null)return;
+            var resourceLocation = ResourceLocation.fromNamespaceAndPath(NetMusicList.ModID,
+                    String.format("icon_%s", UUID.randomUUID().toString().toLowerCase()));
+            try {
+                Minecraft.getInstance().getTextureManager().register(resourceLocation,
+                        NetMusicListUtil.getTextureFromPath(imagePath));
+                icon = resourceLocation;
+            } catch (IOException ignored) {
+            }
+        }
+    }
+
+    private static Path getPicturePath(Path musicPath){
+        var p1 = musicPath.getParent().resolve(musicPath.getFileName().toFile().getName() + ".png");
+        if(p1.toFile().isFile()){return p1;}
+        p1 = musicPath.getParent().resolve(musicPath.getFileName().toFile().getName() + ".jpg");
+        if(p1.toFile().isFile()){return p1;}
+        p1 = musicPath.getParent().resolve(musicPath.getFileName().toFile().getName() + ".jpeg");
+        if(p1.toFile().isFile()){return p1;}
+        return null;
+    }
+
+    public static Path convertFileURLToPath(String urlString) {
+        try {
+            URL url = new URL(urlString);
+            if (!"file".equals(url.getProtocol())) {
+                return null;
+            }
+
+            // 使用 URI 转换更安全，可以正确处理特殊字符
+            URI uri = url.toURI();
+            return Paths.get(uri);
+
+        } catch (Exception e) {
+            return null;
         }
     }
 }

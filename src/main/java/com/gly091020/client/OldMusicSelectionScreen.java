@@ -4,6 +4,7 @@ import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
 import com.gly091020.NetMusicListKeyMapping;
 import com.gly091020.PlayMode;
+import com.gly091020.config.ConfigScreenGetter;
 import com.gly091020.packet.DeleteMusicDataPacket;
 import com.gly091020.packet.MoveMusicDataPacket;
 import com.gly091020.packet.MusicListDataPacket;
@@ -15,8 +16,6 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
@@ -91,6 +90,11 @@ public class OldMusicSelectionScreen extends Screen {
                 top + backgroundHeight - 90, button -> moveMusic(true), true);
         downButton = new MoveButton(left + backgroundWidth - 27,
                 top + backgroundHeight - 90 + 22, button -> moveMusic(false), false);
+        var configButton = Button.builder(Component.literal("⚙"), button ->
+                        Minecraft.getInstance().setScreen(ConfigScreenGetter.getConfigScreen(Minecraft.getInstance().screen)))
+                .pos(left + backgroundWidth + 3, top + 3)
+                .size(20, 20)
+                .build();
 
         deleteButton.active = canDelete();
         upButton.active = canMove(true);
@@ -99,6 +103,7 @@ public class OldMusicSelectionScreen extends Screen {
         this.addRenderableWidget(deleteButton);
         this.addRenderableWidget(upButton);
         this.addRenderableWidget(downButton);
+        this.addRenderableWidget(configButton);
     }
 
     @Override

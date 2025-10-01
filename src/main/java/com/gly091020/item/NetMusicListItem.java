@@ -13,7 +13,10 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
@@ -253,6 +256,20 @@ public class NetMusicListItem extends ItemMusicCD {
             OldMusicSelectionScreen.open(l, getPlayMode(stack), getSongIndex(stack));
         }
         return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
+        var stack = player.getItemInHand(hand);
+        if(!stack.is(NetMusicList.MUSIC_LIST_ITEM.get())){
+            return InteractionResultHolder.pass(stack);
+        }
+        if(level.isClientSide){
+            var l = getSongInfoList(stack);
+            // 在我搞懂blitNineSliced的十几个参数是什么意思前我不会换新ui的
+            OldMusicSelectionScreen.open(l, getPlayMode(stack), getSongIndex(stack));
+        }
+        return InteractionResultHolder.success(stack);
     }
 
     @Override

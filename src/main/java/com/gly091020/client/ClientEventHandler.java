@@ -42,6 +42,10 @@ public class ClientEventHandler {
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event){
         if(event.phase != TickEvent.Phase.END){return;}
+        soundFix();
+    }
+
+    private static void soundFix(){
         var server = Minecraft.getInstance().getSingleplayerServer();
         if(!Minecraft.getInstance().isLocalServer() || (server != null && server.isPublished())){return;}
         var sounds = NetMusicListUtil.getTickableSounds();

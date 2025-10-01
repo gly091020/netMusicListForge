@@ -24,6 +24,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -65,6 +67,29 @@ public class NetMusicListUtil {
     @OnlyIn(Dist.CLIENT)
     public static AbstractTexture getTextureFromURL(URL imageUrl) throws IOException {
         try (InputStream stream = imageUrl.openConnection().getInputStream()) {
+            BufferedImage bufferedImage = ImageIO.read(stream);
+            if (bufferedImage == null) {
+                throw new IOException("无法读取图片 - 不支持的格式或损坏的文件");
+            }
+            NativeImage nativeImage = new NativeImage(bufferedImage.getWidth(), bufferedImage.getHeight(), false);
+            for (int y = 0; y < bufferedImage.getHeight(); y++) {
+                for (int x = 0; x < bufferedImage.getWidth(); x++) {
+                    int argb = bufferedImage.getRGB(x, y);
+                    int a = (argb >> 24) & 0xFF;
+                    int r = (argb >> 16) & 0xFF;
+                    int g = (argb >> 8) & 0xFF;
+                    int b = argb & 0xFF;
+                    int rgba = (a << 24) | (b << 16) | (g << 8) | r;
+                    nativeImage.setPixelRGBA(x, y, rgba | 0xFF000000);
+                }
+            }
+            return new DynamicTexture(nativeImage);
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static AbstractTexture getTextureFromPath(Path imagePath) throws IOException {
+        try (InputStream stream = Files.newInputStream(imagePath)) {
             BufferedImage bufferedImage = ImageIO.read(stream);
             if (bufferedImage == null) {
                 throw new IOException("无法读取图片 - 不支持的格式或损坏的文件");
