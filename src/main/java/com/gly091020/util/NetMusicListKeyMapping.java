@@ -1,4 +1,4 @@
-package com.gly091020;
+package com.gly091020.util;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;

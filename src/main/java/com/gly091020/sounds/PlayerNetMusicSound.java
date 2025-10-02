@@ -134,4 +134,9 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
         }
         return false;
     }
+
+    @Override
+    public @NotNull Attenuation getAttenuation() {
+        return isClientPlayer() ? Attenuation.NONE : Attenuation.LINEAR;
+    }
 }

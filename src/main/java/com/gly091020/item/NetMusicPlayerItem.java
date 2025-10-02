@@ -4,7 +4,7 @@ package com.gly091020.item;
 import com.github.tartaricacid.netmusic.init.InitItems;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
-import com.gly091020.NetMusicListUtil;
+import com.gly091020.util.NetMusicListUtil;
 import com.gly091020.hud.MusicListLayer;
 import com.gly091020.packet.PlayerPlayMusicPacket;
 import com.gly091020.packet.UpdatePlayerMusicPacket;

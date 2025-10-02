@@ -1,4 +1,4 @@
-package com.gly091020;
+package com.gly091020.util;
 
 import net.minecraft.network.chat.Component;
 

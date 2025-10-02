@@ -1,6 +1,6 @@
 package com.gly091020.packet;
 
-import com.gly091020.PlayMode;
+import com.gly091020.util.PlayMode;
 import net.minecraft.network.FriendlyByteBuf;
 
 public record MusicListDataPacket(int index, PlayMode playMode) {

@@ -1,8 +1,8 @@
 package com.gly091020.client;
 
 import com.gly091020.NetMusicList;
-import com.gly091020.NetMusicListKeyMapping;
-import com.gly091020.NetMusicListUtil;
+import com.gly091020.util.NetMusicListKeyMapping;
+import com.gly091020.util.NetMusicListUtil;
 import com.gly091020.hud.MusicInfoHud;
 import com.gly091020.hud.MusicListLayer;
 import com.gly091020.sounds.PlayerNetMusicSound;

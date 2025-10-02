@@ -6,13 +6,7 @@
       "entries": [
         {
           "type": "item",
-          "name": "patchouli:guide_book",
-          "functions": [
-            {
-              "function": "minecraft:set_nbt",
-              "tag": "{\"patchouli:book\": \"net_music_list:net_music_list_manual\"}"
-            }
-          ]
+          "name": "net_music_list:manual"
         }
       ]
     }

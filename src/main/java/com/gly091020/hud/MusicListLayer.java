@@ -2,7 +2,7 @@ package com.gly091020.hud;
 
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
-import com.gly091020.NetMusicListKeyMapping;
+import com.gly091020.util.NetMusicListKeyMapping;
 import com.gly091020.item.NetMusicListItem;
 import com.gly091020.item.NetMusicPlayerItem;
 import com.mojang.blaze3d.systems.RenderSystem;

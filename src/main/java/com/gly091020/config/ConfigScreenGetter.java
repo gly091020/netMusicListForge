@@ -1,6 +1,6 @@
 package com.gly091020.config;
 
-import com.gly091020.NetMusicListUtil;
+import com.gly091020.util.NetMusicListUtil;
 import com.gly091020.client.MoveHudScreen;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import net.minecraft.client.gui.screens.Screen;

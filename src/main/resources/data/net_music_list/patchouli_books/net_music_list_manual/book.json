@@ -2,9 +2,10 @@
   "name": "patchouli.net_music_list.title",
   "landing_text": "patchouli.net_music_list.description",
   "version": 1,
-  "creative_tab": "netmusic:netmusic",
   "use_resource_pack": true,
   "show_progress": false,
   "model": "patchouli:book_cyan",
-  "i18n": true
+  "i18n": true,
+  "dont_generate_book": true,
+  "custom_book_item": "net_music_list:manual"
 }

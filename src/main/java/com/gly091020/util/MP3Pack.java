@@ -1,5 +1,6 @@
-package com.gly091020;
+package com.gly091020.util;
 
+import com.gly091020.NetMusicList;
 import net.minecraft.SharedConstants;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackType;

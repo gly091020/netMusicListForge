@@ -4,8 +4,12 @@ import com.github.tartaricacid.netmusic.init.InitItems;
 import com.gly091020.config.ConfigScreenGetter;
 import com.gly091020.config.NetMusicListConfig;
 import com.gly091020.item.NetMusicListItem;
+import com.gly091020.item.NetMusicListManual;
 import com.gly091020.item.NetMusicPlayerItem;
 import com.gly091020.packet.PacketRegistry;
+import com.gly091020.util.MP3Pack;
+import com.gly091020.util.NetMusicListKeyMapping;
+import com.gly091020.util.NetMusicListUtil;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.minecraft.resources.ResourceLocation;
@@ -42,6 +46,11 @@ public class NetMusicList {
     public static final RegistryObject<NetMusicPlayerItem> MUSIC_PLAYER_ITEM = ITEMS.register("music_player",
             NetMusicPlayerItem::new);
 
+    public static final RegistryObject<Item> MANUAL_MODEL = ITEMS.register("manual_model",
+            () -> new Item(new Item.Properties()));  // 俺寻思之力
+    public static final RegistryObject<NetMusicListManual> MANUAL = ITEMS.register("manual",
+            NetMusicListManual::new);
+
     public static NetMusicListConfig CONFIG;
 
     @SuppressWarnings("all")
@@ -52,6 +61,7 @@ public class NetMusicList {
             "1.3"::equals
     );
 
+    @SuppressWarnings("removal")
     public NetMusicList(IEventBus modEventBus) {
         AutoConfig.register(NetMusicListConfig.class, Toml4jConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(NetMusicListConfig.class).get();
@@ -80,6 +90,7 @@ public class NetMusicList {
         }
     }
 
+    @SuppressWarnings("removal")
     public NetMusicList() {
         this(FMLJavaModLoadingContext.get().getModEventBus());
     }
@@ -94,6 +105,11 @@ public class NetMusicList {
             event.getEntries().putAfter(
                     new ItemStack(MUSIC_LIST_ITEM.get()),
                     new ItemStack(MUSIC_PLAYER_ITEM.get()),
+                    CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
+            );
+            event.getEntries().putAfter(
+                    new ItemStack(MUSIC_PLAYER_ITEM.get()),
+                    new ItemStack(MANUAL.get()),
                     CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
             );
         }

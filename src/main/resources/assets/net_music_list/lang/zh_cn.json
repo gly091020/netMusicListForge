@@ -9,6 +9,7 @@
   "tooltip.net_music_list.play_mode": "播放模式",
   "item.net_music_list.info": "播放列表：%s",
   "item.net_music_list.name": "播放列表[%s首]",
+  "item.net_music_list.manual": "网络音乐机：播放列表手册",
   "gui.net_music_list.title": "播放列表设置",
   "gui.net_music_list.add": "添加歌曲",
   "gui.net_music_list.close": "关闭",
@@ -40,7 +41,7 @@
   "config.net_music_list.not_pause_sound.tip": "使游戏暂停时正在播放的声音继续播放",
 
   "patchouli.net_music_list.title": "网络音乐机：播放列表手册",
-  "patchouli.net_music_list.description": "网络音乐机：播放列表的基本使用方法介绍$(br)非常容易理解！",
+  "patchouli.net_music_list.description": "网络音乐机：播放列表的基本使用方法介绍",
   "patchouli.net_music_list.play_list.title": "播放列表",
   "patchouli.net_music_list.play_list.description": "整个模组的核心",
   "patchouli.net_music_list.play_list.add_music.title": "刻录",
@@ -56,5 +57,8 @@
   "patchouli.net_music_list.music_player.fast_select.title": "快速切歌",
   "patchouli.net_music_list.music_player.fast_select.text1": "在随身播放器播放歌曲时，右键打开快速选歌菜单（在屏幕右侧），使用滚轮选择歌曲，再次使用即可切换歌曲。$(br)按住加速键（默认左Shift）即可加速滚动，按住显示翻译键（默认左Alt）即可显示歌曲译名。$(br2)标红的歌曲为VIP歌曲，目前暂时无法播放。",
   "patchouli.net_music_list.music_player.hud.title": "歌曲信息HUD",
-  "patchouli.net_music_list.music_player.hud.text1": "随身播放器在播放音乐时会在左上角显示歌曲信息，包括歌曲封面，名称，译名，播放进度和歌词。"
+  "patchouli.net_music_list.music_player.hud.text1": "随身播放器在播放音乐时会在左上角显示歌曲信息，包括歌曲封面，名称，译名，播放进度和歌词。",
+  "manual.net_music_list.manual": "手册",
+  "manual.net_music_list.cover1": "和IAM模组一样",
+  "manual.net_music_list.cover2": "非常容易理解！"
 }

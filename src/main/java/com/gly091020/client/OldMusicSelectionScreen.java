@@ -2,8 +2,8 @@ package com.gly091020.client;
 
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
-import com.gly091020.NetMusicListKeyMapping;
-import com.gly091020.PlayMode;
+import com.gly091020.util.NetMusicListKeyMapping;
+import com.gly091020.util.PlayMode;
 import com.gly091020.config.ConfigScreenGetter;
 import com.gly091020.packet.DeleteMusicDataPacket;
 import com.gly091020.packet.MoveMusicDataPacket;

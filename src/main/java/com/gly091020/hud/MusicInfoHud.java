@@ -3,7 +3,7 @@ package com.gly091020.hud;
 import com.github.tartaricacid.netmusic.NetMusic;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
-import com.gly091020.NetMusicListUtil;
+import com.gly091020.util.NetMusicListUtil;
 import com.gly091020.item.NetMusicPlayerItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

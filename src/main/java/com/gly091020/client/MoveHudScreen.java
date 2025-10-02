@@ -1,7 +1,7 @@
 package com.gly091020.client;
 
 import com.gly091020.NetMusicList;
-import com.gly091020.NetMusicListUtil;
+import com.gly091020.util.NetMusicListUtil;
 import com.gly091020.hud.MusicInfoHud;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

@@ -1,4 +1,4 @@
-package com.gly091020;
+package com.gly091020.util;
 
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.config.NetMusicListConfig;

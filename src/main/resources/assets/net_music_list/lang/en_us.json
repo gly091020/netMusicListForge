@@ -19,6 +19,7 @@
   "item.net_music_player.name": "Portable Music Player",
   "item.net_music_player.tip": "§a▍ §7Content: §6%s",
   "item.net_music_player.empty": "Empty",
+  "item.net_music_list.manual": "Net Music: Playlist Manual",
   "title.net_music_list.mp3": "Playlist: MP3 Resource Pack",
   "description.net_music_list.mp3": "Provided by N44, models replaced with MP3",
   "command.net_music_list.success": "Successfully imported %s",
@@ -40,7 +41,7 @@
   "config.net_music_list.not_pause_sound.tip": "Allows currently playing sounds to continue when the game is paused",
 
   "patchouli.net_music_list.title": "Net Music: Playlist Manual",
-  "patchouli.net_music_list.description": "Net Music: Basic usage guide for playlists$(br)Very easy to understand!",
+  "patchouli.net_music_list.description": "Net Music: Basic usage guide for playlists",
   "patchouli.net_music_list.play_list.title": "Playlist",
   "patchouli.net_music_list.play_list.description": "The core of the entire mod",
   "patchouli.net_music_list.play_list.add_music.title": "Burn",
@@ -56,5 +57,8 @@
   "patchouli.net_music_list.music_player.fast_select.title": "Quick Song Switching",
   "patchouli.net_music_list.music_player.fast_select.text1": "While the portable music player is playing a song, right-click to open the quick song selection menu (on the right side of the screen). Use the scroll wheel to select a song, and use it again to switch songs.$(br)Hold the acceleration key (default: Left Shift) to scroll faster. Hold the translation display key (default: Left Alt) to show the translated song name.$(br2)Songs marked in red are VIP songs and currently cannot be played.",
   "patchouli.net_music_list.music_player.hud.title": "Song Information HUD",
-  "patchouli.net_music_list.music_player.hud.text1": "When the portable music player is playing music, it will display song information in the top-left corner, including the song cover, name, translated name, playback progress, and lyrics."
+  "patchouli.net_music_list.music_player.hud.text1": "When the portable music player is playing music, it will display song information in the top-left corner, including the song cover, name, translated name, playback progress, and lyrics.",
+  "manual.net_music_list.manual": "Manual",
+  "manual.net_music_list.cover1": "Same as the IAM mod",
+  "manual.net_music_list.cover2": "Very easy to understand!"
 }
