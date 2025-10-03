@@ -5,6 +5,7 @@ import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
 import com.gly091020.hud.MusicInfoHud;
 import com.gly091020.item.NetMusicPlayerItem;
+import com.gly091020.sounds.EnderPlayerNetMusicSound;
 import com.gly091020.sounds.PlayerNetMusicSound;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -43,5 +44,15 @@ public class ClientHandler {
             CHANNEL.send(PacketDistributor.ALL.noArg(), packet);
         }
         c.setPacketHandled(true);
+    }
+
+    public static void handleClientEnderPlayerPlayPacket(PlayEnderMusicPlayerPacket packet, Supplier<NetworkEvent.Context> ctx){
+        var c = ctx.get();
+        if (c.getDirection().getReceptionSide().isClient()) {
+            c.enqueueWork(() -> CompletableFuture.runAsync(() -> {
+                MusicPlayManager.play(packet.url, packet.songName, url ->
+                        new EnderPlayerNetMusicSound(packet.pos, url, packet.timeSecond));
+            }));
+        }
     }
 }

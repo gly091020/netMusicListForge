@@ -13,6 +13,13 @@ public class PacketRegistry {
         );
 
         CHANNEL.registerMessage(
+                6,
+                PlayEnderMusicPlayerPacket.class,
+                PlayEnderMusicPlayerPacket::encode,
+                PlayEnderMusicPlayerPacket::decode,
+                ClientHandler::handleClientEnderPlayerPlayPacket
+        );
+        CHANNEL.registerMessage(
                 0,
                 MusicListDataPacket.class,
                 MusicListDataPacket::encode,
@@ -94,6 +101,14 @@ public class PacketRegistry {
                 UpdateMusicTickCTSPacket::encode,
                 UpdateMusicTickCTSPacket::decode,
                 ServerHandler::handlePlayerUpdateTickPacket
+        );
+
+        CHANNEL.registerMessage(
+                6,
+                PlayEnderMusicPlayerPacket.class,
+                PlayEnderMusicPlayerPacket::encode,
+                PlayEnderMusicPlayerPacket::decode,
+                ClientHandler::handleClientEnderPlayerPlayPacket
         );
     }
 }

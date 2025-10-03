@@ -1,6 +1,8 @@
 package com.gly091020;
 
 import com.github.tartaricacid.netmusic.init.InitItems;
+import com.gly091020.block.EnderMusicPlayer;
+import com.gly091020.block.EnderMusicPlayerEntity;
 import com.gly091020.config.ConfigScreenGetter;
 import com.gly091020.config.NetMusicListConfig;
 import com.gly091020.item.NetMusicListItem;
@@ -13,9 +15,12 @@ import com.gly091020.util.NetMusicListUtil;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.event.AddPackFindersEvent;
@@ -40,16 +45,20 @@ public class NetMusicList {
     public static final Logger LOGGER = LoggerFactory.getLogger(ModID);
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ModID);
-
     public static final RegistryObject<NetMusicListItem> MUSIC_LIST_ITEM = ITEMS.register("music_list",
             NetMusicListItem::new);
     public static final RegistryObject<NetMusicPlayerItem> MUSIC_PLAYER_ITEM = ITEMS.register("music_player",
             NetMusicPlayerItem::new);
-
     public static final RegistryObject<Item> MANUAL_MODEL = ITEMS.register("manual_model",
             () -> new Item(new Item.Properties()));  // 俺寻思之力
     public static final RegistryObject<NetMusicListManual> MANUAL = ITEMS.register("manual",
             NetMusicListManual::new);
+
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ModID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, ModID);
+    public static final RegistryObject<EnderMusicPlayer> ENDER_MUSIC_PLAYER = BLOCKS.register("ender_music_player", EnderMusicPlayer::new);
+    public static final RegistryObject<BlockEntityType<?>> ENDER_MUSIC_PLAYER_TYPE = BLOCK_ENTITY_TYPES.register("ender_music_player_entity", () -> BlockEntityType.Builder.of(EnderMusicPlayerEntity::new, ENDER_MUSIC_PLAYER.get()).build(null));
+    public static final RegistryObject<Item> ENDER_PLAYER_ITEM = ITEMS.register("ender_music_player", () -> new BlockItem(ENDER_MUSIC_PLAYER.get(), new Item.Properties()));
 
     public static NetMusicListConfig CONFIG;
 
@@ -68,6 +77,8 @@ public class NetMusicList {
         NetMusicListUtil.reloadConfig();
 
         ITEMS.register(modEventBus);
+        BLOCKS.register(modEventBus);
+        BLOCK_ENTITY_TYPES.register(modEventBus);
         modEventBus.addListener(this::addItemsToCreativeTab);
         if(FMLEnvironment.dist == Dist.CLIENT){
             PacketRegistry.registryClient();
