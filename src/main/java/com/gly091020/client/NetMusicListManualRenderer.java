@@ -56,7 +56,8 @@ public class NetMusicListManualRenderer extends BlockEntityWithoutLevelRenderer 
         renderText(poseStack, multiBufferSource, MOD_NAME_TEXT, packedLight, 9.85f, 14.5f, 0.6f, false, 0);
         renderText(poseStack, multiBufferSource, MOD_VERSION_TEXT, packedLight, 9.85f, 13.5f, 0.4f, false, 0);
         renderText(poseStack, multiBufferSource, COVER_INFO1_TEXT, packedLight, 10f / 2f, 12, 0.4f, true, 0xFFFFFFFF);
-        renderText(poseStack, multiBufferSource, COVER_INFO2_TEXT, packedLight, 10f / 2f, 11.5f, 0.4f, true, 0XFFFFFFFF);
+        renderText(poseStack, multiBufferSource, COVER_INFO2_TEXT, packedLight, 10f / 2f, 11.4514f, 0.4f, true, 0XFFFFFFFF);
+        //                                                                                    意义明确的数值
     }
 
     public void renderText(@NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, Component text, int light, float x, float y, float scale, boolean center, int color){

@@ -36,6 +36,7 @@ public class NetMusicListUtil {
     public static final Gson GSON = new Gson();
     public static final UUID _5112151111121 = UUID.fromString("91bd580f-5f17-4e30-872f-2e480dd9a220");
     public static final UUID N44 = UUID.fromString("5a33e9b0-35bc-44ed-9b4e-03e3e180a3d2");
+    public static boolean globalStopMusic = false;
     @OnlyIn(Dist.CLIENT)
     public static void playSound(SoundEvent event){
         Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(event, 1));

@@ -9,6 +9,7 @@ import com.gly091020.NetMusicList;
 import com.gly091020.item.NetMusicListItem;
 import com.gly091020.item.NetMusicPlayerItem;
 import com.gly091020.packet.UpdateMusicTickCTSPacket;
+import com.gly091020.util.NetMusicListUtil;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -102,6 +103,12 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
 
         if(isStopped() && isClientPlayer()){
             NetMusicList.CHANNEL.sendToServer(new UpdateMusicTickCTSPacket(slot, -1));
+        }
+
+        if(NetMusicListUtil.globalStopMusic){
+            this.volume = 0;
+        }else{
+            this.volume = 4f;
         }
     }
 

@@ -1,14 +1,17 @@
 package com.gly091020.client;
 
 import com.gly091020.NetMusicList;
-import com.gly091020.util.NetMusicListKeyMapping;
-import com.gly091020.util.NetMusicListUtil;
 import com.gly091020.hud.MusicInfoHud;
 import com.gly091020.hud.MusicListLayer;
 import com.gly091020.sounds.PlayerNetMusicSound;
+import com.gly091020.util.NetMusicListKeyMapping;
+import com.gly091020.util.NetMusicListUtil;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.AbstractSoundInstance;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.TickableSoundInstance;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
@@ -24,6 +27,21 @@ public class ClientEventHandler {
         var graphics = event.getGuiGraphics();
         MusicInfoHud.render(graphics);
         MusicListLayer.render(graphics);
+        if(NetMusicListUtil.globalStopMusic){
+            var w = event.getWindow().getGuiScaledWidth();
+            var h = event.getWindow().getGuiScaledHeight();
+            event.getGuiGraphics().drawCenteredString(Minecraft.getInstance().font,
+                    Component.translatable("text.net_music_list.fast_stoping"),
+                    w / 2, (int) (h * 0.1f), 0xFFFFFFFF
+            );
+        }
+    }
+
+    @SubscribeEvent
+    public static void onKeyClick(InputEvent.Key event){
+        if(MusicListLayer.isRender && event.getKey() == InputConstants.KEY_ESCAPE){
+            MusicListLayer.isRender = false;
+        }
     }
 
     @SubscribeEvent
@@ -43,6 +61,13 @@ public class ClientEventHandler {
     public static void onClientTick(TickEvent.ClientTickEvent event){
         if(event.phase != TickEvent.Phase.END){return;}
         soundFix();
+        fastStop();
+    }
+
+    private static void fastStop(){
+        if(NetMusicListKeyMapping.FAST_STOP.consumeClick()){
+            NetMusicListUtil.globalStopMusic = !NetMusicListUtil.globalStopMusic;
+        }
     }
 
     private static void soundFix(){
