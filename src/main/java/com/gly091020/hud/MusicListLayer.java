@@ -156,7 +156,7 @@ public class MusicListLayer{
                 artists.append(", ");
             }
         }
-        return (NetMusicListKeyMapping.TOGGLE_MUSIC_TRANSFORM.isDown() ? getTransName(info) : info.songName) + artists.substring(0, artists.length() - 2);
+        return (NetMusicListKeyMapping.TOGGLE_MUSIC_TRANSFORM.isDown() ? getTransName(info) : info.songName) + ((artists.isEmpty())? "":artists.substring(0, artists.length() - 2));
     }
 
     private static String getTransName(ItemMusicCD.SongInfo info){
