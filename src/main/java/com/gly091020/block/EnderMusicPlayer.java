@@ -3,6 +3,7 @@ package com.gly091020.block;
 import com.github.tartaricacid.netmusic.block.BlockMusicPlayer;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.github.tartaricacid.netmusic.tileentity.TileEntityMusicPlayer;
+import com.gly091020.util.NetMusicListUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -70,7 +71,7 @@ public class EnderMusicPlayer extends BlockMusicPlayer {
             ItemMusicCD.SongInfo info = ItemMusicCD.getSongInfo(stack);
             if (info == null) {
                 return InteractionResult.PASS;
-            } else if (info.vip) {
+            } else if (!NetMusicListUtil.hasLoginNeed() && info.vip) {
                 if (worldIn.isClientSide) {
                     playerIn.sendSystemMessage(Component.translatable("message.netmusic.music_player.need_vip").withStyle(ChatFormatting.RED));
                 }
