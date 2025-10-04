@@ -63,7 +63,7 @@ public class EnderMusicPlayerEntity extends BlockEntity {
         if (world instanceof ServerLevel ws) {
             ws.getChunkSource().chunkMap.getPlayers(new ChunkPos(pos), false).stream().filter((p) -> p.distanceToSqr(pos.getX(), pos.getY(), pos.getZ()) < (double)9216.0F).forEach((p) ->
             {
-                if(!this.players.contains(p.getUUID()))return;
+                if(!this.players.isEmpty() && !this.players.contains(p.getUUID()))return;
                 CHANNEL.send(PacketDistributor.PLAYER.with(() -> p), toSend);
             });
         }

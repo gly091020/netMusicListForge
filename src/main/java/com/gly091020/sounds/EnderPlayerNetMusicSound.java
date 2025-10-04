@@ -2,7 +2,6 @@ package com.gly091020.sounds;
 
 import com.github.tartaricacid.netmusic.client.audio.NetMusicAudioStream;
 import com.github.tartaricacid.netmusic.init.InitSounds;
-import com.github.tartaricacid.netmusic.tileentity.TileEntityMusicPlayer;
 import com.gly091020.NetMusicList;
 import com.gly091020.block.EnderMusicPlayerEntity;
 import net.minecraft.Util;
@@ -15,7 +14,6 @@ import net.minecraft.client.sounds.SoundBufferLibrary;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.NotNull;
@@ -75,5 +73,10 @@ public class EnderPlayerNetMusicSound extends AbstractTickableSoundInstance {
                 return null;
             }
         }, Util.backgroundExecutor());
+    }
+
+    @Override
+    public @NotNull Attenuation getAttenuation() {
+        return Attenuation.NONE;
     }
 }
