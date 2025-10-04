@@ -66,5 +66,9 @@
 
   "block.net_music_list.ender_music_player": "末影播放器",
   "block.net_music_list.ender_music_player.add_player": "已添加%s玩家",
-  "block.net_music_list.ender_music_player.remove_player": "已移除%s玩家"
+  "block.net_music_list.ender_music_player.remove_player": "已移除%s玩家",
+  "patchouli.net_music_list.ender_player.title": "末影播放器",
+  "patchouli.net_music_list.ender_player.description": "相当于无线播放的唱片机",
+  "patchouli.net_music_list.ender_player_use.title": "使用",
+  "patchouli.net_music_list.ender_player_use.text1": "末影播放器和网络音乐机的唱片机使用方法基本一样。$(br)右键可以将自己从白名单中添加和删除。$(br)如果白名单为空，则会向周围的所有人播放无视距离的音乐。（需在视野内）$(br)否则只向对应玩家播放音乐。"
 }

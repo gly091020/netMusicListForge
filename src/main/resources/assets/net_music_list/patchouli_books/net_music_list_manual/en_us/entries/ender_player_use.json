@@ -1,0 +1,12 @@
+{
+  "sortnum": 0,
+  "name": "patchouli.net_music_list.ender_player_use.title",
+  "icon": "net_music_list:ender_music_player",
+  "category": "net_music_list:ender_player",
+  "pages": [
+      {
+          "type": "patchouli:text",
+          "text": "patchouli.net_music_list.ender_player_use.text1"
+      }
+  ]
+}
