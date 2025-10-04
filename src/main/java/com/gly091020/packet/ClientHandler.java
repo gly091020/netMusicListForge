@@ -3,6 +3,7 @@ package com.gly091020.packet;
 import com.github.tartaricacid.netmusic.client.audio.MusicPlayManager;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
+import com.gly091020.block.EnderMusicPlayerEntity;
 import com.gly091020.hud.MusicInfoHud;
 import com.gly091020.item.NetMusicPlayerItem;
 import com.gly091020.sounds.EnderPlayerNetMusicSound;

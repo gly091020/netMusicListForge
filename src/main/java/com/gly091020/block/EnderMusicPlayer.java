@@ -45,13 +45,18 @@ public class EnderMusicPlayer extends BlockMusicPlayer {
         var entity = worldIn.getBlockEntity(pos);
         if(!(entity instanceof EnderMusicPlayerEntity enderMusicPlayer))return InteractionResult.PASS;
         if(playerIn.isShiftKeyDown() && !enderMusicPlayer.isPlay()){
+            if(worldIn.isClientSide){
+                playerIn.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP);
+                return InteractionResult.SUCCESS;
+            }
             var uuid = playerIn.getUUID();
             if(enderMusicPlayer.hasPlayer(uuid)){
                 enderMusicPlayer.removePlayer(uuid);
+                playerIn.sendSystemMessage(Component.translatable("block.ender_music_player.remove_player", playerIn.getDisplayName()));
             }else{
+                playerIn.sendSystemMessage(Component.translatable("block.ender_music_player.add_player", playerIn.getDisplayName()));
                 enderMusicPlayer.addPlayer(uuid);
             }
-            playerIn.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP);
             return InteractionResult.SUCCESS;
         }
 

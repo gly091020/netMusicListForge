@@ -62,5 +62,9 @@
   "manual.net_music_list.cover1": "Same as the IAM mod",
   "manual.net_music_list.cover2": "Very easy to understand!",
   "key.net_music_list.toggle_music_fast_stop": "Music Emergency Stop",
-  "text.net_music_list.fast_stoping": "Emergency stopping music..."
+  "text.net_music_list.fast_stoping": "Emergency stopping music...",
+
+  "block.ender_music_player.name": "Ender Music Player",
+  "block.ender_music_player.add_player": "Added player %s",
+  "block.ender_music_player.remove_player": "Removed player %s"
 }
