@@ -58,7 +58,7 @@ public class NetMusicPlayerItem extends Item{
             return;
         }
         var info = ItemMusicCD.getSongInfo(i);
-        if(info.vip && player.level().isClientSide){
+        if(!NetMusicListUtil.hasLoginNeed() && info.vip && player.level().isClientSide){
             player.sendSystemMessage(Component.translatable("message.netmusic.music_player.need_vip")
                     .withStyle(ChatFormatting.RED));
             return;

@@ -16,6 +16,7 @@ import net.minecraft.client.resources.sounds.TickableSoundInstance;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.ModList;
 import oshi.util.tuples.Pair;
 
 import javax.annotation.Nullable;
@@ -221,5 +222,9 @@ public class NetMusicListUtil {
     @OnlyIn(Dist.CLIENT)
     public static boolean isPaused(){
         return ((PauseSoundManager)Minecraft.getInstance().getSoundManager()).isPaused();
+    }
+
+    public static boolean hasLoginNeed(){
+        return ModList.get().isLoaded("net_music_login_need");
     }
 }

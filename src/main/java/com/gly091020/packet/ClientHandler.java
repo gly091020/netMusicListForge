@@ -7,6 +7,8 @@ import com.gly091020.hud.MusicInfoHud;
 import com.gly091020.item.NetMusicPlayerItem;
 import com.gly091020.sounds.EnderPlayerNetMusicSound;
 import com.gly091020.sounds.PlayerNetMusicSound;
+import com.gly091020.util.LoginNeedUtil;
+import com.gly091020.util.NetMusicListUtil;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
@@ -26,8 +28,14 @@ public class ClientHandler {
                 if (Minecraft.getInstance().level != null) {
                     var p = Minecraft.getInstance().level.getEntity(packet.playerID());
                     if (p instanceof Player player) {
-                        MusicPlayManager.play(packet.url(), packet.songName(), url ->
+                        var finalUrl = packet.url();
+                        if(NetMusicListUtil.hasLoginNeed()){
+                            var url1 = LoginNeedUtil.getUrl(finalUrl);
+                            if(url1 != null)finalUrl = url1;
+                        }
+                        MusicPlayManager.play(finalUrl, packet.songName(), url ->
                                 new PlayerNetMusicSound(player, url, packet.timeSecond(), packet.slot()));
+
                         if (player == Minecraft.getInstance().player) {
                             var stack = player.getInventory().getItem(packet.slot());
                             if (stack.is(NetMusicList.MUSIC_PLAYER_ITEM.get())) {
@@ -50,7 +58,12 @@ public class ClientHandler {
         var c = ctx.get();
         if (c.getDirection().getReceptionSide().isClient()) {
             c.enqueueWork(() -> CompletableFuture.runAsync(() -> {
-                MusicPlayManager.play(packet.url, packet.songName, url ->
+                var finalUrl = packet.url;
+                if(NetMusicListUtil.hasLoginNeed()){
+                    var url1 = LoginNeedUtil.getUrl(finalUrl);
+                    if(url1 != null)finalUrl = url1;
+                }
+                MusicPlayManager.play(finalUrl, packet.songName, url ->
                         new EnderPlayerNetMusicSound(packet.pos, url, packet.timeSecond));
             }));
         }
