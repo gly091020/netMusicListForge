@@ -5,6 +5,7 @@ import com.gly091020.block.EnderMusicPlayer;
 import com.gly091020.block.EnderMusicPlayerEntity;
 import com.gly091020.config.ConfigScreenGetter;
 import com.gly091020.config.NetMusicListConfig;
+import com.gly091020.datagen.*;
 import com.gly091020.item.NetMusicListItem;
 import com.gly091020.item.NetMusicListManual;
 import com.gly091020.item.NetMusicPlayerItem;
@@ -14,6 +15,9 @@ import com.gly091020.util.NetMusicListKeyMapping;
 import com.gly091020.util.NetMusicListUtil;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -23,6 +27,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -37,6 +43,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.CompletableFuture;
 
 @Mod(NetMusicList.ModID)
 public class NetMusicList {
@@ -99,6 +107,20 @@ public class NetMusicList {
             NetMusicListKeyMapping.init();
             modEventBus.addListener(NetMusicListKeyMapping::registerKeyBindings);
         }
+        modEventBus.addListener(NetMusicList::gatherData);
+    }
+
+    public static void gatherData(GatherDataEvent event){
+        DataGenerator generator = event.getGenerator();
+        PackOutput output = generator.getPackOutput();
+        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+
+        generator.addProvider(event.includeClient(), new BlockModelGenerator(output, existingFileHelper));
+        generator.addProvider(event.includeClient(), new ItemModelGenerator(output, existingFileHelper));
+        generator.addProvider(event.includeServer(), new LootTableGenerator(output));
+        generator.addProvider(event.includeServer(), new AdvancementGenerator(output, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new RecipeGenerator(output));
     }
 
     @SuppressWarnings("removal")

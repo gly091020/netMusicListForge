@@ -8,7 +8,6 @@ import com.gly091020.util.NetMusicListKeyMapping;
 import com.gly091020.util.NetMusicListUtil;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.sounds.AbstractSoundInstance;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.TickableSoundInstance;
 import net.minecraft.network.chat.Component;

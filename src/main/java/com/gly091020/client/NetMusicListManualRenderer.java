@@ -27,7 +27,7 @@ public class NetMusicListManualRenderer extends BlockEntityWithoutLevelRenderer 
     private static final Component MOD_NAME_TEXT = Component.translatable("modmenu.nameTranslation.net_music_list");
     private final Component MOD_VERSION_TEXT;
 
-    private static BakedModel model;
+    public static BakedModel model;
     private static final ModelResourceLocation MODEL_LOCATION = new ModelResourceLocation(ResourceLocation.fromNamespaceAndPath(NetMusicList.ModID, "manual_model"),
             "inventory");
     public NetMusicListManualRenderer() {
@@ -47,9 +47,7 @@ public class NetMusicListManualRenderer extends BlockEntityWithoutLevelRenderer 
     public void renderByItem(@NotNull ItemStack itemStack, @NotNull ItemDisplayContext displayContext, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int packedLight, int packedOverlay) {
         var renderer = Minecraft.getInstance().getBlockRenderer().getModelRenderer();
         var vertexConsumer = ItemRenderer.getFoilBufferDirect(multiBufferSource, Sheets.solidBlockSheet(), true, itemStack.hasFoil());
-        if(model == null){
-            model = Minecraft.getInstance().getModelManager().getModel(MODEL_LOCATION);
-        }
+        model = Minecraft.getInstance().getModelManager().getModel(MODEL_LOCATION);
         renderer.renderModel(poseStack.last(), vertexConsumer, null, model, 1, 1, 1, packedLight, packedOverlay);
         renderText(poseStack, multiBufferSource, DEV_TEXT, packedLight, 9f, 15.75f, 0.4f, false, 0);
         renderText(poseStack, multiBufferSource, MANUAL_TEXT, packedLight, 4.225f / 2f, 15.75f, 0.54f, true, 0xFFFFFFFF);

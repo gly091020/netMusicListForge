@@ -2,6 +2,7 @@ package com.gly091020.block;
 
 import com.github.tartaricacid.netmusic.block.BlockMusicPlayer;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
+import com.github.tartaricacid.netmusic.tileentity.TileEntityMusicPlayer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -50,9 +52,9 @@ public class EnderMusicPlayer extends BlockMusicPlayer {
             var uuid = playerIn.getUUID();
             if(enderMusicPlayer.hasPlayer(uuid)){
                 enderMusicPlayer.removePlayer(uuid);
-                playerIn.sendSystemMessage(Component.translatable("block.ender_music_player.remove_player", playerIn.getDisplayName()));
+                playerIn.sendSystemMessage(Component.translatable("block.net_music_list.ender_music_player.remove_player", playerIn.getDisplayName()));
             }else{
-                playerIn.sendSystemMessage(Component.translatable("block.ender_music_player.add_player", playerIn.getDisplayName()));
+                playerIn.sendSystemMessage(Component.translatable("block.net_music_list.ender_music_player.add_player", playerIn.getDisplayName()));
                 enderMusicPlayer.addPlayer(uuid);
             }
             return InteractionResult.SUCCESS;
@@ -85,5 +87,18 @@ public class EnderMusicPlayer extends BlockMusicPlayer {
                 return InteractionResult.SUCCESS;
             }
         }
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        BlockEntity te = worldIn.getBlockEntity(pos);
+        if (te instanceof EnderMusicPlayerEntity musicPlayer) {
+            ItemStack stack = musicPlayer.getPlayerInv().getStackInSlot(0);
+            if (!stack.isEmpty()) {
+                Block.popResource(worldIn, pos, stack);
+            }
+        }
+
+        super.onRemove(state, worldIn, pos, newState, isMoving);
     }
 }
