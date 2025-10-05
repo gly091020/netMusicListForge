@@ -45,7 +45,7 @@
   "patchouli.net_music_list.play_list.title": "Playlist",
   "patchouli.net_music_list.play_list.description": "The core of the entire mod",
   "patchouli.net_music_list.play_list.add_music.title": "Burn",
-  "patchouli.net_music_list.play_list.add_music.text1": "Place the playlist item into the record burner/computer. The mod is adapted to allow direct burning.$(br)(If song overwriting occurs, please refer to the next section.)",
+  "patchouli.net_music_list.play_list.add_music.text1": "Place the playlist item into the record burner/computer. The mod is adapted to allow direct burning.$(br)(If song overwriting occurs, please refer to the next section.)$(br)You can use the list/ prefix to import NetEase Cloud Music playlists.",
   "patchouli.net_music_list.play_list_ui.title": "Interface",
   "patchouli.net_music_list.play_list_ui.text1": "Hold the playlist item and click to open an interface. Click the options in the list to select songs.$(br)If 'Add Song' is selected, the burned song will be appended to the end of the playlist; otherwise, it will overwrite the current song.$(br)In this interface, you can switch playback modes, delete, and move songs.",
   "patchouli.net_music_list.play_list_use.title": "Usage",

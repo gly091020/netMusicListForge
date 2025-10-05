@@ -45,7 +45,7 @@
   "patchouli.net_music_list.play_list.title": "播放列表",
   "patchouli.net_music_list.play_list.description": "整个模组的核心",
   "patchouli.net_music_list.play_list.add_music.title": "刻录",
-  "patchouli.net_music_list.play_list.add_music.text1": "将播放列表物品放入唱片刻录机/电脑中，模组经过适配可直接进行刻录。$(br)（如果出现歌曲覆盖的情况，请看下一章节）",
+  "patchouli.net_music_list.play_list.add_music.text1": "将播放列表物品放入唱片刻录机/电脑中，模组经过适配可直接进行刻录。$(br)（如果出现歌曲覆盖的情况，请看下一章节）$(br)使用list/前缀可刻录网易云歌单。",
   "patchouli.net_music_list.play_list_ui.title": "界面",
   "patchouli.net_music_list.play_list_ui.text1": "手持播放列表物品点击可打开一个界面，点击列表中的选项即可选择歌曲。$(br)如果选中的是“添加歌曲”，则刻录的歌曲会追加到到播放列表尾部，否则覆盖当前歌曲。$(br)在此界面可切换播放模式，删除和移动歌曲。",
   "patchouli.net_music_list.play_list_use.title": "使用",
