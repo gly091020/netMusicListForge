@@ -35,7 +35,7 @@ public class RecipeGenerator extends RecipeProvider implements IConditionBuilder
                 .pattern("IPI")
                 .pattern("   ")
                 .define('I', Ingredient.of(new TagKey<>(Registries.ITEM,
-                        ResourceLocation.parse("c:ingots/iron"))))
+                        ResourceLocation.parse("forge:ingots/iron"))))
                 .define('S', Items.STRING)
                 .define('P', NetMusicList.MUSIC_PLAYER_ITEM.get())
                 .unlockedBy("has_cd", has(InitItems.MUSIC_CD.get()))

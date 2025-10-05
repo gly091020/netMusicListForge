@@ -66,6 +66,7 @@ public class ClientHandler {
                 MusicPlayManager.play(finalUrl, packet.songName, url ->
                         new EnderPlayerNetMusicSound(packet.pos, url, packet.timeSecond));
             }));
+            c.setPacketHandled(true);
         }
     }
 }

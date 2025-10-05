@@ -47,7 +47,7 @@ public class EnderPlayerNetMusicSound extends AbstractTickableSoundInstance {
         tick++;
         if (this.tick > this.countTick + 50) {
             this.stop();
-        } else if (world.getGameTime() % 8L == 0L) {
+        } else if (!isStopped() && world.getGameTime() % 8L == 0L) {
             for(int i = 0; i < 2; ++i) {
                 world.addParticle(ParticleTypes.NOTE, this.x - (double)0.5F + world.random.nextDouble(), this.y + world.random.nextDouble() + (double)1.0F, this.z - (double)0.5F + world.random.nextDouble(), world.random.nextGaussian(), world.random.nextGaussian(), (double)world.random.nextInt(3));
             }

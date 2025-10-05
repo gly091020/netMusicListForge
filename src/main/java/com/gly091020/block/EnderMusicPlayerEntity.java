@@ -117,7 +117,7 @@ public class EnderMusicPlayerEntity extends BlockEntity {
     public @NotNull CompoundTag getUpdateTag() {
         var playersTag = new ListTag();
         players.forEach(uuid -> playersTag.add(StringTag.valueOf(uuid.toString())));
-        var tag = new CompoundTag();
+        var tag = originalPlayer.getUpdateTag();
         tag.put(PlayerListKey, playersTag);
         return tag;
     }
@@ -125,6 +125,7 @@ public class EnderMusicPlayerEntity extends BlockEntity {
     @Override
     public void handleUpdateTag(CompoundTag tag) {
         players.clear();
+        originalPlayer.handleUpdateTag(tag);
         if(tag.contains(PlayerListKey, Tag.TAG_LIST)){
             for (Tag tag1: tag.getList(PlayerListKey, Tag.TAG_STRING)){
                 if(tag1 instanceof StringTag stringTag){

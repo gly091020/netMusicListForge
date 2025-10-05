@@ -65,6 +65,7 @@ public class EnderMusicPlayer extends BlockMusicPlayer {
         if (!handler.getStackInSlot(0).isEmpty()) {
             ItemStack extract = handler.extractItem(0, 1, false);
             popResource(worldIn, pos, extract);
+            enderMusicPlayer.markDirty();
             return InteractionResult.SUCCESS;
         } else {
             ItemStack stack = playerIn.getMainHandItem();
