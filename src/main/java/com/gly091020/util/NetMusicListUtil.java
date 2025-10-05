@@ -1,8 +1,11 @@
 package com.gly091020.util;
 
+import com.github.tartaricacid.netmusic.NetMusic;
+import com.github.tartaricacid.netmusic.api.ExtraMusicList;
+import com.github.tartaricacid.netmusic.api.pojo.NetEaseMusicList;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
-import com.gly091020.config.NetMusicListConfig;
 import com.gly091020.client.PauseSoundManager;
+import com.gly091020.config.NetMusicListConfig;
 import com.gly091020.mixin.TickableSoundGetterMixins;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -226,5 +229,28 @@ public class NetMusicListUtil {
 
     public static boolean hasLoginNeed(){
         return ModList.get().isLoaded("net_music_login_need");
+    }
+
+    public static List<ItemMusicCD.SongInfo> getMusicList(long id) throws Exception {
+        // 从网络音乐机里拿的代码
+        var SONGS = new ArrayList<ItemMusicCD.SongInfo>();
+        NetEaseMusicList pojo = GSON.fromJson(NetMusic.NET_EASE_WEB_API.list(id), NetEaseMusicList.class);
+        int count = pojo.getPlayList().getTracks().size();
+        int size = Math.min(pojo.getPlayList().getTrackIds().size(), 1000);
+        if (count < size) {
+            long[] ids = new long[size - count];
+
+            for(int i = count; i < size; ++i) {
+                ids[i - count] = pojo.getPlayList().getTrackIds().get(i).getId();
+            }
+
+            String extraTrackInfo = NetMusic.NET_EASE_WEB_API.songs(ids);
+            ExtraMusicList extra = GSON.fromJson(extraTrackInfo, ExtraMusicList.class);
+            pojo.getPlayList().getTracks().addAll(extra.getTracks());
+        }
+        for(NetEaseMusicList.Track track : pojo.getPlayList().getTracks()) {
+            SONGS.add(new ItemMusicCD.SongInfo(track));
+        }
+        return SONGS;
     }
 }

@@ -108,7 +108,7 @@ public class PacketRegistry {
                 PlayEnderMusicPlayerPacket.class,
                 PlayEnderMusicPlayerPacket::encode,
                 PlayEnderMusicPlayerPacket::decode,
-                ClientHandler::handleClientEnderPlayerPlayPacket
+                (packet, contextSupplier) -> {}
         );
     }
 }

@@ -2,7 +2,6 @@ package com.gly091020.block;
 
 import com.github.tartaricacid.netmusic.block.BlockMusicPlayer;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
-import com.github.tartaricacid.netmusic.tileentity.TileEntityMusicPlayer;
 import com.gly091020.util.NetMusicListUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
