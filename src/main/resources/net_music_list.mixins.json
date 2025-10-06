@@ -10,6 +10,7 @@
     "CanBurnerCDListMixin",
     "CanPlayListMixin",
     "CommandMixin",
+    "FuckTelemetryMixin",
     "MusicPlayerBackpackMixin",
     "PlayListIsOKMixin",
     "PlayModeMixin",

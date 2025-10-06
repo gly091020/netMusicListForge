@@ -62,6 +62,6 @@ public class RecipeGenerator extends RecipeProvider implements IConditionBuilder
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, NetMusicList.MUSIC_LIST_ITEM.get())
                 .requires(NetMusicList.MUSIC_LIST_ITEM.get())
                 .unlockedBy("has_list", has(NetMusicList.MUSIC_LIST_ITEM.get()))
-                .save(consumer);
+                .save(consumer, ResourceLocation.fromNamespaceAndPath(NetMusicList.ModID, "clear_music_list"));
     }
 }

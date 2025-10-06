@@ -27,8 +27,7 @@ public class AdvancementGenerator extends ForgeAdvancementProvider {
                     .addCriterion("get_item",
                             InventoryChangeTrigger.TriggerInstance.hasItems(NetMusicList.MUSIC_LIST_ITEM.get()))
                     .rewards(AdvancementRewards.Builder.loot(ResourceLocation.fromNamespaceAndPath(NetMusicList.ModID, "book")))
-                    .save(saver, ResourceLocation.fromNamespaceAndPath(NetMusicList.ModID, "give_book"), existingFileHelper)
-            ;
+                    .save(saver, ResourceLocation.fromNamespaceAndPath(NetMusicList.ModID, "give_book"), existingFileHelper);
         }
     }
 }

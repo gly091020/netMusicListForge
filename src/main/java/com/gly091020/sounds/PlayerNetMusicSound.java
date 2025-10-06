@@ -48,6 +48,9 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
         this.y = player.getY();
         this.z = player.getZ();
         this.slot = slot;
+
+        relative = isClientPlayer();
+        attenuation = isClientPlayer() ? Attenuation.NONE : Attenuation.LINEAR;
     }
 
     @Override
@@ -140,10 +143,5 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
             return player.getUUID() == Minecraft.getInstance().player.getUUID();
         }
         return false;
-    }
-
-    @Override
-    public @NotNull Attenuation getAttenuation() {
-        return isClientPlayer() ? Attenuation.NONE : Attenuation.LINEAR;
     }
 }

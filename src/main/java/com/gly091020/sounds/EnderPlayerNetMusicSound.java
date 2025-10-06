@@ -38,6 +38,9 @@ public class EnderPlayerNetMusicSound extends AbstractTickableSoundInstance {
         this.x = (float)pos.getX() + 0.5F;
         this.y = (float)pos.getY() + 0.5F;
         this.z = (float)pos.getZ() + 0.5F;
+
+        relative = true;
+        attenuation = Attenuation.NONE;
     }
 
     @Override
@@ -73,10 +76,5 @@ public class EnderPlayerNetMusicSound extends AbstractTickableSoundInstance {
                 return null;
             }
         }, Util.backgroundExecutor());
-    }
-
-    @Override
-    public @NotNull Attenuation getAttenuation() {
-        return Attenuation.NONE;
     }
 }
