@@ -206,7 +206,7 @@ dependencies {
     implementation fg.deobf("curse.maven:net-music-978569:6659790")
     implementation fg.deobf("curse.maven:cloth-config-348521:5729105")  // 配配配配配配配配配配配配配配配配配配配配置
     implementation fg.deobf("curse.maven:patchouli-306770:6164575")
-    compileOnly fg.deobf("com.gly091020:net_music_login_need:0.1")
+    implementation fg.deobf("com.gly091020:net_music_login_need:0.3")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

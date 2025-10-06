@@ -145,6 +145,12 @@ public class NetMusicList {
                     new ItemStack(MANUAL.get()),
                     CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
             );
+
+            event.getEntries().putAfter(
+                    new ItemStack(MANUAL.get()),
+                    new ItemStack(ENDER_PLAYER_ITEM.get()),
+                    CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
+            );
         }
     }
 

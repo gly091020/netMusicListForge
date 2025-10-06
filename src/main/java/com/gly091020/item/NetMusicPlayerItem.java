@@ -89,7 +89,7 @@ public class NetMusicPlayerItem extends Item{
 
     @Override
     public @NotNull Component getName(@NotNull ItemStack stack) {
-        return Component.translatable("item.net_music_player.name");
+        return Component.translatable("item.net_music_list.music_player");
     }
 
     @Override
