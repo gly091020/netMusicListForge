@@ -55,6 +55,7 @@ public class MoveHudScreen extends Screen {
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        if(super.mouseDragged(mouseX, mouseY, button, dragX, dragY))return false;
         x = (int) mouseX - 50;
         y = (int) mouseY - 20;
         return true;

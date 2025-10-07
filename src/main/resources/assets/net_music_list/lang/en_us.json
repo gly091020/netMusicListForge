@@ -40,6 +40,7 @@
   "config.net_music_list.hud.not_save": "Exit Without Saving",
   "config.net_music_list.not_pause_sound": "Sound does not pause when game is paused",
   "config.net_music_list.not_pause_sound.tip": "Allows currently playing sounds to continue when the game is paused",
+  "config.net_music_list.max_import_list": "Maximum number of songs to import",
 
   "patchouli.net_music_list.title": "Net Music: Playlist Manual",
   "patchouli.net_music_list.description": "Net Music: Basic usage guide for playlists",

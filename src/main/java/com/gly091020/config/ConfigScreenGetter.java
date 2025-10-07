@@ -19,6 +19,10 @@ public class ConfigScreenGetter {
         var category = builder.getOrCreateCategory(Component.empty());
         var entryBuilder = builder.entryBuilder();
 
+        if(NetMusicListUtil.isGLY()){
+            category.addEntry(entryBuilder.startTextDescription(Component.literal("你是真的执着……")).build());
+        }
+
         category.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.net_music_list.select_hud_artist"),
                 CONFIG.selectHudShowArtist)
                 .setDefaultValue(true).setSaveConsumer(b -> CONFIG.selectHudShowArtist = b).build());
@@ -26,6 +30,10 @@ public class ConfigScreenGetter {
                         CONFIG.notPauseSoundOnGamePause)
                         .setTooltip(Component.translatable("config.net_music_list.not_pause_sound.tip"))
                 .setDefaultValue(false).setSaveConsumer(b -> CONFIG.notPauseSoundOnGamePause = b).build());
+        category.addEntry(entryBuilder.startIntSlider(Component.translatable("config.net_music_list.max_import_list"), CONFIG.maxImportList, 100, 1000)
+                .setDefaultValue(300)
+                .setSaveConsumer(i -> CONFIG.maxImportList = i)
+                .build());
         category.addEntry(entryBuilder.startIntSlider(Component.translatable("config.net_music_list.select_hud_length"),
                         CONFIG.selectHudCount, 10, 50)
                         .setDefaultValue(20)

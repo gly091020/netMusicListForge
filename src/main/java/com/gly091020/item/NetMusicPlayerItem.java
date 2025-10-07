@@ -22,6 +22,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -63,6 +64,22 @@ public class NetMusicPlayerItem extends Item{
         stack.getOrCreateTag().putInt("tick", info.songTime * 20);
         if(!player.level().isClientSide){return;}
         NetMusicList.CHANNEL.sendToServer(new PlayerPlayMusicPacket(player.getId(), info.songUrl, info.songTime, info.songName, slot, info));
+    }
+
+    public static void sendPacket(ItemStack stack, Player player, int slot){
+        var i = getContainer(stack).getItem(0);
+        if(!i.is(InitItems.MUSIC_CD.get()) && !i.is(NetMusicList.MUSIC_LIST_ITEM.get())){
+            return;
+        }
+        var info = ItemMusicCD.getSongInfo(i);
+        if(!NetMusicListUtil.hasLoginNeed() && info.vip){
+            return;
+        }
+        if(!player.level().isClientSide){
+            NetMusicList.CHANNEL.send(PacketDistributor.ALL.noArg(), new PlayerPlayMusicPacket(player.getId(), info.songUrl, info.songTime, info.songName, slot, info));
+        }else {
+            NetMusicList.CHANNEL.sendToServer(new PlayerPlayMusicPacket(player.getId(), info.songUrl, info.songTime, info.songName, slot, info));
+        }
     }
 
     public static MusicPlayerContainer getContainer(ItemStack stack){

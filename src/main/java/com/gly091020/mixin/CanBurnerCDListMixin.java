@@ -17,6 +17,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static com.gly091020.NetMusicList.CONFIG;
+
 @Mixin(value = CDBurnerMenu.class, remap = false)
 public class CanBurnerCDListMixin {
     @Shadow
@@ -30,7 +32,7 @@ public class CanBurnerCDListMixin {
     @Final
     private ItemStackHandler output;
 
-    @Inject(method = "setSongInfo", at = @At("HEAD"))
+    @Inject(method = "setSongInfo", at = @At("HEAD"), cancellable = true)
     public void onSetInfo(ItemMusicCD.SongInfo setSongInfo, CallbackInfo ci){
         // 列表刻录暴力适配
         if(input.getStackInSlot(0).is(NetMusicList.MUSIC_LIST_ITEM.get())){
@@ -42,6 +44,9 @@ public class CanBurnerCDListMixin {
         if (input.getStackInSlot(0).isEmpty() && output.getStackInSlot(0).is(NetMusicList.MUSIC_LIST_ITEM.get())) {
             input.setStackInSlot(0, output.getStackInSlot(0));
             output.setStackInSlot(0, Items.AIR.getDefaultInstance());
+        }
+        if(NetMusicListItem.getSongInfoList(input.getStackInSlot(0)).size() >= CONFIG.maxImportList){
+            ci.cancel();
         }
     }
 }

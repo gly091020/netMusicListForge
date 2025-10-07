@@ -6,6 +6,7 @@ import com.github.tartaricacid.netmusic.api.pojo.NetEaseMusicList;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.client.PauseSoundManager;
 import com.gly091020.config.NetMusicListConfig;
+import com.gly091020.hud.MusicInfoHud;
 import com.gly091020.mixin.TickableSoundGetterMixins;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -218,8 +219,12 @@ public class NetMusicListUtil {
 
     public static void reloadConfig(){
         var holder = AutoConfig.getConfigHolder(NetMusicListConfig.class);
+        if(CONFIG.maxImportList < 100){
+            CONFIG.maxImportList = 300;
+        }
         holder.setConfig(CONFIG);
         holder.save();
+        MusicInfoHud.setPos(CONFIG.x, CONFIG.y);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -236,7 +241,7 @@ public class NetMusicListUtil {
         var SONGS = new ArrayList<ItemMusicCD.SongInfo>();
         NetEaseMusicList pojo = GSON.fromJson(NetMusic.NET_EASE_WEB_API.list(id), NetEaseMusicList.class);
         int count = pojo.getPlayList().getTracks().size();
-        int size = Math.min(pojo.getPlayList().getTrackIds().size(), 1000);
+        int size = Math.min(pojo.getPlayList().getTrackIds().size(), CONFIG.maxImportList);
         if (count < size) {
             long[] ids = new long[size - count];
 

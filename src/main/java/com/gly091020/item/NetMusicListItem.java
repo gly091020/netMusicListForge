@@ -80,6 +80,7 @@ public class NetMusicListItem extends ItemMusicCD {
         }
         var i = getSongIndex(stack);
         if(i >= 0 && i >= l.size()){return null;}
+        if(i < 0){return null;}
         return l.get(i);
     }
 

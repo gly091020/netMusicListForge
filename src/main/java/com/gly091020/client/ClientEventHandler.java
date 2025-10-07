@@ -16,13 +16,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = NetMusicList.ModID)
 public class ClientEventHandler {
-    @SubscribeEvent
-    public static void onRenderGui(RenderGuiEvent.Pre event){
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onRenderGui(RenderGuiEvent.Post event){
         var graphics = event.getGuiGraphics();
         MusicInfoHud.render(graphics);
         MusicListLayer.render(graphics);

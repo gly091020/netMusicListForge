@@ -10,6 +10,7 @@ public class NetMusicListConfig implements ConfigData {
     public boolean notPauseSoundOnGamePause = false;
     public int x = 10;
     public int y = 10;
+    public int maxImportList = 300;
 
     public float selectHudSize = 0.7f;
     public int selectHudCount = 20;
