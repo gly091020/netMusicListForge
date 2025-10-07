@@ -28,7 +28,7 @@ public class NetMusicListKeyMapping {
         );
         FAST_STOP = new KeyMapping(
                 "key.net_music_list.toggle_music_fast_stop",
-                KeyConflictContext.IN_GAME,
+                KeyConflictContext.UNIVERSAL,
                 InputConstants.Type.KEYSYM,
                 InputConstants.UNKNOWN.getValue(),
                 "modmenu.nameTranslation.net_music_list"
