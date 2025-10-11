@@ -52,7 +52,8 @@ public class EnderMusicPlayerEntity extends BlockEntity {
 
     public void setPlayToClient(ItemMusicCD.SongInfo info){
         originalPlayer.setCurrentTime(info.songTime * 20 + 64);
-        originalPlayer.setPlay(true);
+        setPlay(true);
+        setChanged();
         if (this.level != null && !this.level.isClientSide) {
             MusicToClientMessage msg = new PlayEnderMusicPlayerPacket(this.worldPosition, info.songUrl, info.songTime, info.songName);
             sendToNearby(this.level, this.worldPosition, msg);

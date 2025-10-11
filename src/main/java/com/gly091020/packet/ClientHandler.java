@@ -11,10 +11,14 @@ import com.gly091020.util.LoginNeedUtil;
 import com.gly091020.util.NetMusicListUtil;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
+import net.minecraft.client.resources.sounds.TickableSoundInstance;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.PacketDistributor;
 
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
@@ -68,5 +72,21 @@ public class ClientHandler {
             }));
             c.setPacketHandled(true);
         }
+    }
+
+    public static void handleStopMusicPacket(StopMusicPacket packet, Supplier<NetworkEvent.Context> ctx){
+        var c = ctx.get();
+        if (FMLEnvironment.dist.isClient()) {
+            c.enqueueWork(() -> CompletableFuture.runAsync(() -> {
+                var sounds = NetMusicListUtil.getTickableSounds();
+                for(TickableSoundInstance soundInstance: sounds){
+                    if(soundInstance instanceof PlayerNetMusicSound sound &&
+                            sound.getPlayer().getId() == packet.playerID()){
+                        sound.stopMusic();
+                    }
+                }
+            }));
+        }
+        c.setPacketHandled(true);
     }
 }

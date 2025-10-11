@@ -8,6 +8,7 @@ import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
 import com.gly091020.item.NetMusicListItem;
 import com.gly091020.item.NetMusicPlayerItem;
+import com.gly091020.packet.StopMusicPacket;
 import com.gly091020.packet.UpdateMusicTickCTSPacket;
 import com.gly091020.util.NetMusicListUtil;
 import net.minecraft.Util;
@@ -22,6 +23,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
@@ -36,6 +38,7 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
     int tick = 0;
     final int slot;
 
+    @Nullable
     String clientUrl;
 
     public PlayerNetMusicSound(Player player, URL songUrl, int second, int slot) {
@@ -56,38 +59,42 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
     @Override
     public void tick() {
         if(player.isRemoved()){
-            stop();
+            stopMusic();
         }
 
-        var itemStack = player.getInventory().getItem(slot);
-        if(!itemStack.is(NetMusicList.MUSIC_PLAYER_ITEM.get())){
-            stop();
-        }
-        itemStack = NetMusicPlayerItem.getContainer(itemStack).getItem(0);
+        if(isClientPlayer()){
+            var itemStack = player.getInventory().getItem(slot);
+            if (!itemStack.is(NetMusicList.MUSIC_PLAYER_ITEM.get())) {
+                stopMusic();
+            }
+            itemStack = NetMusicPlayerItem.getContainer(itemStack).getItem(0);
 
-        if(itemStack.is(InitItems.MUSIC_CD.get())){
-            if(ItemMusicCD.getSongInfo(itemStack) == null) {
-                stop();
+            if (itemStack.is(InitItems.MUSIC_CD.get())) {
+                if (ItemMusicCD.getSongInfo(itemStack) == null) {
+                    stopMusic();
+                }
+            } else if (itemStack.is(NetMusicList.MUSIC_LIST_ITEM.get())) {
+                var info = NetMusicListItem.getSongInfo(itemStack);
+                if (info == null) {
+                    stopMusic();
+                } else {
+                    if (clientUrl == null) clientUrl = info.songUrl;
+                    if (!Objects.equals(clientUrl, info.songUrl)) {
+                        stopMusic();
+                    }
+                }
+            } else {
+                stopMusic();
             }
-        }else if(itemStack.is(NetMusicList.MUSIC_LIST_ITEM.get())){
-            var info = NetMusicListItem.getSongInfo(itemStack);
-            if(info == null) {
-                stop();
-            }else {
-                if (clientUrl == null) clientUrl = info.songUrl;
-                if(!Objects.equals(clientUrl, info.songUrl)){stop();}
-            }
-        }else{
-            stop();
         }
 
         ClientLevel level = Minecraft.getInstance().level;
         if(level == null){
-            stop();
+            stopMusic();
         }else{
             ++this.tick;
             if (this.tick > this.countTick + 50){
-                stop();
+                stopMusic();
             }else{
                 this.x = player.getX();
                 this.y = player.getY();
@@ -113,6 +120,13 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
         }else{
             this.volume = 4f;
         }
+    }
+
+    public void stopMusic(){
+        if(!isStopped() && isClientPlayer()){
+            NetMusicList.CHANNEL.sendToServer(new StopMusicPacket(player.getId(), url.toString()));
+        }
+        stop();
     }
 
     public void onlyTickUpdate(){
@@ -143,5 +157,13 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
             return player.getUUID() == Minecraft.getInstance().player.getUUID();
         }
         return false;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public String getClientUrl() {
+        return clientUrl;
     }
 }

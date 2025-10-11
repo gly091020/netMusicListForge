@@ -21,6 +21,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import oshi.util.tuples.Pair;
 
 import javax.annotation.Nullable;
@@ -224,7 +225,9 @@ public class NetMusicListUtil {
         }
         holder.setConfig(CONFIG);
         holder.save();
-        MusicInfoHud.setPos(CONFIG.x, CONFIG.y);
+        if(FMLEnvironment.dist.isClient()){
+            MusicInfoHud.setPos(CONFIG.x, CONFIG.y);
+        }
     }
 
     @OnlyIn(Dist.CLIENT)

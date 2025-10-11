@@ -202,7 +202,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    implementation fg.deobf("curse.maven:touhou-little-maid-355044:6657436")
+    implementation fg.deobf("curse.maven:touhou-little-maid-355044:6979039")
     implementation fg.deobf("curse.maven:net-music-978569:6659790")
     implementation fg.deobf("curse.maven:cloth-config-348521:5729105")  // 配配配配配配配配配配配配配配配配配配配配置
     implementation fg.deobf("curse.maven:patchouli-306770:6164575")

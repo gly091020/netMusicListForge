@@ -73,9 +73,9 @@ public class NetMusicList {
     @SuppressWarnings("all")
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             ResourceLocation.fromNamespaceAndPath(ModID, "send_data"),
-            () -> "1.3",  // 协议版本
-            "1.3"::equals,
-            "1.3"::equals
+            () -> "1.4",  // 协议版本
+            "1.4"::equals,
+            "1.4"::equals
     );
 
     @SuppressWarnings("removal")

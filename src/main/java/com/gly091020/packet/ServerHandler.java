@@ -80,4 +80,9 @@ public class ServerHandler {
             stack.getOrCreateTag().putInt("tick", packet.tick());
         }
     }
+
+    public static void handleStopMusicPacket(StopMusicPacket packet, Supplier<NetworkEvent.Context> ctx){
+        CHANNEL.send(PacketDistributor.ALL.noArg(), packet);
+        ctx.get().setPacketHandled(true);
+    }
 }

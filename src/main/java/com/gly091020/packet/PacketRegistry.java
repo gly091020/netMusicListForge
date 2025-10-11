@@ -54,6 +54,12 @@ public class PacketRegistry {
                 UpdateMusicTickCTSPacket::decode,
                 ServerHandler::handlePlayerUpdateTickPacket
         );
+        CHANNEL.registerMessage(7,
+                StopMusicPacket.class,
+                StopMusicPacket::encode,
+                StopMusicPacket::decode,
+                ClientHandler::handleStopMusicPacket
+        );
     }
 
     public static void registryServer(){
@@ -109,6 +115,12 @@ public class PacketRegistry {
                 PlayEnderMusicPlayerPacket::encode,
                 PlayEnderMusicPlayerPacket::decode,
                 (packet, contextSupplier) -> {}
+        );
+        CHANNEL.registerMessage(7,
+                StopMusicPacket.class,
+                StopMusicPacket::encode,
+                StopMusicPacket::decode,
+                ServerHandler::handleStopMusicPacket
         );
     }
 }

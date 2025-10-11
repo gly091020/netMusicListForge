@@ -55,14 +55,15 @@ public class EnderPlayerNetMusicSound extends AbstractTickableSoundInstance {
                 world.addParticle(ParticleTypes.NOTE, this.x - (double)0.5F + world.random.nextDouble(), this.y + world.random.nextDouble() + (double)1.0F, this.z - (double)0.5F + world.random.nextDouble(), world.random.nextGaussian(), world.random.nextGaussian(), (double)world.random.nextInt(3));
             }
         }
-
-        BlockEntity te = world.getBlockEntity(this.pos);
-        if (te instanceof EnderMusicPlayerEntity musicPlay) {
-            if (!musicPlay.isPlay()) {
+        if(this.tick > 40) {
+            BlockEntity te = world.getBlockEntity(this.pos);
+            if (te instanceof EnderMusicPlayerEntity musicPlay) {
+                if (!musicPlay.isPlay()) {
+                    this.stop();
+                }
+            } else {
                 this.stop();
             }
-        } else {
-            this.stop();
         }
     }
 
