@@ -42,6 +42,8 @@ public class NetMusicListUtil {
     public static final Gson GSON = new Gson();
     public static final UUID _5112151111121 = UUID.fromString("91bd580f-5f17-4e30-872f-2e480dd9a220");
     public static final UUID N44 = UUID.fromString("5a33e9b0-35bc-44ed-9b4e-03e3e180a3d2");
+    // 自己的石山还得让别人来修……
+    public static final UUID WANG_REN_ZE_9788 = UUID.fromString("21b900df-8ea3-47e4-81cb-ed1146714b14");
     public static boolean globalStopMusic = false;
     @OnlyIn(Dist.CLIENT)
     public static void playSound(SoundEvent event){
@@ -216,6 +218,10 @@ public class NetMusicListUtil {
 
     public static List<TickableSoundInstance> getTickableSounds(){
         return ((TickableSoundGetterMixins.SoundEngineMixin)((TickableSoundGetterMixins.SoundManagerMixin) Minecraft.getInstance().getSoundManager()).getSoundEngine()).getTickableSoundInstances();
+    }
+
+    public static boolean isWangRenZe9788(){
+        return Objects.equals(Minecraft.getInstance().getUser().getProfileId(), WANG_REN_ZE_9788);
     }
 
     public static void reloadConfig(){

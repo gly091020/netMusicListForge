@@ -1,12 +1,15 @@
 package com.gly091020.config;
 
+import com.gly091020.NetMusicList;
 import com.gly091020.util.NetMusicListUtil;
 import com.gly091020.client.MoveHudScreen;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import static com.gly091020.NetMusicList.CONFIG;
 
@@ -19,8 +22,12 @@ public class ConfigScreenGetter {
         var category = builder.getOrCreateCategory(Component.empty());
         var entryBuilder = builder.entryBuilder();
 
-        if(NetMusicListUtil.isGLY()){
-            category.addEntry(entryBuilder.startTextDescription(Component.literal("你是真的执着……")).build());
+        if(NetMusicListUtil.isGLY() || !FMLEnvironment.production){
+            category.addEntry(new ImageEntry(ResourceLocation.fromNamespaceAndPath(NetMusicList.ModID, "textures/gui/server.png")));
+        }
+        if(NetMusicListUtil.isWangRenZe9788() || NetMusicListUtil.isN44()){
+            // gly特有的自黑
+            category.addEntry(new ImageEntry(ResourceLocation.fromNamespaceAndPath(NetMusicList.ModID, "textures/gui/gly_is_suck.png")));
         }
 
         category.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.net_music_list.select_hud_artist"),
