@@ -39,7 +39,7 @@ authors = "${mod_authors}" #optional
 #displayTest="MATCH_VERSION" # MATCH_VERSION is the default if nothing is specified (#optional)
 
 # The description text for the mod (multi line!) (#mandatory)
-description = '''添加了一种可以方便播放多首歌曲的道具
+description = '''添加了一些扩展网络音乐机的东西
 背着一背包的唱片到处跑可不是一种好习惯'''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies."${mod_id}"]] #optional

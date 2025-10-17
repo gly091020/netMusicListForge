@@ -122,6 +122,12 @@ public class PacketRegistry {
                 PlayEnderMusicPlayerPacket::decode,
                 (packet, contextSupplier) -> {}
         );
+        CHANNEL.registerMessage(8,
+                StopMusicPacket.class,
+                StopMusicPacket::encode,
+                StopMusicPacket::decode,
+                (packet, contextSupplier) -> {}
+        );
         CHANNEL.registerMessage(7,
                 StopMusicPacketServer.class,
                 StopMusicPacketServer::encode,
