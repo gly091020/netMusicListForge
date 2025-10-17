@@ -81,8 +81,8 @@ public class ServerHandler {
         }
     }
 
-    public static void handleStopMusicPacket(StopMusicPacket packet, Supplier<NetworkEvent.Context> ctx){
-        CHANNEL.send(PacketDistributor.ALL.noArg(), packet);
+    public static void handleStopMusicPacket(StopMusicPacketServer packet, Supplier<NetworkEvent.Context> ctx){
+        CHANNEL.send(PacketDistributor.ALL.noArg(),new StopMusicPacket(packet.playerID(),packet.url()));
         ctx.get().setPacketHandled(true);
     }
 }

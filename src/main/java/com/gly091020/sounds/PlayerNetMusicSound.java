@@ -8,7 +8,7 @@ import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
 import com.gly091020.item.NetMusicListItem;
 import com.gly091020.item.NetMusicPlayerItem;
-import com.gly091020.packet.StopMusicPacket;
+import com.gly091020.packet.StopMusicPacketServer;
 import com.gly091020.packet.UpdateMusicTickCTSPacket;
 import com.gly091020.util.NetMusicListUtil;
 import net.minecraft.Util;
@@ -124,7 +124,7 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
 
     public void stopMusic(){
         if(!isStopped() && isClientPlayer()){
-            NetMusicList.CHANNEL.sendToServer(new StopMusicPacket(player.getId(), url.toString()));
+            NetMusicList.CHANNEL.sendToServer(new StopMusicPacketServer(player.getId(), url.toString()));
         }
         stop();
     }

@@ -54,11 +54,17 @@ public class PacketRegistry {
                 UpdateMusicTickCTSPacket::decode,
                 ServerHandler::handlePlayerUpdateTickPacket
         );
-        CHANNEL.registerMessage(7,
+        CHANNEL.registerMessage(8,
                 StopMusicPacket.class,
                 StopMusicPacket::encode,
                 StopMusicPacket::decode,
                 ClientHandler::handleStopMusicPacket
+        );
+        CHANNEL.registerMessage(7,
+                StopMusicPacketServer.class,
+                StopMusicPacketServer::encode,
+                StopMusicPacketServer::decode,
+                ServerHandler::handleStopMusicPacket
         );
     }
 
@@ -117,9 +123,9 @@ public class PacketRegistry {
                 (packet, contextSupplier) -> {}
         );
         CHANNEL.registerMessage(7,
-                StopMusicPacket.class,
-                StopMusicPacket::encode,
-                StopMusicPacket::decode,
+                StopMusicPacketServer.class,
+                StopMusicPacketServer::encode,
+                StopMusicPacketServer::decode,
                 ServerHandler::handleStopMusicPacket
         );
     }

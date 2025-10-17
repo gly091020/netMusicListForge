@@ -80,13 +80,13 @@ public class ClientHandler {
             c.enqueueWork(() -> CompletableFuture.runAsync(() -> {
                 var sounds = NetMusicListUtil.getTickableSounds();
                 for(TickableSoundInstance soundInstance: sounds){
-                    if(soundInstance instanceof PlayerNetMusicSound sound &&
-                            sound.getPlayer().getId() == packet.playerID()){
+                    if(soundInstance instanceof PlayerNetMusicSound sound && sound.getPlayer().getId() == packet.playerID()){
                         sound.stopMusic();
                     }
                 }
             }));
         }
+
         c.setPacketHandled(true);
     }
 }
