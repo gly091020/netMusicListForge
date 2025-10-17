@@ -1,9 +1,11 @@
 package com.gly091020.config;
 
 import com.gly091020.NetMusicList;
+import com.gly091020.client.FuckBlitNineSlicedScreen;
 import com.gly091020.util.NetMusicListUtil;
 import com.gly091020.client.MoveHudScreen;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -59,6 +61,12 @@ public class ConfigScreenGetter {
                 (button) -> MoveHudScreen.open());
         buttonWidget.isEnable(CONFIG.musicHUD);
         category.addEntry(buttonWidget);
+
+        if(!FMLEnvironment.production){
+            category.addEntry(new ButtonEntry(Component.literal("打开FuckBlitNineSlicedScreen"), button ->
+                    Minecraft.getInstance().setScreen(new FuckBlitNineSlicedScreen())));
+        }
+
         builder.setSavingRunnable(NetMusicListUtil::reloadConfig);
 
         return builder.build();
