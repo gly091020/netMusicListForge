@@ -10,6 +10,7 @@ import com.gly091020.item.NetMusicListItem;
 import com.gly091020.item.NetMusicListManual;
 import com.gly091020.item.NetMusicPlayerItem;
 import com.gly091020.packet.PacketRegistry;
+import com.gly091020.util.CacheManager;
 import com.gly091020.util.MP3Pack;
 import com.gly091020.util.NetMusicListKeyMapping;
 import com.gly091020.util.NetMusicListUtil;
@@ -108,6 +109,7 @@ public class NetMusicList {
             modEventBus.addListener(NetMusicListKeyMapping::registerKeyBindings);
         }
         modEventBus.addListener(NetMusicList::gatherData);
+        CacheManager.load();
     }
 
     public static void gatherData(GatherDataEvent event){

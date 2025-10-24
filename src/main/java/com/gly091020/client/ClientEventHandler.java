@@ -4,6 +4,7 @@ import com.gly091020.NetMusicList;
 import com.gly091020.hud.MusicInfoHud;
 import com.gly091020.hud.MusicListLayer;
 import com.gly091020.sounds.PlayerNetMusicSound;
+import com.gly091020.util.CacheManager;
 import com.gly091020.util.NetMusicListKeyMapping;
 import com.gly091020.util.NetMusicListUtil;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -62,6 +63,7 @@ public class ClientEventHandler {
         if(event.phase != TickEvent.Phase.END){return;}
         soundFix();
         fastStop();
+        CacheManager.tick();
     }
 
     private static void fastStop(){

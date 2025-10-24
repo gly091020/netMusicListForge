@@ -25,6 +25,7 @@
   "client": [
     "BurnerSongListMixin",
     "GamePauseMixin",
+    "PlayMusicCacheMixin",
     "SoundPausedMixin",
     "TickableSoundGetterMixins$SoundEngineMixin",
     "TickableSoundGetterMixins$SoundManagerMixin"

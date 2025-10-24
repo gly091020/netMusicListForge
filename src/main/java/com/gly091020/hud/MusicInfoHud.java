@@ -3,6 +3,7 @@ package com.gly091020.hud;
 import com.github.tartaricacid.netmusic.NetMusic;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
+import com.gly091020.util.CacheManager;
 import com.gly091020.util.NetMusicListUtil;
 import com.gly091020.item.NetMusicPlayerItem;
 import net.minecraft.client.Minecraft;
@@ -110,6 +111,16 @@ public class MusicInfoHud{
         lyric = null;
         stack = playerStack;
         getData();
+        try {
+            var id = NetMusicListUtil.getIdFromInfo(info);
+            if(!CacheManager.hasCache(id)){
+                var uuid = UUID.randomUUID().toString();
+                CacheManager.startImgDownload(id, uuid);
+                CacheManager.startSongDownload(id, uuid);
+            }
+        } catch (IllegalAccessException ignored) {
+
+        }
     }
 
     public static void clearInfo(){
@@ -118,6 +129,27 @@ public class MusicInfoHud{
 
     public static void getData(){
         if(info != null){
+            try {
+                var id = NetMusicListUtil.getIdFromInfo(info);
+                if(CacheManager.hasCache(id)){
+                    var imagePath = CacheManager.getImageCache(id);
+                    if(imagePath == null){
+                        icon = DEFAULT_TEXTURE;
+                    }else{
+                        var resourceLocation = ResourceLocation.fromNamespaceAndPath(NetMusicList.ModID,
+                                String.format("icon_%s", id));
+                        Minecraft.getInstance().getTextureManager().register(resourceLocation,
+                                NetMusicListUtil.getTextureFromPath(imagePath));
+                        icon = resourceLocation;
+
+                        lyric = null; // todo:歌词缓存未完成
+
+                        return;
+                    }
+                }
+            } catch (IllegalAccessException | IOException ignored) {
+
+            }
             try {
                 getTextureFromLocal(info);
                 id = NetMusicListUtil.getIdFromInfo(info);

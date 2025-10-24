@@ -29,6 +29,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -53,7 +54,11 @@ public class NetMusicListUtil {
     @OnlyIn(Dist.CLIENT)
     public static long getIdFromInfo(ItemMusicCD.SongInfo info) throws IllegalAccessException {
         var s = info.songUrl;
-        String[] parts = s.split("[?&]id=");  // 为 什 么 要 用 这 种 代 码
+        return getIdFromUrl(s);
+    }
+
+    public static long getIdFromUrl(String url) throws IllegalAccessException {
+        String[] parts = url.split("[?&]id=");  // 为 什 么 要 用 这 种 代 码
         String idPart;
         if (parts.length > 1) {
             idPart = parts[1].split("&")[0];
@@ -266,5 +271,48 @@ public class NetMusicListUtil {
             SONGS.add(new ItemMusicCD.SongInfo(track));
         }
         return SONGS;
+    }
+
+    public static URL resolveRedirect(URL originalUrl, int maxRedirects, Map<String, String> headers) throws IOException {
+        URL currentUrl = originalUrl;
+        HttpURLConnection connection;
+
+        while (maxRedirects-- > 0) {
+            connection = (HttpURLConnection) currentUrl.openConnection();
+            connection.setInstanceFollowRedirects(false); // 手动处理重定向
+
+            // 设置请求头
+            if (headers != null) {
+                headers.forEach(connection::setRequestProperty);
+            }
+
+            int responseCode = connection.getResponseCode();
+
+            // 如果是 200，直接返回当前 URL
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                return currentUrl;
+            }
+
+            // 处理 302/301/307/308 等重定向
+            if (responseCode == HttpURLConnection.HTTP_MOVED_TEMP ||
+                    responseCode == HttpURLConnection.HTTP_MOVED_PERM ||
+                    responseCode == HttpURLConnection.HTTP_SEE_OTHER ||
+                    responseCode == 307 || responseCode == 308) {
+
+                String location = connection.getHeaderField("Location");
+                connection.disconnect(); // 关闭当前连接
+
+                if (location == null) {
+                    throw new IOException("Redirect with no Location header: " + responseCode);
+                }
+
+                // 处理相对路径的 Location
+                currentUrl = new URL(currentUrl, location);
+            } else {
+                throw new IOException("Unexpected HTTP status: " + responseCode);
+            }
+        }
+
+        throw new IOException("Too many redirects (max: " + maxRedirects + ")");
     }
 }
