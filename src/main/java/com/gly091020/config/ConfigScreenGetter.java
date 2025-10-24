@@ -44,11 +44,11 @@ public class ConfigScreenGetter {
                 .setSaveConsumer(i -> CONFIG.maxImportList = i)
                 .build());
         category.addEntry(entryBuilder.startIntSlider(Component.translatable("config.net_music_list.select_hud_length"),
-                        CONFIG.selectHudCount, 10, 50)
-                        .setDefaultValue(20)
+                        CONFIG.selectHudCount, 3, 27)
+                        .setDefaultValue(5)
                         .setSaveConsumer(i -> CONFIG.selectHudCount = i)
                 .build());
-        category.addEntry(entryBuilder.startIntSlider(Component.translatable("config.net_music_list.select_hud_size"), (int)(CONFIG.selectHudSize * 10), 3, 10)
+        category.addEntry(entryBuilder.startIntSlider(Component.translatable("config.net_music_list.select_hud_size"), (int)(CONFIG.selectHudSize * 10), 3, 15)
                         .setDefaultValue(7)
                         .setSaveConsumer(integer -> CONFIG.selectHudSize = integer / 10f)
                 .build());

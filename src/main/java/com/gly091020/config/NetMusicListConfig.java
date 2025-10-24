@@ -13,6 +13,6 @@ public class NetMusicListConfig implements ConfigData {
     public int maxImportList = 300;
 
     public float selectHudSize = 0.7f;
-    public int selectHudCount = 20;
+    public int selectHudCount = 5;
     public boolean selectHudShowArtist = true;
 }
