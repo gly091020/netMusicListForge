@@ -52,6 +52,10 @@ public class ConfigScreenGetter {
                         .setDefaultValue(7)
                         .setSaveConsumer(integer -> CONFIG.selectHudSize = integer / 10f)
                 .build());
+        category.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.net_music_list.glowing_text"), CONFIG.glowingText)
+                .setSaveConsumer(b -> CONFIG.glowingText = b)
+                .setDefaultValue(false)
+                .build());
 
         category.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.net_music_list.music_hud"),
                         CONFIG.musicHUD).setSaveConsumer(b -> CONFIG.musicHUD = b).setDefaultValue(true)

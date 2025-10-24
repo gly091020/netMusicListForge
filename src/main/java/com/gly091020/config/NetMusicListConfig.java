@@ -15,4 +15,5 @@ public class NetMusicListConfig implements ConfigData {
     public float selectHudSize = 0.7f;
     public int selectHudCount = 5;
     public boolean selectHudShowArtist = true;
+    public boolean glowingText = false;
 }

@@ -2,18 +2,21 @@ package com.gly091020.hud;
 
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
-import com.gly091020.util.NetMusicListKeyMapping;
 import com.gly091020.item.NetMusicListItem;
 import com.gly091020.item.NetMusicPlayerItem;
+import com.gly091020.util.NetMusicListKeyMapping;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Matrix4f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,13 +96,13 @@ public class MusicListLayer{
                 if (listIndex == index) {
                     pose.translate(-(textWidth * selectedSize + 4), y, 0);
                     pose.scale(selectedSize, selectedSize, 1);
-                    guiGraphics.drawString(font, text, 0, 0, 0xFFFFFFFF);
+                    drawString(guiGraphics, font, text, 0, 0, 0xFFFFFFFF);
                     y += font.lineHeight * selectedSize + margin;
                 } else {
                     float alpha = (float) (b * Math.pow(v, - Math.abs(listIndex - index) + 1));
                     pose.translate(-(textWidth + 4), y, 0);
                     RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha);
-                    guiGraphics.drawString(font, text, 0, 0, 0xFFFFFF);
+                    drawString(guiGraphics, font, text, 0, 0, 0xFFFFFF);
                     RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                     y += font.lineHeight + margin;
                 }
@@ -111,6 +114,16 @@ public class MusicListLayer{
 
         RenderSystem.disableBlend();
         pose.popPose();
+    }
+
+    private static void drawString(GuiGraphics guiGraphics, Font font, MutableComponent text, int x, int y, int color) {
+        if (NetMusicList.CONFIG.glowingText) {
+            final int glowColor = 0xFF000000;
+            Matrix4f matrix = guiGraphics.pose().last().pose();
+            MultiBufferSource bufferSource = guiGraphics.bufferSource();
+            font.drawInBatch8xOutline(text.getVisualOrderText(), x, y, color, glowColor, matrix, bufferSource, 0xF000F0);
+        }
+        guiGraphics.drawString(font, text, x, y, color, !NetMusicList.CONFIG.glowingText);
     }
 
     private static String getMusicText(ItemMusicCD.SongInfo info){

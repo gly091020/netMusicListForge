@@ -41,6 +41,7 @@
   "config.net_music_list.not_pause_sound": "游戏暂停时声音不暂停",
   "config.net_music_list.not_pause_sound.tip": "使游戏暂停时正在播放的声音继续播放",
   "config.net_music_list.max_import_list": "最大歌曲导入数量",
+  "config.net_music_list.glowing_text": "快速选歌文字描边",
 
   "patchouli.net_music_list.title": "网络音乐机：播放列表手册",
   "patchouli.net_music_list.description": "网络音乐机：播放列表的基本使用方法介绍",

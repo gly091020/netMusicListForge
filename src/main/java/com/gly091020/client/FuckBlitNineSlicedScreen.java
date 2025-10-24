@@ -14,7 +14,7 @@ public class FuckBlitNineSlicedScreen extends Screen {
     private static final int MAX_VALUE = 500;
 
     // 纹理资源位置
-    private static final ResourceLocation TEXTURE = new ResourceLocation(NetMusicList.ModID, "textures/gui/button.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(NetMusicList.ModID, "textures/gui/button.png");
 
     // 所有参数变量，使用原始名称
     // 这些名称还是错的
