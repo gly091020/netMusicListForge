@@ -46,13 +46,13 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
         this.player = player;
         this.url = songUrl;
         this.countTick = second * 20;
-        this.volume = 4f;
+        this.volume = 1f;
         this.x = player.getX();
         this.y = player.getY();
         this.z = player.getZ();
         this.slot = slot;
 
-        relative = isClientPlayer();
+        relative = !isClientPlayer();
         attenuation = isClientPlayer() ? Attenuation.NONE : Attenuation.LINEAR;
     }
 
@@ -161,9 +161,5 @@ public class PlayerNetMusicSound extends AbstractTickableSoundInstance {
 
     public Player getPlayer() {
         return player;
-    }
-
-    public String getClientUrl() {
-        return clientUrl;
     }
 }
