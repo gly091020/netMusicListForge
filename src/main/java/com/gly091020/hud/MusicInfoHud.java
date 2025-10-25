@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.net.URI;
@@ -29,7 +30,8 @@ public class MusicInfoHud{
 
     private static ItemMusicCD.SongInfo info;
     private static ResourceLocation icon;
-    private static long id;
+    @Nullable
+    private static Long id = null;
     private static NetMusicListUtil.Lyric lyric;
     private static ItemStack stack;
     private static int slot;
@@ -72,6 +74,9 @@ public class MusicInfoHud{
             var tickWidth = 100;
             guiGraphics.fill(left + 50, top + font.lineHeight + 4, left + 50 + tickWidth, top + font.lineHeight + 6, 0xFFAAAAAA);
             guiGraphics.fill(left + 50, top + font.lineHeight + 4, (int) (left + 50 + tickWidth * clamp((count - tick / 20f) / count, 0, 1)), top + font.lineHeight + 6, 0xFFFFFFFF);
+            if(id != null && CacheManager.getDownloadProgress(id) > 0){
+                guiGraphics.fill(left + 50, top + font.lineHeight + 4, (int) (left + 50 + tickWidth * clamp(CacheManager.getDownloadProgress(id), 0, 1)), top + font.lineHeight + 6, 0xFF00FF00);
+            }
             guiGraphics.drawString(font, String.format("%s/%s", NetMusicListUtil.secondsToMinutesSeconds((int) (count - (tick / 20f))), NetMusicListUtil.secondsToMinutesSeconds(count)), left + 50 + tickWidth + 5, top + font.lineHeight + 1, 0xFFFFFFFF);
 
             if(lyric != null){
@@ -98,6 +103,7 @@ public class MusicInfoHud{
     }
 
     public static void setInfo(ItemMusicCD.SongInfo info, @NotNull ItemStack playerStack, int slot){
+        id = null;
         MusicInfoHud.info = info;
         MusicInfoHud.slot = slot;
         if(thread != null){
@@ -117,6 +123,7 @@ public class MusicInfoHud{
                 var uuid = UUID.randomUUID().toString();
                 CacheManager.startImgDownload(id, uuid);
                 CacheManager.startSongDownload(id, uuid);
+                CacheManager.startLycDownload(id, uuid);
             }
         } catch (IllegalAccessException ignored) {
 
@@ -132,6 +139,7 @@ public class MusicInfoHud{
             try {
                 var id = NetMusicListUtil.getIdFromInfo(info);
                 if(CacheManager.hasCache(id)){
+                    lyric = CacheManager.getLycCache(id);
                     var imagePath = CacheManager.getImageCache(id);
                     if(imagePath == null){
                         icon = DEFAULT_TEXTURE;
@@ -141,9 +149,6 @@ public class MusicInfoHud{
                         Minecraft.getInstance().getTextureManager().register(resourceLocation,
                                 NetMusicListUtil.getTextureFromPath(imagePath));
                         icon = resourceLocation;
-
-                        lyric = null; // todo:歌词缓存未完成
-
                         return;
                     }
                 }

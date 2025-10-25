@@ -43,6 +43,14 @@ public class ConfigScreenGetter {
                 .setDefaultValue(300)
                 .setSaveConsumer(i -> CONFIG.maxImportList = i)
                 .build());
+        category.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.net_music_list.enable_cache"),
+                CONFIG.enableCache)
+                .requireRestart()
+                .setTooltip(Component.translatable("config.net_music_list.cache_warning"))
+                .setDefaultValue(false)
+                .setSaveConsumer(b -> CONFIG.enableCache = b)
+                .build());
+
         category.addEntry(entryBuilder.startIntSlider(Component.translatable("config.net_music_list.select_hud_length"),
                         CONFIG.selectHudCount, 3, 27)
                         .setDefaultValue(5)

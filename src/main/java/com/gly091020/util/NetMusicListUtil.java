@@ -9,6 +9,8 @@ import com.gly091020.config.NetMusicListConfig;
 import com.gly091020.hud.MusicInfoHud;
 import com.gly091020.mixin.TickableSoundGetterMixins;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import com.mojang.blaze3d.platform.NativeImage;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -124,27 +126,37 @@ public class NetMusicListUtil {
         }
     }
 
-    public static class Lyric{
+    public static class Lyric {
+        @SerializedName("lyric")
         private final Map<Float, String> lyric;
+
+        @SerializedName("transform_lyric")
+        @Nullable
         private final Map<Float, String> transformLyric;
-        public Lyric(Map<Float, String> lyric, @Nullable Map<Float, String> transformLyric){
+
+        public Lyric(Map<Float, String> lyric, @Nullable Map<Float, String> transformLyric) {
             this.lyric = lyric;
             this.transformLyric = transformLyric;
         }
 
-        public Pair<String, String> getLyric(float second){
+        public Lyric() {
+            this.lyric = new TreeMap<>();
+            this.transformLyric = null;
+        }
+
+        public Pair<String, String> getLyric(float second) {
             var keyList = lyric.keySet().stream().toList();
             var valueList = lyric.values().stream().toList();
             var text = "";
             var lyricTime = 0f;
             String transformText = null;
             for (int i = 0; i < lyric.size(); i++) {
-                if(i == lyric.size() - 1){
+                if (i == lyric.size() - 1) {
                     text = valueList.get(i);
                     lyricTime = keyList.get(i);
                     break;
                 }
-                if(keyList.get(i) <= second && keyList.get(i + 1) > second){
+                if (keyList.get(i) <= second && keyList.get(i + 1) > second) {
                     text = valueList.get(i);
                     lyricTime = keyList.get(i);
                     break;
@@ -154,6 +166,27 @@ public class NetMusicListUtil {
                 transformText = transformLyric.getOrDefault(lyricTime, null);
             }
             return new Pair<>(text, transformText);
+        }
+
+        public Map<Float, String> getLyric() {
+            return lyric;
+        }
+
+        @Nullable
+        public Map<Float, String> getTransformLyric() {
+            return transformLyric;
+        }
+
+        public String toJson() {
+            Gson gson = new GsonBuilder()
+                    .setPrettyPrinting()
+                    .create();
+            return gson.toJson(this);
+        }
+
+        public static Lyric fromJson(String json) {
+            Gson gson = new Gson();
+            return gson.fromJson(json, Lyric.class);
         }
     }
 

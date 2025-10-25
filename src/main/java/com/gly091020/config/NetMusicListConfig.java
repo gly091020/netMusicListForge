@@ -11,6 +11,7 @@ public class NetMusicListConfig implements ConfigData {
     public int x = 10;
     public int y = 10;
     public int maxImportList = 300;
+    public boolean enableCache = false;
 
     public float selectHudSize = 0.7f;
     public int selectHudCount = 5;

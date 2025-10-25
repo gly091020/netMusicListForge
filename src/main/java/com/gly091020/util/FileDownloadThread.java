@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.UUID;
 
 public class FileDownloadThread extends Thread {
     private final String downloadUrl;
@@ -37,7 +36,7 @@ public class FileDownloadThread extends Thread {
             Files.createDirectories(downloadDir);
 
             // 生成文件名
-            String fileName = threadId + ".tmp"; // 临时文件名
+            String fileName = threadId + fileType + ".tmp"; // 临时文件名
             Path filePath = downloadDir.resolve(fileName);
 
             URL url = new URL(downloadUrl);
@@ -51,6 +50,9 @@ public class FileDownloadThread extends Thread {
 
             try (InputStream inputStream = connection.getInputStream();
                  FileOutputStream outputStream = new FileOutputStream(filePath.toFile())) {
+                if(connection.getResponseCode() == 404){
+                    throw new Exception("404 not found");
+                }
 
                 byte[] buffer = new byte[8192];
                 int bytesRead;
@@ -73,6 +75,7 @@ public class FileDownloadThread extends Thread {
                     }
                 }
             }
+            Thread.sleep(100);
 
             // 下载完成，重命名文件
             String finalFileName = threadId + fileType;

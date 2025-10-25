@@ -26,6 +26,7 @@ public class CacheManager {
     public static final List<FileDownloadThread> threads = new ArrayList<>();
 
     public static void init(){
+        if(!NetMusicList.CONFIG.enableCache)return;
         try {
             if (PATH.toFile().isFile()) {
                 Files.createDirectory(PATH);
@@ -38,6 +39,7 @@ public class CacheManager {
 
     @SuppressWarnings("all")
     public static void load(){
+        if(!NetMusicList.CONFIG.enableCache)return;
         try{
             musicCache = (Map<String, String>)GSON.fromJson(Files.readString(PATH.resolve(INDEX_FILE_NAME)),
                     TypeToken.get(Object.class));
@@ -51,6 +53,7 @@ public class CacheManager {
     }
 
     public static void save(){
+        if(!NetMusicList.CONFIG.enableCache)return;
         try{
             Files.writeString(PATH.resolve(INDEX_FILE_NAME), GSON.toJson(musicCache));
         } catch (Exception e) {
@@ -59,6 +62,7 @@ public class CacheManager {
     }
 
     public static boolean checkCache(){
+        if(!NetMusicList.CONFIG.enableCache)return true;
         var keys = new ArrayList<String>();
         musicCache.forEach((k, v) -> {
             if(!PATH.resolve(v + ".mp3").toFile().isFile())keys.add(k);
@@ -68,12 +72,14 @@ public class CacheManager {
     }
 
     private static void startDownload(String downloadUrl, long resourceId, String fileType, String uuid){
+        if(!NetMusicList.CONFIG.enableCache)return;
         var thread = new FileDownloadThread(downloadUrl, resourceId, fileType, uuid);
         EXECUTOR_SERVICE.submit(thread);
         threads.add(thread);
     }
 
     public static void startImgDownload(long resourceId, String uuid){
+        if(!NetMusicList.CONFIG.enableCache)return;
         EXECUTOR_SERVICE.submit(() -> {
                 try {
                     startDownload(NetMusicListUtil.getIconUrl(NetMusic.NET_EASE_WEB_API.song(resourceId))
@@ -85,9 +91,23 @@ public class CacheManager {
     }
 
     public static void startSongDownload(long resourceId, String uuid){
+        if(!NetMusicList.CONFIG.enableCache)return;
         EXECUTOR_SERVICE.submit(() -> {
             try {
                 startDownload(pasteUrl(resourceId), resourceId, ".mp3", uuid);
+            } catch (Exception e) {
+                NetMusicList.LOGGER.error("出现错误：", e);
+            }
+        });
+    }
+
+    public static void startLycDownload(long resourceId, String uuid){
+        if(!NetMusicList.CONFIG.enableCache)return;
+        EXECUTOR_SERVICE.submit(() -> {
+            try {
+                var lyc = NetMusicListUtil.getLyric(NetMusic.NET_EASE_WEB_API.lyric(resourceId));
+                if(lyc == null)return;
+                Files.writeString(PATH.resolve(uuid + ".lyc.json"), lyc.toJson());
             } catch (Exception e) {
                 NetMusicList.LOGGER.error("出现错误：", e);
             }
@@ -108,15 +128,18 @@ public class CacheManager {
     }
 
     private static void addCache(long resourceId, String uuid){
+        if(!NetMusicList.CONFIG.enableCache)return;
         musicCache.put(String.valueOf(resourceId), uuid);
         save();
     }
 
     public static boolean hasCache(long resourceId){
+        if(!NetMusicList.CONFIG.enableCache)return false;
         return musicCache.containsKey(String.valueOf(resourceId));
     }
 
     public static Path getImageCache(long resourceId){
+        if(!NetMusicList.CONFIG.enableCache)return null;
         if(!hasCache(resourceId))return null;
         var path = PATH.resolve(musicCache.get(String.valueOf(resourceId)) + ".png");
         if(path.toFile().isFile()){
@@ -126,6 +149,7 @@ public class CacheManager {
     }
 
     public static String getSongCache(long resourceId){
+        if(!NetMusicList.CONFIG.enableCache)return null;
         if(!hasCache(resourceId))return null;
         var path = PATH.resolve(musicCache.get(String.valueOf(resourceId)) + ".mp3");
         if(path.toFile().isFile()){
@@ -134,7 +158,22 @@ public class CacheManager {
         return null;
     }
 
+    public static NetMusicListUtil.Lyric getLycCache(long resourceId){
+        if(!NetMusicList.CONFIG.enableCache)return null;
+        if(!hasCache(resourceId))return null;
+        var path = PATH.resolve(musicCache.get(String.valueOf(resourceId)) + ".lyc.json");
+        if(path.toFile().isFile()){
+            try {
+                return NetMusicListUtil.Lyric.fromJson(Files.readString(path));
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
+    }
+
     public static void tick() {
+        if(!NetMusicList.CONFIG.enableCache)return;
         Iterator<FileDownloadThread> iterator = threads.iterator();
         while (iterator.hasNext()) {
             FileDownloadThread t = iterator.next();
@@ -146,5 +185,15 @@ public class CacheManager {
                 iterator.remove();
             }
         }
+    }
+
+    public static float getDownloadProgress(long resourceId){
+        if(!NetMusicList.CONFIG.enableCache)return 0;
+        for(FileDownloadThread thread: threads){
+            if(thread.getResourceId() == resourceId && Objects.equals(thread.getFileType(), ".mp3")){
+                return thread.getProgress();
+            }
+        }
+        return 0f;
     }
 }
