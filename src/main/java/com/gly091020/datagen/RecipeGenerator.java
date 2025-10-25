@@ -27,7 +27,7 @@ public class RecipeGenerator extends RecipeProvider implements IConditionBuilder
                 .pattern("   ")
                 .define('I', Items.IRON_INGOT)
                 .define('S', Items.STRING)
-                .define('P', NetMusicList.MUSIC_LIST_ITEM.get())
+                .define('P', InitItems.MUSIC_PLAYER.get())
                 .unlockedBy("has_cd", has(InitItems.MUSIC_CD.get()))
                 .save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NetMusicList.MUSIC_PLAYER_ITEM.get())
@@ -37,7 +37,7 @@ public class RecipeGenerator extends RecipeProvider implements IConditionBuilder
                 .define('I', Ingredient.of(new TagKey<>(Registries.ITEM,
                         ResourceLocation.parse("forge:ingots/iron"))))
                 .define('S', Items.STRING)
-                .define('P', NetMusicList.MUSIC_PLAYER_ITEM.get())
+                .define('P', InitItems.MUSIC_PLAYER.get())
                 .unlockedBy("has_cd", has(InitItems.MUSIC_CD.get()))
                 .save(consumer, ResourceLocation.fromNamespaceAndPath(NetMusicList.ModID, "music_player1"));
 
