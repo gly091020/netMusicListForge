@@ -17,6 +17,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -64,6 +65,15 @@ public class ClientEventHandler {
         soundFix();
         fastStop();
         CacheManager.tick();
+    }
+
+    @SubscribeEvent
+    public static void onQuitWorld(LevelEvent.Save event){
+        try{
+            CacheManager.checkCache(true);
+        }catch (Exception e){
+            NetMusicList.LOGGER.error("缓存清理时出现问题：", e);
+        }
     }
 
     private static void fastStop(){

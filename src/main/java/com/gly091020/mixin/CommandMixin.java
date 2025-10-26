@@ -6,12 +6,14 @@ import com.github.tartaricacid.netmusic.command.NetMusicCommand;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
 import com.gly091020.item.NetMusicListItem;
+import com.gly091020.util.CacheManager;
 import com.gly091020.util.NetMusicListUtil;
 import com.google.gson.Gson;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.LongArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import net.minecraft.commands.CommandRuntimeException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -24,6 +26,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.UUID;
+
 @Mixin(NetMusicCommand.class)
 public class CommandMixin {
     @Inject(method = "get", at = @At("RETURN"), remap = false)
@@ -31,10 +35,42 @@ public class CommandMixin {
         if(FMLEnvironment.dist == Dist.DEDICATED_SERVER){return;}
         cir.getReturnValue().then(Commands.literal("music_list_to_item").then(Commands.argument("id",
                 LongArgumentType.longArg()).executes(CommandMixin::netMusicListNeoForge$toItem)));
+        if(NetMusicList.CONFIG.enableCache){
+            cir.getReturnValue().then(Commands.literal("cache_all_music").then(Commands.argument("id",
+                    LongArgumentType.longArg()).executes(CommandMixin::netmusiclistforge$cacheAll)));
+        }
     }
 
     @Unique
     private static final Gson netMusicListNeoForge$GSON = new Gson();
+
+    @Unique
+    private static int netmusiclistforge$cacheAll(CommandContext<CommandSourceStack> context){
+        if(context.getSource().getPlayer() == null){
+            return 0;
+        }
+        int count = 0;
+        try{
+            var id = LongArgumentType.getLong(context, "id");
+            var songs = NetMusicListUtil.getMusicList(id);
+            for(ItemMusicCD.SongInfo info: songs){
+                try {
+                    var songId = NetMusicListUtil.getIdFromInfo(info);
+                    var uuid = UUID.randomUUID().toString();
+                    CacheManager.startSongDownload(songId, uuid);
+                    CacheManager.startImgDownload(songId, uuid);
+                    CacheManager.startLycDownload(songId, uuid);
+                    count++;
+                }catch (Exception ignored){}
+            }
+        } catch (Exception e) {
+            throw new CommandRuntimeException(Component.literal(e.getMessage()));
+        }
+        int finalCount = count;
+        context.getSource().sendSuccess(() -> Component.literal(String.format("缓存中(共%s项)", finalCount * 3)),
+                false);
+        return count;
+    }
 
     @Unique
     private static int netMusicListNeoForge$toItem(CommandContext<CommandSourceStack> context){
