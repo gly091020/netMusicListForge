@@ -3,6 +3,7 @@ package com.gly091020.client;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.NetMusicList;
 import com.gly091020.util.NetMusicListKeyMapping;
+import com.gly091020.util.NetMusicListUtil;
 import com.gly091020.util.PlayMode;
 import com.gly091020.config.ConfigScreenGetter;
 import com.gly091020.packet.DeleteMusicDataPacket;
@@ -39,6 +40,7 @@ public class OldMusicSelectionScreen extends Screen {
     private Button deleteButton;
     private Button upButton;
     private Button downButton;
+    private Button configButton;
 
     public OldMusicSelectionScreen(List<String> musicList, PlayMode mode, Integer index) {
         super(Component.translatable("gui.net_music_list.title"));
@@ -90,8 +92,14 @@ public class OldMusicSelectionScreen extends Screen {
                 top + backgroundHeight - 90, button -> moveMusic(true), true);
         downButton = new MoveButton(left + backgroundWidth - 27,
                 top + backgroundHeight - 90 + 22, button -> moveMusic(false), false);
-        var configButton = Button.builder(Component.literal("⚙"), button ->
-                        Minecraft.getInstance().setScreen(ConfigScreenGetter.getConfigScreen(Minecraft.getInstance().screen)))
+        configButton = Button.builder(Component.literal("⚙"), button -> {
+            if(hasShiftDown()){
+                NetMusicList.CONFIG.debug = !NetMusicList.CONFIG.debug;
+                NetMusicListUtil.reloadConfig();
+            }else{
+                Minecraft.getInstance().setScreen(ConfigScreenGetter.getConfigScreen(Minecraft.getInstance().screen));
+            }
+                })
                 .pos(left + backgroundWidth + 3, top + 3)
                 .size(20, 20)
                 .build();
@@ -113,6 +121,14 @@ public class OldMusicSelectionScreen extends Screen {
 
     @Override
     public void render(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
+        if(NetMusicList.CONFIG.debug){
+            configButton.setFGColor(0XFFFF0000);
+            configButton.setTooltip(Tooltip.create(Component.literal("§c警告：你当前处于调试模式！")));
+        }else{
+            configButton.setFGColor(Button.UNSET_FG_COLOR);
+            configButton.setTooltip(null);
+        }
+
         // 渲染半透明背景
         this.renderBackground(context);
         var fontHeight = font.lineHeight;

@@ -85,12 +85,14 @@ public class ConfigScreenGetter {
         buttonWidget.isEnable(CONFIG.musicHUD);
         category.addEntry(buttonWidget);
 
-        if(!FMLEnvironment.production){
-            category.addEntry(new ButtonEntry(Component.literal("打开FuckBlitNineSlicedScreen"), button ->
+        if(!FMLEnvironment.production || CONFIG.debug){
+            var debug = entryBuilder.startSubCategory(Component.literal("调试功能"));
+            debug.setExpanded(true);
+            debug.add(new ButtonEntry(Component.literal("打开FuckBlitNineSlicedScreen"), button ->
                     Minecraft.getInstance().setScreen(new FuckBlitNineSlicedScreen())));
-            category.addEntry(new ButtonEntry(Component.literal("打开缓存管理界面"), b ->
+            debug.add(new ButtonEntry(Component.literal("打开缓存管理界面"), b ->
                     Minecraft.getInstance().setScreen(new CacheManagerScreen())));
-            category.addEntry(new ButtonEntry(Component.literal("检查缓存"), b -> {
+            debug.add(new ButtonEntry(Component.literal("检查缓存"), b -> {
                 var count = CacheManager.checkCache(true);
                 if(count > 0){
                     Minecraft.getInstance().getToasts().addToast(new SystemToast(SystemToast.SystemToastIds.NARRATOR_TOGGLE,
@@ -100,6 +102,7 @@ public class ConfigScreenGetter {
                             Component.literal("所有缓存都有效"), null));
                 }
             }));
+            category.addEntry(debug.build());
         }
 
         builder.setSavingRunnable(NetMusicListUtil::reloadConfig);
