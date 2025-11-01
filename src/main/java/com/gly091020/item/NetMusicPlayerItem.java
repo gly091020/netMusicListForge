@@ -37,7 +37,7 @@ public class NetMusicPlayerItem extends Item{
     public boolean overrideOtherStackedOnMe(@NotNull ItemStack stack, @NotNull ItemStack stack1,
                                             @NotNull Slot slot, @NotNull ClickAction action,
                                             @NotNull Player player, @NotNull SlotAccess access) {
-        if(action == ClickAction.SECONDARY && !getContainer(stack).isEmpty()){
+        if(action == ClickAction.SECONDARY && !getContainer(stack).isEmpty() && access.get().isEmpty()){
             access.set(getContainer(stack).removeItem(0, 1));
             return true;
         }
