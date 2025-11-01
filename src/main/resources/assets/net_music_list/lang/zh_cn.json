@@ -45,6 +45,11 @@
   "config.net_music_list.enable_cache": "启用歌曲缓存[alpha]",
   "config.net_music_list.cache_warning": "§c警告：缓存功能目前不稳定，请谨慎开启",
   "config.net_music_list.global_cache": "全局缓存",
+  "config.net_music_list.config.base.title": "基础设置",
+  "config.net_music_list.config.hud.title": "HUD相关",
+  "config.net_music_list.config.select_hud.title": "快速选择HUD",
+  "config.net_music_list.config.music_info_hud.title": "歌曲信息HUD",
+  "config.net_music_list.config.cache.title": "缓存相关",
 
   "patchouli.net_music_list.title": "网络音乐机：播放列表手册",
   "patchouli.net_music_list.description": "网络音乐机：播放列表的基本使用方法介绍",
