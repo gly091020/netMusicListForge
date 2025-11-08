@@ -81,5 +81,8 @@
   "patchouli.net_music_list.ender_player.title": "Ender Player",
   "patchouli.net_music_list.ender_player.description": "Equivalent to a wirelessly playing jukebox",
   "patchouli.net_music_list.ender_player_use.title": "Usage",
-  "patchouli.net_music_list.ender_player_use.text1": "The usage of the Ender Player is basically the same as the Net Music Player's jukebox.$(br)Right-click to add or remove yourself from the whitelist.$(br)If the whitelist is empty, it will play music to everyone around regardless of distance (but they must be in visible range).$(br)Otherwise, it only plays music to the corresponding players."
+  "patchouli.net_music_list.ender_player_use.text1": "The usage of the Ender Player is basically the same as the Net Music Player's jukebox.$(br)Right-click to add or remove yourself from the whitelist.$(br)If the whitelist is empty, it will play music to everyone around regardless of distance (but they must be in visible range).$(br)Otherwise, it only plays music to the corresponding players.",
+
+  "advancements.net_music_list.spyglass_at_cat.title": "Is This Not a Kitten?",
+  "advancements.net_music_list.spyglass_at_cat.description": "The kitten is so cute"
 }
