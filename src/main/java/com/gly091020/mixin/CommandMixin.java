@@ -57,9 +57,11 @@ public class CommandMixin {
                 try {
                     var songId = NetMusicListUtil.getIdFromInfo(info);
                     var uuid = UUID.randomUUID().toString();
-                    CacheManager.startSongDownload(songId, uuid);
-                    CacheManager.startImgDownload(songId, uuid);
-                    CacheManager.startLycDownload(songId, uuid);
+                    if(!CacheManager.hasCache(songId)){
+                        CacheManager.startSongDownload(songId, uuid);
+                        CacheManager.startImgDownload(songId, uuid);
+                        CacheManager.startLycDownload(songId, uuid);
+                    }
                     count++;
                 }catch (Exception ignored){}
             }

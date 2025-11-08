@@ -29,10 +29,10 @@ public class CacheManager {
     public static Path PATH = FMLPaths.CONFIGDIR.get().resolve(DIR_NAME);
     public static final List<FileDownloadThread> threads = new CopyOnWriteArrayList<>();
 
-    public static void init(){
-        if(NetMusicList.CONFIG.globalCache){
-            PATH = Paths.get(System.getProperty("user.home")).resolve(DIR_NAME);
-        }
+    public static void firstTimeInit(){
+        // 这TM是第一次启动调用的！
+        // gly的英语一向很差的
+        // 已经重命名了
         if(!NetMusicList.CONFIG.enableCache)return;
         try {
             if (PATH.toFile().isFile()) {
@@ -47,13 +47,16 @@ public class CacheManager {
     @SuppressWarnings("all")
     public static void load(){
         if(!NetMusicList.CONFIG.enableCache)return;
+        if(NetMusicList.CONFIG.globalCache){
+            PATH = Paths.get(System.getProperty("user.home")).resolve(DIR_NAME);
+        }
         try{
             musicCache = (Map<String, String>)GSON.fromJson(Files.readString(PATH.resolve(INDEX_FILE_NAME)),
                     TypeToken.get(Object.class));
             checkCache();
         }catch (Exception e){
             NetMusicList.LOGGER.error("缓存读取失败：", e);
-            init();
+            firstTimeInit();
         }
     }
 
