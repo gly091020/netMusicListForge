@@ -264,7 +264,7 @@ public class NetMusicListUtil {
 
     public static void reloadConfig(){
         var holder = AutoConfig.getConfigHolder(NetMusicListConfig.class);
-        if(CONFIG.maxImportList < 100){
+        if(CONFIG.maxImportList < 100 && !CONFIG.debug){
             CONFIG.maxImportList = 300;
         }
         holder.setConfig(CONFIG);
@@ -290,15 +290,27 @@ public class NetMusicListUtil {
         int count = pojo.getPlayList().getTracks().size();
         int size = Math.min(pojo.getPlayList().getTrackIds().size(), CONFIG.maxImportList);
         if (count < size) {
+            // ids过多时会无法解析，这里分开解析
             long[] ids = new long[size - count];
 
             for(int i = count; i < size; ++i) {
                 ids[i - count] = pojo.getPlayList().getTrackIds().get(i).getId();
             }
 
-            String extraTrackInfo = NetMusic.NET_EASE_WEB_API.songs(ids);
-            ExtraMusicList extra = GSON.fromJson(extraTrackInfo, ExtraMusicList.class);
-            pojo.getPlayList().getTracks().addAll(extra.getTracks());
+            if(ids.length <= 100){
+                String extraTrackInfo = NetMusic.NET_EASE_WEB_API.songs(ids);
+                ExtraMusicList extra = GSON.fromJson(extraTrackInfo, ExtraMusicList.class);
+                pojo.getPlayList().getTracks().addAll(extra.getTracks());
+            }else{
+                int batchSize = 100;
+                for(int i = 0; i < ids.length; i += batchSize){
+                    int end = Math.min(i + batchSize, ids.length);
+                    long[] batchIds = Arrays.copyOfRange(ids, i, end);
+                    String extraTrackInfo = NetMusic.NET_EASE_WEB_API.songs(batchIds);
+                    ExtraMusicList extra = GSON.fromJson(extraTrackInfo, ExtraMusicList.class);
+                    pojo.getPlayList().getTracks().addAll(extra.getTracks());
+                }
+            }
         }
         for(NetEaseMusicList.Track track : pojo.getPlayList().getTracks()) {
             SONGS.add(new ItemMusicCD.SongInfo(track));

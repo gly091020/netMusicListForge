@@ -109,6 +109,7 @@ public class NetMusicList {
             modEventBus.addListener(NetMusicListKeyMapping::registerKeyBindings);
         }
         modEventBus.addListener(NetMusicList::gatherData);
+        CacheManager.init();
         CacheManager.load();
     }
 

@@ -105,6 +105,12 @@ public class ConfigScreenGetter {
                             Component.literal("所有缓存都有效"), null));
                 }
             }));
+            debug.addEntry(new ButtonEntry(Component.literal("导入歌曲无上限"), button -> {
+                CONFIG.maxImportList = Integer.MAX_VALUE;
+                NetMusicListUtil.reloadConfig();
+                Minecraft.getInstance().getToasts().addToast(new SystemToast(SystemToast.SystemToastIds.NARRATOR_TOGGLE,
+                        Component.literal("不是哥们？"), Component.literal("已提高上限至Integer.MAX_VALUE")));
+            }));
         }
 
         builder.setSavingRunnable(NetMusicListUtil::reloadConfig);
