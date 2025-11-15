@@ -2,6 +2,7 @@ package com.gly091020.util;
 
 import com.github.tartaricacid.netmusic.NetMusic;
 import com.github.tartaricacid.netmusic.api.ExtraMusicList;
+import com.github.tartaricacid.netmusic.api.lyric.LyricRecord;
 import com.github.tartaricacid.netmusic.api.pojo.NetEaseMusicList;
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
 import com.gly091020.client.PauseSoundManager;
@@ -13,6 +14,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import com.mojang.blaze3d.platform.NativeImage;
+import it.unimi.dsi.fastutil.ints.Int2ObjectRBTreeMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectSortedMap;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.AbstractTexture;
@@ -187,6 +190,19 @@ public class NetMusicListUtil {
         public static Lyric fromJson(String json) {
             Gson gson = new Gson();
             return gson.fromJson(json, Lyric.class);
+        }
+
+        public LyricRecord toLyricRecord(){
+            Int2ObjectSortedMap<String> lyric1 = new Int2ObjectRBTreeMap<>();
+            Int2ObjectSortedMap<String> lyric2;
+            lyric.forEach((k, v) -> lyric1.put((int)(k / 0.05f), v));
+            if(transformLyric != null){
+                lyric2 = new Int2ObjectRBTreeMap<>();
+                transformLyric.forEach((k, v) -> lyric2.put((int)(k / 0.05f), v));
+            } else {
+                lyric2 = null;
+            }
+            return new LyricRecord(lyric1, lyric2);
         }
     }
 

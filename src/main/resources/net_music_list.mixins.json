@@ -11,6 +11,8 @@
     "CanPlayListMixin",
     "CommandMixin",
     "FuckTelemetryMixin",
+    "LyricCacheMixin",
+    "LyricCacheMixin$UrlGetter",
     "MusicPlayerBackpackMixin",
     "PlayListIsOKMixin",
     "PlayModeMixin",
