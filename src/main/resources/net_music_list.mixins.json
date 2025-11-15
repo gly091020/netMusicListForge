@@ -11,8 +11,6 @@
     "CanPlayListMixin",
     "CommandMixin",
     "FuckTelemetryMixin",
-    "LyricCacheMixin",
-    "LyricCacheMixin$UrlGetter",
     "MusicPlayerBackpackMixin",
     "PlayListIsOKMixin",
     "PlayModeMixin",
@@ -30,6 +28,8 @@
     "PlayMusicCacheMixin",
     "SoundPausedMixin",
     "TickableSoundGetterMixins$SoundEngineMixin",
-    "TickableSoundGetterMixins$SoundManagerMixin"
+    "TickableSoundGetterMixins$SoundManagerMixin",
+    "LyricCacheMixin",
+    "LyricCacheMixin$UrlGetter"
   ]
 }

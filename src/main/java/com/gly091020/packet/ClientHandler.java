@@ -60,13 +60,13 @@ public class ClientHandler {
         var c = ctx.get();
         if (c.getDirection().getReceptionSide().isClient()) {
             c.enqueueWork(() -> CompletableFuture.runAsync(() -> {
-                var finalUrl = packet.url;
+                var finalUrl = packet.url();
                 if(NetMusicListUtil.hasLoginNeed()){
                     var url1 = LoginNeedUtil.getUrl(finalUrl);
                     if(url1 != null)finalUrl = url1;
                 }
-                MusicPlayManager.play(finalUrl, packet.songName, url ->
-                        new EnderPlayerNetMusicSound(packet.pos, url, packet.timeSecond));
+                MusicPlayManager.play(finalUrl, packet.songName(), url ->
+                        new EnderPlayerNetMusicSound(packet.pos(), url, packet.timeSecond()));
             }));
             c.setPacketHandled(true);
         }

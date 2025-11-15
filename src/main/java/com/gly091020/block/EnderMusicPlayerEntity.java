@@ -1,7 +1,6 @@
 package com.gly091020.block;
 
 import com.github.tartaricacid.netmusic.item.ItemMusicCD;
-import com.github.tartaricacid.netmusic.network.message.MusicToClientMessage;
 import com.github.tartaricacid.netmusic.tileentity.TileEntityMusicPlayer;
 import com.gly091020.NetMusicList;
 import com.gly091020.packet.PlayEnderMusicPlayerPacket;
@@ -55,7 +54,7 @@ public class EnderMusicPlayerEntity extends BlockEntity {
         setPlay(true);
         setChanged();
         if (this.level != null && !this.level.isClientSide) {
-            MusicToClientMessage msg = new PlayEnderMusicPlayerPacket(this.worldPosition, info.songUrl, info.songTime, info.songName);
+            PlayEnderMusicPlayerPacket msg = new PlayEnderMusicPlayerPacket(this.worldPosition, info.songUrl, info.songTime, info.songName);
             sendToNearby(this.level, this.worldPosition, msg);
         }
     }
